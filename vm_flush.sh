@@ -10,13 +10,13 @@ hostName=""
 machineName=""
 machineId=""
 # http://stackoverflow.com/a/16496491/405758
-while getopts ":h:n:i:" o; do
+while getopts ":h:m:i:" o; do
     case "${o}" in
         h)
-            hostName=${OPTARG}
+            hostName="${OPTARG}"
             ;;
-        n)
-            machineName=${OPTARG}
+        m)
+            machineName="${OPTARG}"
             ;;
         i)
             machineId="_${OPTARG}"
@@ -34,9 +34,9 @@ boxes+=("${PWD##*/}")
 # go though all the boxes and find the matching box
 # to unset, should be named [directory]_[box_id]_[hash]
 while read -r line; do
-    if [[ $line == *"${PWD##*/}${machineId}"* ]]
+    if [[ ${line} == *"${PWD##*/}${machineId}"* ]]
         then
-           echo $line > tmp_vm.txt
+           echo "${line}" > tmp_vm.txt
            # http://unix.stackexchange.com/questions/137030/how-do-i-extract-the-content-of-quoted-strings-from-the-output-of-a-command
            boxes+=($(grep -o '".*"' tmp_vm.txt | sed 's/"//g'))
            rm -f tmp_vm.txt
