@@ -75,7 +75,7 @@ rm -f vm_flush.sh
 # --------------------------------------------------
 # STEP 4
 # run the install script
-. install.sh
+. ${WORKSPACE}/install.sh
 
 # make sure vagrant is up and running
 if [[ "$(vagrant status)" != *"running (virtualbox)"* ]]
@@ -86,7 +86,7 @@ if [[ "$(vagrant status)" != *"running (virtualbox)"* ]]
 # --------------------------------------------------
 # STEP 5
 # go into the build direction and run build tasks
-cd build
+cd ${WORKSPACE}/build
 if [ ! -f "build.xml" ]
     then
         echo "There is no build.xml file, aborting!" >&2; exit 1;
@@ -109,5 +109,5 @@ phing package -Denv=${ENV} -Durl.deploy=${DEPLOYMENT_HTTP_ADDRESS} -Dftp.host=${
 # extract the package
 phing extract_package -Denv=${ENV}
 
-cd ..
+cd ${WORKSPACE}
 
