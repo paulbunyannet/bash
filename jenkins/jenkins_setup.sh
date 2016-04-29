@@ -67,7 +67,7 @@ if [ ! -f "Vagrantfile" ]
     fi
 
 if [ ! -f "vm_flush.sh" ]; then
-    wget https://raw.githubusercontent.com/paulbunyannet/bash/master/vm_flush.sh
+    wget https://raw.githubusercontent.com/paulbunyannet/bash/master/virtualbox/vm_flush.sh
 fi
 . ${WORKSPACE}/vm_flush.sh -h "$(basename ${APP_URL})" -m "$(basename ${APP_BOX_NAME})" -i "${APP_BOX_ID}"
 rm -f vm_flush.sh

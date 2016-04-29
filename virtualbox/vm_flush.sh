@@ -34,7 +34,7 @@ boxes+=("${PWD##*/}")
 # go though all the boxes and find the matching box
 # to unset, should be named [directory]_[box_id]_[hash]
 while read -r line; do
-    if [[ ${line} == *"${PWD##*/}${machineId}"* ]]
+    if [[ ${line} == *"${machineId}"* ]]
         then
            echo "${line}" > tmp_vm.txt
            # http://unix.stackexchange.com/questions/137030/how-do-i-extract-the-content-of-quoted-strings-from-the-output-of-a-command
