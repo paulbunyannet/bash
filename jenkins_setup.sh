@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Initial setup of items for Jenkens deployment job
 # things this script assumes:
@@ -75,7 +75,9 @@ rm -f vm_flush.sh
 # --------------------------------------------------
 # STEP 4
 # run the install script
-. ${WORKSPACE}/install.sh
+if [ -f ${WORKSPACE}/install.sh ]; then
+    . ${WORKSPACE}/install.sh
+fi;
 
 # make sure vagrant is up and running
 if [[ "$(vagrant status)" != *"running (virtualbox)"* ]]

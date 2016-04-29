@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh -e
 
 # Flush Virtual boxes by name
 # Usage: . vm_flush.sh [-h <string - host name>] [-m <string - machine host name>] [-i <string - machine id>]
