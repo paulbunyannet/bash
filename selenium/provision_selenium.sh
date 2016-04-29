@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 # ===================================================
 # Selenium Provision
 # Install and setup selenium server and components for
@@ -12,10 +13,17 @@
 # Start Setup
 # ===================================================
 cd ~/
+
 # Update yum
 sudo yum -y update
 
-touch ${PWD}/.sssInstalled
+seleniumToolSetCheck=${PWD}/.selenium_tool_set_check
+
+if [ -f ${seleniumToolSetCheck} ]; then
+    echo "" | tee -s0 ${seleniumToolSetCheck}
+else
+    sudo touch ${seleniumToolSetCheck}
+fi;
 
 # ===================================================
 # Check if any of the required tools are missing
@@ -24,8 +32,8 @@ touch ${PWD}/.sssInstalled
 tools=(firefox Xvfb java)
 
 # for each tool, make sure it's available to the Jenkins user
-for i in "${tools[@]}"; do
-	command -v "${i}" >/dev/null 2>&1 || { echo "${i} IS NOT INSTALLED" >> ${PWD}/.sssInstalled;}
+for i in ${tools[@]}; do
+	command -v ${i} >/dev/null 2>&1 || { echo "${i} IS NOT INSTALLED" | sudo tee -a ${seleniumToolSetCheck};}
 done
 
 # ===================================================
@@ -37,7 +45,7 @@ done
 
 # borrowed from https://github.com/seanbuscay/vagrant-phpunit-selenium/blob/master/setup.sh
 set -e
-if grep -q "IS NOT INSTALLED" <<<$(cat ${PWD}/.sssInstalled); then
+if grep -q "IS NOT INSTALLED" <<<"$(cat ${seleniumToolSetCheck})"; then
 
   echo ''
   echo 'INSTALLING SELENIUM STACK'
@@ -64,7 +72,7 @@ if grep -q "IS NOT INSTALLED" <<<$(cat ${PWD}/.sssInstalled); then
   # setup machine Id, firefox needs this machine id
   sudo mkdir /var/lib/dbus || true
   sudo touch /var/lib/dbus/machine-id || true
-  echo `dbus-uuidgen` | sudo tee /var/lib/dbus/machine-id
+  echo dbus-uuidgen | sudo tee /var/lib/dbus/machine-id
 
   # Download and copy the ChromeDriver to /usr/local/bin
   cd /tmp
@@ -76,7 +84,7 @@ if grep -q "IS NOT INSTALLED" <<<$(cat ${PWD}/.sssInstalled); then
   sudo mv selenium-server-standalone.jar /var/selenium
 
   # So that running `vagrant provision` doesn't download everything
-  sudo echo "" > ${PWD}/.sssInstalled
+  echo "" | sudo tee ${seleniumToolSetCheck}
 fi
 
 # ===================================================
@@ -84,22 +92,23 @@ fi
 # ===================================================
 
 cd ~/
-
 # do check to see if selenium server is already running
+sss="${PWD}/.sss"
+sLog="${PWD}/selenium.log"
 seleniumStatus="http://localhost:4444/selenium-server/driver/?cmd=getLogMessages";
-sudo sudo rm ${PWD}/.sss || true
-sudo curl ${seleniumStatus} -o ${PWD}/.sss -f || echo -e "SELENIUM NOT RUNNING" | sudo tee ${PWD}/.sss
-seleniumRunning=`cat ${PWD}/.sss`
+sudo curl ${seleniumStatus} -o ${sss} -f || echo -e "SELENIUM NOT RUNNING" | sudo tee ${sss}
+seleniumRunning=$(cat ${sss})
 if grep -q OK <<<${seleniumRunning}; then
-  echo "Selenium Server is already running, returned '$seleniumRunning'."
+  echo "Selenium Server is already running, returned '${seleniumRunning}'."
 else
-    # Start up the Selenium Server in the background
+  # Start up the Selenium Server in the background
   echo "Starting Selenium ..."
+  sudo rm -f /tmp/.X10-lock >/dev/null 2>&1
+  killall Xvfb >/dev/null 2>&1
   cd /var/selenium
-  sudo rm ./selenium.log || true
-  sudo touch ./selenium.log
-  sudo chmod 777 ./selenium.log
+  echo "" | sudo tee ${sLog}
+  sudo chmod 777 ${sLog}
   export DISPLAY=:10
   Xvfb :10 +extension RANDR -screen 0 1366x768x24 -ac -extension RANDR &
-  nohup xvfb-run java -jar ./selenium-server-standalone.jar > selenium.log &
+  nohup xvfb-run java -jar ./selenium-server-standalone.jar > ${sLog} &
 fi
