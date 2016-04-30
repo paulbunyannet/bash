@@ -1,5 +1,5 @@
 #!/bin/sh
-
+# ===================================================
 # Initial setup of items for Jenkens deployment job
 # things this script assumes:
 # 0. That there is configuration information passed to script from jenkins environment variables (See step 6)
@@ -16,6 +16,7 @@
 #   a. The "package" action will collect all the file needed for deployment, running any tests prior to collection
 #   b. The "extract_package" extracts to the "build/jenkins-deployment" directory, these files will be deployed if tests pass
 # 6. The Jenkins job has environment variables set that will be passed into phing
+# ===================================================
 
 # --------------------------------------------------
 # STEP 0

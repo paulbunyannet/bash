@@ -9,25 +9,27 @@
 # headless server for running assertion tests.
 # ===================================================
 
-# ===================================================
+# --------------------------------------------------
+# STEP 1
 # Start Setup
-# ===================================================
+
 cd ~/
 
 # Update yum
-sudo yum -y update
+sudo yum -y update >/dev/null 2>&1
 
 seleniumToolSetCheck=${PWD}/.selenium_tool_set_check
 
+# reset the check file if exists, otherwise create it
 if [ -f ${seleniumToolSetCheck} ]; then
-    echo "" | tee -s0 ${seleniumToolSetCheck}
+    echo "" | sudo tee ${seleniumToolSetCheck}
 else
     sudo touch ${seleniumToolSetCheck}
 fi;
 
-# ===================================================
+# --------------------------------------------------
+# STEP 2
 # Check if any of the required tools are missing
-# ===================================================
 
 tools=(firefox Xvfb java)
 
@@ -36,20 +38,21 @@ for i in ${tools[@]}; do
 	command -v ${i} >/dev/null 2>&1 || { echo "${i} IS NOT INSTALLED" | sudo tee -a ${seleniumToolSetCheck};}
 done
 
-# ===================================================
+# --------------------------------------------------
+# STEP 3
 # Start install of the Selenium stack
 # * Selenium stand alone server
 # * Firefox
 # * Xvfb
-# ===================================================
 
 # borrowed from https://github.com/seanbuscay/vagrant-phpunit-selenium/blob/master/setup.sh
 set -e
 if grep -q "IS NOT INSTALLED" <<<"$(cat ${seleniumToolSetCheck})"; then
 
-  echo ''
-  echo 'INSTALLING SELENIUM STACK'
-  echo '----------'
+  echo "==================================================="
+  echo "INSTALLING SELENIUM STACK"
+  echo "$(cat ${seleniumToolSetCheck})"
+  echo "==================================================="
   {
       # Install Java, firefox, Xvfb, and unzip
       sudo yum -y install java-1.8.0-openjdk-headless.x86_64
@@ -88,9 +91,9 @@ if grep -q "IS NOT INSTALLED" <<<"$(cat ${seleniumToolSetCheck})"; then
   } &> /dev/null
 fi
 
-# ===================================================
+# --------------------------------------------------
+# STEP 4
 # Start Xvfb, firefox, and Selenium in the background
-# ===================================================
 
 cd ~/
 # do check to see if selenium server is already running
@@ -105,12 +108,16 @@ if grep -q OK <<<${seleniumRunning}; then
   echo "Selenium Server is already running, returned '${seleniumRunning}'."
 else
   # Start up the Selenium Server in the background
-  echo "Starting Selenium ..."
-  sudo rm -f /tmp/.X10-lock >/dev/null 2>&1
-  killall Xvfb >/dev/null 2>&1
-  cd /var/selenium
-  echo "" | sudo tee ${sLog}
-  sudo chmod 777 ${sLog}
+  echo "==================================================="
+  echo "Starting Selenium ......."
+  echo "==================================================="
+  {
+      sudo rm -f /tmp/.X10-lock
+      killall Xvfb
+      cd /var/selenium
+      echo "" | sudo tee ${sLog}
+      sudo chmod 777 ${sLog}
+  } &> /dev/null
   export DISPLAY=:10
   Xvfb :10 +extension RANDR -screen 0 1366x768x24 -ac -extension RANDR &
   nohup xvfb-run java -jar ./selenium-server-standalone.jar > ${sLog} &
