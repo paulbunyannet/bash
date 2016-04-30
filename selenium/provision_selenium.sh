@@ -112,13 +112,13 @@ else
   echo "Starting Selenium ......."
   echo "==================================================="
   {
-      sudo rm -f /tmp/.X10-lock
-      killall Xvfb
+      sudo rm -f /tmp/.X10-lock || true
+      killall Xvfb || true
       cd /var/selenium
       echo "" | sudo tee ${sLog}
       sudo chmod 777 ${sLog}
   } &> /dev/null
   export DISPLAY=:10
-  Xvfb :10 +extension RANDR -screen 0 1366x768x24 -ac -extension RANDR &
+  Xvfb :10 +extension RANDR -screen 0 1366x768x24 -ac &
   nohup xvfb-run java -jar ./selenium-server-standalone.jar > ${sLog} &
 fi
