@@ -50,41 +50,42 @@ if grep -q "IS NOT INSTALLED" <<<"$(cat ${seleniumToolSetCheck})"; then
   echo ''
   echo 'INSTALLING SELENIUM STACK'
   echo '----------'
+  {
+      # Install Java, firefox, Xvfb, and unzip
+      sudo yum -y install java-1.8.0-openjdk-headless.x86_64
+      sudo yum -y install xorg-x11-server-Xvfb.x86_64
+      sudo yum -y install dbus
 
-  # Install Java, firefox, Xvfb, and unzip
-  sudo yum -y install java-1.8.0-openjdk-headless.x86_64
-  sudo yum -y install xorg-x11-server-Xvfb.x86_64
-  sudo yum -y install dbus
+      # http://tecadmin.net/install-firefox-on-linux/#
+      cd /usr/local
+      sudo rm firefox.tar.bz2 || true
+      sudo wget -O firefox.tar.bz2 http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/33.0/linux-x86_64/en-US/firefox-33.0.tar.bz2
+      sudo tar xvjf firefox.tar.bz2
+      sudo rm /usr/bin/firefox || true
+      sudo ln -s /usr/local/firefox/firefox /usr/bin/firefox
+      sudo rm firefox.tar.bz2
+      firefox -v
 
-  # http://tecadmin.net/install-firefox-on-linux/#
-  cd /usr/local
-  sudo rm firefox.tar.bz2 || true
-  sudo wget -O firefox.tar.bz2 http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/33.0/linux-x86_64/en-US/firefox-33.0.tar.bz2
-  sudo tar xvjf firefox.tar.bz2
-  sudo rm /usr/bin/firefox || true
-  sudo ln -s /usr/local/firefox/firefox /usr/bin/firefox
-  sudo rm firefox.tar.bz2
-  firefox -v
+      # get fonts so that firefox doesn't freak out that it's missing fonts for display
+      sudo yum -y install dejavu-lgc-sans-fonts
 
-  # get fonts so that firefox doesn't freak out that it's missing fonts for display
-  sudo yum -y install dejavu-lgc-sans-fonts
+      # setup machine Id, firefox needs this machine id
+      sudo mkdir /var/lib/dbus || true
+      sudo touch /var/lib/dbus/machine-id || true
+      echo dbus-uuidgen | sudo tee /var/lib/dbus/machine-id
 
-  # setup machine Id, firefox needs this machine id
-  sudo mkdir /var/lib/dbus || true
-  sudo touch /var/lib/dbus/machine-id || true
-  echo dbus-uuidgen | sudo tee /var/lib/dbus/machine-id
+      # Download and copy the ChromeDriver to /usr/local/bin
+      cd /tmp
+      if [ ! -d "/var/selenium" ]; then
+        sudo mkdir /var/selenium
+      fi
+      # get selenium server latest release
+      wget -O selenium-server-standalone.jar http://goo.gl/PJUZfa
+      sudo mv selenium-server-standalone.jar /var/selenium
 
-  # Download and copy the ChromeDriver to /usr/local/bin
-  cd /tmp
-  if [ ! -d "/var/selenium" ]; then
-    sudo mkdir /var/selenium
-  fi
-  # get selenium server latest release
-  wget -O selenium-server-standalone.jar http://goo.gl/PJUZfa
-  sudo mv selenium-server-standalone.jar /var/selenium
-
-  # So that running `vagrant provision` doesn't download everything
-  echo "" | sudo tee ${seleniumToolSetCheck}
+      # So that running `vagrant provision` doesn't download everything
+      echo "" | sudo tee ${seleniumToolSetCheck}
+  } &> /dev/null
 fi
 
 # ===================================================
@@ -93,10 +94,12 @@ fi
 
 cd ~/
 # do check to see if selenium server is already running
-sss="${PWD}/.sss"
-sLog="${PWD}/selenium.log"
-seleniumStatus="http://localhost:4444/selenium-server/driver/?cmd=getLogMessages";
-sudo curl ${seleniumStatus} -o ${sss} -f || echo -e "SELENIUM NOT RUNNING" | sudo tee ${sss}
+{
+    sss="${PWD}/.sss"
+    sLog="${PWD}/selenium.log"
+    seleniumStatus="http://localhost:4444/selenium-server/driver/?cmd=getLogMessages";
+    sudo curl ${seleniumStatus} -o ${sss} -f || echo -e "SELENIUM NOT RUNNING" | sudo tee ${sss}
+} &> /dev/null
 seleniumRunning=$(cat ${sss})
 if grep -q OK <<<${seleniumRunning}; then
   echo "Selenium Server is already running, returned '${seleniumRunning}'."
