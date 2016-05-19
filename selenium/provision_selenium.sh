@@ -17,12 +17,12 @@ sudo yum -y update
 # borrowed from https://github.com/seanbuscay/vagrant-phpunit-selenium/blob/master/setup.sh
 set -e
 if [ -e /.sssInstalled ]; then
-  echo 'Already installed.'
+  echo 'Selenium requirements already installed.'
 
 else
-  echo ''
+  echo '-------------------------'
   echo 'INSTALLING SELENIUM STACK'
-  echo '----------'
+  echo '-------------------------'
 
   # Install Java, firefox, Xvfb, and unzip
   sudo yum -y install java-1.8.0-openjdk-headless.x86_64
@@ -31,8 +31,9 @@ else
 
   # http://tecadmin.net/install-firefox-on-linux/#
   cd /usr/local
+  ffPath="http://ftp.mozilla.org/pub/firefox/releases/44.0/linux-x86_64/en-US/firefox-44.0.tar.bz2"
   sudo rm firefox.tar.bz2 || true
-  sudo wget -O firefox.tar.bz2 http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/33.0/linux-x86_64/en-US/firefox-33.0.tar.bz2
+  sudo wget -O firefox.tar.bz2 ${ffPath}
   sudo tar xvjf firefox.tar.bz2
   sudo rm /usr/bin/firefox || true
   sudo ln -s /usr/local/firefox/firefox /usr/bin/firefox
@@ -53,7 +54,7 @@ else
     sudo mkdir /var/selenium
   fi
   # get selenium server latest release
-  wget -O selenium-server-standalone.jar http://goo.gl/PJUZfa
+  wget -O selenium-server-standalone.jar http://goo.gl/IHP6Qw
   sudo mv selenium-server-standalone.jar /var/selenium
 
   # So that running `vagrant provision` doesn't redownload everything
@@ -75,8 +76,13 @@ if grep -q OK <<<${seleniumRunning}; then
   echo "Selenium Server is already running, returned '$seleniumRunning'."
 else
     # Start up the Selenium Server in the background
+  echo '-------------------------'
   echo "Starting Selenium ..."
+  echo '-------------------------'
   cd /var/selenium
+  sudo killall xvfb-run || true
+  sudo killall Xvfb || true
+  sudo rm /tmp/.X10-lock || true
   sudo rm ./selenium.log || true
   sudo touch ./selenium.log
   sudo chmod 777 ./selenium.log
