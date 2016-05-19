@@ -80,9 +80,6 @@ else
   echo "Starting Selenium ..."
   echo '-------------------------'
   cd /var/selenium
-  sudo killall xvfb-run || true
-  sudo killall Xvfb || true
-  sudo rm /tmp/.X10-lock || true
   sudo rm ./selenium.log || true
   sudo touch ./selenium.log
   sudo chmod 777 ./selenium.log
