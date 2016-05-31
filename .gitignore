@@ -1,2 +1,9 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/*
+assets/package.json
+assets/node_modules
+assets/package.json.archive
+assets/npm_cache.tar
+assets/bower_cache.tar
+assets/bower.json.archive
+assets/bower_components
