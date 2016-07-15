@@ -37,7 +37,11 @@ kill %tail >/dev/null 2>&1
 vagrant ssh -c "cd /var/www; if [ -f \"artisan\" ]; then php artisan migrate; fi;"
 
 # check for errors
-if grep "PHPUnit_Framework_Exception" ${log} || grep "FATAL ERROR. TESTS NOT FINISHED." ${log} || grep "FAILURES!" ${log} || grep "TESTS EXECUTION TERMINATED" ${log}
+# http://stackoverflow.com/a/2295565
+errorKeys=("PHPUnit_Framework_Exception" "FATAL ERROR. TESTS NOT FINISHED" "FAILURES!" "ERRORS!" "TESTS EXECUTION TERMINATED")
+errorPattern=$(echo ${errorKeys[@]}|tr " " "|")
+
+if grep -Eow "$errorPattern" ${log}
     then
         message="TESTS FAILED. See ${log} for output.";
         if ${showNotify}; then
