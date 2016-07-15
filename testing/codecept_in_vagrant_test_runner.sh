@@ -30,8 +30,7 @@ else
     vagrant ssh -c "cd /var/www; php codecept.phar clean; php codecept.phar build; php codecept.phar run -v --coverage-html --coverage-xml;" > ${log} 2>&1
 fi
 
-# kill the tail
-kill %tail >/dev/null 2>&1
+
 
 # reset the migrations in the box
 vagrant ssh -c "cd /var/www; if [ -f \"artisan\" ]; then php artisan migrate; fi;"
@@ -39,17 +38,23 @@ vagrant ssh -c "cd /var/www; if [ -f \"artisan\" ]; then php artisan migrate; fi
 # check for errors
 # http://stackoverflow.com/a/2295565
 errorKeys=("PHPUnit_Framework_Exception" "FATAL ERROR. TESTS NOT FINISHED" "FAILURES!" "ERRORS!" "TESTS EXECUTION TERMINATED")
-errorPattern=$(echo ${errorKeys[@]}|tr " " "|")
+errorMessage="TESTS FAILED. See ${log} for output.";
 
-if grep -Eow "$errorPattern" ${log}
-    then
-        message="TESTS FAILED. See ${log} for output.";
-        if ${showNotify}; then
-           echo ${message} | terminal-notifier -open "file://${PWD}/${log}" -sound "Glass"
-        fi;
-        echo ${message}
-        exit 1;
-    fi
+while read -r line
+do
+    for i in ${errorKeys[@]}
+    do
+        case "$line" in *"$i"*)
+           if ${showNotify}; then
+                echo ${errorMessage} | terminal-notifier -open "file://${PWD}/${log}" -sound "Glass"
+           fi;
+            echo ${errorMessage}
+            # kill the tail
+            kill %tail >/dev/null 2>&1
+            exit 1;
+        esac
+    done
+done <${log}
 
 #http://stackoverflow.com/a/13425821 time format
 took=${SECONDS}
@@ -62,3 +67,5 @@ if ${showNotify}; then
 fi;
 
 echo ${message}
+# kill the tail
+kill %tail >/dev/null 2>&1
