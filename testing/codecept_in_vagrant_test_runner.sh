@@ -9,12 +9,8 @@ touch ${log}
 echo -n "" >${log}
 
 # check if terminal-notifier is installed for notifications
-if which terminal-notifier >/dev/null; then
-    showNotify=true
-else
-    showNotify=false
-    echo "Terminal-notifier is not installed, no notifications will display. Head to https://github.com/julienXX/terminal-notifier for more info."
-fi;
+showNotify=1
+command -v terminal-notifier >/dev/null 2>&1 || { showNotify=0; echo echo "Terminal-notifier is not installed, no notifications will display. Head to https://github.com/julienXX/terminal-notifier for more info.";}
 
 failed=$1
 # tail the log file to see tests while they run
