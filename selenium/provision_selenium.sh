@@ -28,16 +28,8 @@ else
   sudo yum -y install java-1.8.0-openjdk-headless.x86_64
   sudo yum -y install xorg-x11-server-Xvfb.x86_64
   sudo yum -y install dbus
-
-  # http://tecadmin.net/install-firefox-on-linux/#
-  cd /usr/local
-  ffPath="http://ftp.mozilla.org/pub/firefox/releases/44.0/linux-x86_64/en-US/firefox-44.0.tar.bz2"
-  sudo rm firefox.tar.bz2 || true
-  sudo wget -O firefox.tar.bz2 ${ffPath}
-  sudo tar xvjf firefox.tar.bz2
-  sudo rm /usr/bin/firefox || true
-  sudo ln -s /usr/local/firefox/firefox /usr/bin/firefox
-  sudo rm firefox.tar.bz2
+  sudo yum -y install libvpx
+  sudo yum -y install firefox
   firefox -v
 
   # get fonts so that firefox doesn't freak out that it's missing fonts for display
