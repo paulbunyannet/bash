@@ -52,13 +52,17 @@ vagrant ssh -c "cd /var/www; npm install && npm update"
 
 # run gulp for the first time
 vagrant ssh -c "cd /var/www; sudo npm install -g gulp;"
-vagrant ssh -c "cd /var/www; if [ ! -f 'gulpfile.js' ]; then gulp; fi;"
+vagrant ssh -c "cd /var/www; if [ -f 'gulpfile.js' ]; then gulp; fi;"
 
 # get composer to get all dependencies
 # http://stackoverflow.com/a/24750310/405758
 latestComposerCommitHash=$(git ls-remote https://github.com/composer/getcomposer.org.git | grep HEAD | awk '{ print $1}')
 vagrant ssh -c "cd /var/www; command -v composer >/dev/null 2>&1 || { wget https://raw.githubusercontent.com/composer/getcomposer.org/${latestComposerCommitHash}/web/installer -O - -q | php -- --quiet }"
 vagrant ssh -c "cd /var/www; php composer.phar install"
+
+# get bower and install dependencies
+vagrant ssh -c "cd /var/www; sudo npm install -g bower;"
+vagrant ssh -c "cd /var/www; if [ -f 'bower.json' ]; then bower install; fi;"
 
 # generate new Laravel app key
 vagrant ssh -c "cd /var/www; php artisan key:generate;"
