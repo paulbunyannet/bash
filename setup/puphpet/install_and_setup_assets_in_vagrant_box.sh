@@ -7,22 +7,6 @@ for i in "${tools[@]}"; do
 	command -v ${i} >/dev/null 2>&1 || { echo "${i} not installed, aborting!" >&2; exit 1;}
 done
 
-#download composer.phar for running composer commands
- if [ ! -f "composer.phar" ]
-    then
-        echo "Downloading composer.phar"
-        wget -q -N https://getcomposer.org/composer.phar -O composer.phar
-    else
-        php composer.phar self-update
-    fi
-
-#download c3.php for running Codeception remote coverage
- if [ ! -f "c3.php" ]
-    then
-        echo "Downloading c3.php"
-        wget -q -N https://raw.github.com/Codeception/c3/2.0/c3.php -O c3.php
-    fi
-
 # download codecept.phar for running tests
  if [ ! -f "codecept.phar" ]
     then
@@ -67,10 +51,14 @@ vagrant up --provision
 vagrant ssh -c "cd /var/www; npm install && npm update"
 
 # run gulp for the first time
-vagrant ssh -c "cd /var/www; gulp;"
+vagrant ssh -c "cd /var/www; sudo npm install -g gulp;"
+vagrant ssh -c "cd /var/www; if [ ! -f 'gulpfile.js' ]; then gulp; fi;"
 
-# run composer to get all dependencies
-vagrant ssh -c "cd /var/www; php composer.phar install;"
+# get composer to get all dependencies
+# http://stackoverflow.com/a/24750310/405758
+latestComposerCommitHash=$(git ls-remote https://github.com/composer/getcomposer.org.git | grep HEAD | awk '{ print $1}')
+vagrant ssh -c "cd /var/www; command -v composer >/dev/null 2>&1 || { wget https://raw.githubusercontent.com/composer/getcomposer.org/${latestComposerCommitHash}/web/installer -O - -q | php -- --quiet }"
+vagrant ssh -c "cd /var/www; php composer.phar install"
 
 # generate new Laravel app key
 vagrant ssh -c "cd /var/www; php artisan key:generate;"
