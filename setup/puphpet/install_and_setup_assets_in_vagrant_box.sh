@@ -7,13 +7,6 @@ for i in "${tools[@]}"; do
 	command -v ${i} >/dev/null 2>&1 || { echo "${i} not installed, aborting!" >&2; exit 1;}
 done
 
-# download codecept.phar for running tests
- if [ ! -f "codecept.phar" ]
-    then
-        echo "Downloading codecept.phar"
-        wget -q -N http://codeception.com/codecept.phar -O codecept.phar
-    fi
-
 # make .env if not already created
 if [ ! -f ".env" ]
     then
@@ -48,45 +41,17 @@ if [ ! -f "puphpet/config-custom.yaml" ]
 vagrant up --provision
 
 # get node dependencies
-vagrant ssh -c "cd /var/www; npm install && npm update"
+vagrant ssh -c "cd /var/www; if [ -f 'package.json' ]; then npm install && npm update; fi;"
 
 # run gulp for the first time
-vagrant ssh -c "cd /var/www; sudo npm install -g gulp;"
-vagrant ssh -c "cd /var/www; if [ -f 'gulpfile.js' ]; then gulp; fi;"
+vagrant ssh -c "cd /var/www; if [ -f 'gulpfile.js' ]; then sudo npm install -g gulp && gulp; fi;"
+
+# get bower and install dependencies
+vagrant ssh -c "cd /var/www; if [ -f 'bower.json' ]; then sudo npm install -g bower && bower install; fi;"
 
 # get composer to get all dependencies
 # http://stackoverflow.com/a/24750310/405758
 latestComposerCommitHash=$(git ls-remote https://github.com/composer/getcomposer.org.git | grep HEAD | awk '{ print $1}')
-vagrant ssh -c "cd /var/www; command -v composer >/dev/null 2>&1 || { wget https://raw.githubusercontent.com/composer/getcomposer.org/${latestComposerCommitHash}/web/installer -O - -q | php -- --quiet }"
-vagrant ssh -c "cd /var/www; php composer.phar install"
-
-# get bower and install dependencies
-vagrant ssh -c "cd /var/www; sudo npm install -g bower;"
-vagrant ssh -c "cd /var/www; if [ -f 'bower.json' ]; then bower install; fi;"
-
-# generate new Laravel app key
-vagrant ssh -c "cd /var/www; php artisan key:generate;"
-
-# generate new wordpress auth keys
-vagrant ssh -c "cd /var/www; php artisan wp:keys --file=.env;"
-
-# run artisan migration
-vagrant ssh -c "cd /var/www; php artisan migrate"
-
-# cleanup Wordpress install
-if [ -d "public_html/wp/wp-content" ]
-then
-    rm -rf public_html/wp/wp-content
-fi
-
-if [ -f "public_html/wp/wp-config-sample.php" ]
-then
-    rm -f public_html/wp/wp-config-sample.php
-fi
-
-if [ -f "public_html/wp/.htaccess" ]
-then
-    rm -f public_html/wp/.htaccess
-fi
+vagrant ssh -c "cd /var/www; if [ -f 'composer.json' ]; then wget https://raw.githubusercontent.com/composer/getcomposer.org/${latestComposerCommitHash}/web/installer -O - -q | php -- --quiet; php composer.phar install; fi;"
 
 #fin
