@@ -43,11 +43,11 @@ vagrant up --provision
 # get node dependencies
 vagrant ssh -c "cd /var/www; if [ -f 'package.json' ]; then npm install && npm update; fi;"
 
-# run gulp for the first time
-vagrant ssh -c "cd /var/www; if [ -f 'gulpfile.js' ]; then sudo npm install -g gulp && gulp; fi;"
-
 # get bower and install dependencies
 vagrant ssh -c "cd /var/www; if [ -f 'bower.json' ]; then sudo npm install -g bower && bower install; fi;"
+
+# run gulp for the first time
+vagrant ssh -c "cd /var/www; if [ -f 'gulpfile.js' ]; then sudo npm install -g gulp && gulp; fi;"
 
 # get composer to get all dependencies
 # http://stackoverflow.com/a/24750310/405758
