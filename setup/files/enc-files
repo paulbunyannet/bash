@@ -1,0 +1,30 @@
+# -------------------------------------------------------------
+#
+# http://www.shellhacks.com/en/Encrypt-And-Decrypt-Files-With-A-Password-Using-OpenSSL
+# decrypt the config files
+# the encrypted file is a copy of encrypted_file.encrypted_extension,
+# re encrypt encrypted_file.encrypted_extension to encrypted_file.enc if
+# changes are needed.
+#
+# Make a new row in each array with description of file, the file name (with path) without the extension, and the file extension
+
+# -------------------------------------------------------------
+# File description
+desc=(
+"File with extension"
+"File without extension such as a dot file"
+)
+
+# -------------------------------------------------------------
+# Paths to file to encrypt without the extension
+prefix=(
+"fixture/path/to/file/with/extension"
+"fixture/path/to/file/without/extension"
+)
+
+# -------------------------------------------------------------
+# File to encrypt, leave blank (add "") if no extension is needed
+suffix=(
+".suffixOfFileToOutput"
+""
+)
