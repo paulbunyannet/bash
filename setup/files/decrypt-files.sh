@@ -42,6 +42,6 @@ do
             echo "Decrypting: ${ws}/${prefix[i]}.enc, ${desc[i]}"
             openssl enc -aes-256-cbc -d -in ${ws}/${prefix[i]}.enc -out ${ws}/${prefix[i]}${suffix[i]} -pass pass:${password}
         else
-            echo "File ${ws}/${prefix[i]}.enc is missing, slipping decrypting of file"
+            echo "File ${ws}/${prefix[i]}.enc is missing, skipping decrypting of file"
     fi;
 done
