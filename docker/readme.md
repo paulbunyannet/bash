@@ -18,9 +18,9 @@
 2. it will ask you if you want to build the images, it would be smart if you dont have the images and or you change something in the images to say yes :)
 3. it will ask you if you want to download and update all dependencies+ Again unless you have all your dependencies updated to say yes here as well
 4. 
-..1. it will run php artisan migrate
-..2. it will run gulp
-..3. it will leave open bash into the application container
+        1. it will run php artisan migrate
+        2. it will run gulp
+        3. it will leave open bash into the application container
 
 #./docker-start.sh -h or --help
 + it will show you all the following commands
@@ -30,9 +30,9 @@
 2. it will run all the other container if they aren't running
 3. it won't rebuild the images and it won't update dependencies
 4. 
-..1. it will run php artisan migrate
-..2. it will run gulp
-..3. it will leave open bash into the application container
+        1. it will run php artisan migrate
+        2. it will run gulp
+        3. it will leave open bash into the application container
 
 #./docker-start.sh down or -down or --down
 1. it will do a docker-compose down for all the docker container that where created from the docker-compose file (traefik is not on that file so it will be still available for other projects that are still open)
@@ -40,18 +40,18 @@
 #./docker-start.sh -v or --verbose
 1. it will do the same than the ./docker-start without any flags but it will give you detail information of what is going on at every turn.
 2. 
-..1. it will run php artisan migrate
-..2. it will run gulp
-..3. it will leave open bash into the application container
+        1. it will run php artisan migrate
+        2. it will run gulp
+        3. it will leave open bash into the application container
 
 #./docker-start.sh -i or --images
 1. it will rebuild the images of the container ( you need to have done ./docker-start down first or not have the containers running)
 2. it will run the docker-start file without prompting you if you want to build the images by auto answering YES
 3. it may asked you if you want to redownload dependencies unless you sent a second flag
 4. 
-..1. it will run php artisan migrate
-..2. it will run gulp
-..3. it will leave open bash into the application container
+        1. it will run php artisan migrate
+        2. it will run gulp
+        3. it will leave open bash into the application container
 
 #./docker-start.sh -ni or --notImages
 1. it will run the docker-start file without prompting you if you want to build the images by auto answering NO
@@ -111,10 +111,8 @@ this are a few of the possible combinations but have in mind:
 3. the flags could be: 
         
         _________________________________________________________________________________________________________________________________________
-        -----------------------------------------------------------------------------------------------------------------------------------------
         | Flag1 | Flag2 | Flag3 | Result                                                                                                        |
         _________________________________________________________________________________________________________________________________________
-        -----------------------------------------------------------------------------------------------------------------------------------------
         | `-i`  | `-d`  |       | **create new images and download dependencies**                                                               |
         -----------------------------------------------------------------------------------------------------------------------------------------
         | `-i`  | `-d`  | `-v`  | **create new images, download dependencies and show me every message thought the installation**               |

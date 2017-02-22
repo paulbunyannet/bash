@@ -1,0 +1,125 @@
+version: '2'
+
+volumes:
+  db:
+    {}
+
+networks:
+  frontend:
+    external: true
+  backend:
+    driver: bridge
+  testend:
+    driver: bridge
+
+
+services:
+  web:
+    restart: always
+    image: pbc/httpd:alpine
+    build:
+      context: .
+      dockerfile: Dockerfile.httpd
+    volumes:
+    - ./:/var/www/html
+    expose:
+    - "80"
+    labels:
+    - "traefik.frontend.rule=Host:${SERVER_NAME}"
+    - "traefik.docker.network=frontend"
+    networks:
+    - frontend
+    - backend
+    - testend
+
+  laravel:
+    restart: always
+    build: .
+    image: pbc/laravel:latest
+    environment:
+      ServerName: ${SERVER_NAME}
+    volumes:
+      - ./:/var/www/html/
+    depends_on:
+      - hub
+    expose:
+      - "9000"
+    networks:
+      - backend
+
+  db:
+    restart: always
+    image: mysql:5.7
+    volumes:
+      - db:/var/lib/mysql/
+#      - ./sql_exp_local/:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      explicit_defaults_for_timestamp: 1
+      TIMESTAMP: NOT NULL
+    ports:
+      - "3306"
+    networks:
+      - backend
+
+  hub:
+    image: selenium/hub
+    privileged: true
+    ports:
+      - "4444:4444"
+    environment:
+      - GRID_TIMEOUT=120000
+      - GRID_BROWSER_TIMEOUT=120000
+    networks:
+      - testend
+      - backend
+
+  chrome:
+    image: selenium/node-chrome-debug
+#    image: selenium/standalone-chrome-debug
+    environment:
+      - no_proxy=localhost
+      - TZ=America/Chicago
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+    expose:
+      - '4444'
+      - '5900'
+    depends_on:
+      - hub
+    links:
+      - hub
+    networks:
+      - testend
+
+  firefox:
+    image: selenium/node-firefox-debug
+#    image: selenium/standalone-firefox-debug
+    environment:
+      - no_proxy=localhost
+      - TZ=America/Chicago
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+    expose:
+      - '4444'
+    depends_on:
+      - hub
+    links:
+      - hub
+    networks:
+      - testend
+
+  redis:
+    image: redis:3
+    restart: always
+    expose:
+      - '6379'
+    networks:
+      - backend
+      
+    #TODO: redis conf file for security
+
+
