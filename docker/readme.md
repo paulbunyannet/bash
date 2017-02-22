@@ -117,7 +117,7 @@ this are a few of the possible combinations but have in mind:
         2. the third flag will allways overwrite the first and/or the second command if you send an oppose command 
                 * as -i -nd -ni, in this case not images will be the final argument
                 * as -ni -i -ni, in this case not images will be the final argument
-3. the flags could be: (remember, the order alter the product unless you send a -a or -n :P )
+3. the flags could be: (remember, the order of the flags doens't matter unless you send -a or -n :P )
         
         _____________________________________________________________________________________________________________
         | Flag1 | Flag2 | Flag3 | Result                                                                            |
