@@ -14,9 +14,9 @@
 + if you run:
 + ./docker-start.sh 
 
-..+  you will start the whole docker application
+.+  you will start the whole docker application
 
-..+ first it will check if you have traefik running, if not, it will run it for you, but if no image is found, it will go and pull the version Nelson created and run it for you. 
+-+ first it will check if you have traefik running, if not, it will run it for you, but if no image is found, it will go and pull the version Nelson created and run it for you. 
 
 ..+ second it will ask you if you want to build the images, it would be smart if you dont have the images and or you change something in the images to say yes :)
 
