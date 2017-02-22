@@ -17,7 +17,7 @@
 1. it will check if you have traefik running, if not, it will run it for you, but if no image is found, it will go and pull the version Nelson created and run it for you. 
 2. it will ask you if you want to build the images, it would be smart if you dont have the images and or you change something in the images to say yes :)
 3. it will ask you if you want to download and update all dependencies+ Again unless you have all your dependencies updated to say yes here as well
-4.
+4. And:
         
         1. it will run php artisan migrate
         2. it will run gulp
@@ -30,7 +30,7 @@
 1. it will open the php container (call laravel now in docker-compose file)
 2. it will run all the other container if they aren't running
 3. it won't rebuild the images and it won't update dependencies
-4.
+4. And:
         
         1. it will run php artisan migrate
         2. it will run gulp
@@ -41,7 +41,7 @@
 
 #./docker-start.sh -v or --verbose
 1. it will do the same than the ./docker-start without any flags but it will give you detail information of what is going on at every turn.
-2.
+2. And:
         
         1. it will run php artisan migrate
         2. it will run gulp
@@ -51,7 +51,7 @@
 1. it will rebuild the images of the container ( you need to have done ./docker-start down first or not have the containers running)
 2. it will run the docker-start file without prompting you if you want to build the images by auto answering YES
 3. it may asked you if you want to redownload dependencies unless you sent a second flag
-4.
+4. And:
         
         1. it will run php artisan migrate
         2. it will run gulp
@@ -60,7 +60,7 @@
 #./docker-start.sh -ni or --notImages
 1. it will run the docker-start file without prompting you if you want to build the images by auto answering NO
 2. it may asked you if you want to redownload dependencies unless you sent a second flag
-3.
+3. And:
         
         1. it will run php artisan migrate    
         2. it will run gulp
@@ -70,7 +70,7 @@
 1. it will reinstall all dependencies
 2. it will run the docker-start file without prompting you if you want to redownload the dependencies by auto answering YES
 3. it may asked you if you want to rebuild images unless you sent a second flag
-4.
+4. And:
         
         1. it will run php artisan migrate
         2. it will run gulp
@@ -79,7 +79,7 @@
 #./docker-start.sh -nd or --notDependencies
 1. it will run the docker-start file without prompting you if you want to redownload the dependencies by auto answering NO
 3. it may asked you if you want to rebuild images unless you sent a second flag
-4.
+4. And:
         
         1. it will run php artisan migrate
         2. it will run gulp
@@ -88,7 +88,7 @@
 
 #./docker-start.sh -a or --all
 1. it will run the docker-start file without prompting you at anytime, it will rebuild images and redownload the dependencies (it will answer yes to both prompts)
-2.
+2. And:
 
         1. it will run php artisan migrate
         2. it will run gulp
@@ -96,7 +96,7 @@
 
 #./docker-start.sh -n or --none
 1. it will run the docker-start file without prompting you at anytime, it will not rebuild images or redownload the dependencies (it will answer no to both prompts)
-2. 
+2.  And:
 
         1. it will run php artisan migrate
         2. it will run gulp
