@@ -7,6 +7,14 @@
 + docker-compose has the extra information and configuration of the rest of the app(PHP, mysql, selenium, etc)
 + install.sh and the start.sh are slightly modified from the original files but fitting the new docker config.
 + docker-start.sh, last but not least, this file has many option and settings that depend of all previous files plus composer, gulp, bower, npm, and other which wont break the app, they would just not run
++ options in your .env file
+
+            + doc_npm="true" or "false"/do not write it in your env file
+            + doc_composer="true" or "false"/do not write it in your env file
+            + doc_yarn="true" or "false"/do not write it in your env file
+            + doc_migrate="true" or "false"/do not write it in your env file
+            + doc_bower="true" or "false"/do not write it in your env file
+            + doc_gulp="true" or "false"/do not write it in your env file
 
 ##What is so cool about the docker-start.sh file.
 ###Well it is cool if you use a mac for development :)
