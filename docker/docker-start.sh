@@ -89,6 +89,7 @@ case $ARG1 in
                 echo "I imagine you have already run docker-start.sh to build your images and load your dependencies, so I will just skip everything :)";
                 echo "##############################################################/n##############################################################${NONE}";
                 REDOIMAGES="false";
+                REMOVEDEPENDENCIES="false";
                 ONECHECK="true";
             fi
 
@@ -366,8 +367,8 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "Now installing dependencies";
     echo "#########################################################################"
     echo "Opening laravel --> container ID: $ImageName";
-    echo " ./install.sh";
-    docker-compose exec laravel ./install.sh;
+    echo " ./doc-install.sh";
+    docker-compose exec laravel ./doc-install.sh;
 #        docker-compose exec laravel npm
 #        read -e -p "npm ... press enter" answer;
     echo "#########################################################################${YELLOW}"
@@ -431,6 +432,7 @@ fi
     docker-compose exec laravel php artisan migrate
     echo "#########################################################################"
     echo "gulp"
+    docker-compose exec laravel node node_modules/node-sass/scripts/install.js
     docker-compose exec laravel gulp
     echo "#########################################################################"
     echo "${YELLOW}Going into command line (type ${RED}exit ${YELLOW}and press enter to leave the container)${NONE}";
