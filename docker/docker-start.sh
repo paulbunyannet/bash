@@ -58,7 +58,8 @@ fi
 #//// Docker start doesnt need any other file now //////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MAINDIRECTORY="$(readlink -f "$0")"
+MAINDIRECTORY=$(dirname "$0");
+echo "this is the directory docker will work at ${MAINDIRECTORY}";
 cd "${MAINDIRECTORY}"
 chmod -R 755 public_html
 chmod -R 755 storage/framework
