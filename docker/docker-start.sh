@@ -273,7 +273,7 @@ loadenv
 
 
 echo "$REMOVEDEPENDENCIES" == "not";
-if  [  "${doc_jenkins}" != "false" ]; then
+if  [  "${doc_jenkins}" != "true" ]; then
     ##############################################################
     ##############################################################
     #if you have problems loading the docker machine, remove the # symbol from the beginning of the next two lines
