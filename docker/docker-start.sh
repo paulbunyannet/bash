@@ -1,6 +1,8 @@
 #!/bin/sh
+
 #version 1.2
 #2017/02/27
+
 REMOVEDEPENDENCIES="not";
 REDOIMAGES="not";
 ONECHECK="false";
@@ -32,6 +34,7 @@ then
 # otherwise make first arg as a rental
   ARG1=$1
 fi
+
 if [ -z $2 ]
 then
   ARG2="false"
@@ -41,6 +44,7 @@ then
 # otherwise make first arg as a rental
   ARG2=$2
 fi
+
 if [ -z $3 ]
 then
   ARG3="false"
@@ -62,25 +66,21 @@ chmod -R 755 storage/framework
 php-fpm
 
 # make .env if not already created
- if [ ! -f ".env" ]
- then
+ if [ ! -f ".env" ]; then
     cp .env.example .env
     echo ".env was created from example file"
  fi
 
 # cleanup wordpress install
-if [ -d "public_html/wp/wp-content" ]
-then
+if [ -d "public_html/wp/wp-content" ];then
     rm -rf public_html/wp/wp-content
 fi
 
-if [ -f "public_html/wp/wp-config-sample.php" ]
-then
+if [ -f "public_html/wp/wp-config-sample.php" ];then
     rm -f public_html/wp/wp-config-sample.php
 fi
 
-if [ -f "public_html/wp/.htaccess" ]
-then
+if [ -f "public_html/wp/.htaccess" ];then
     rm -f public_html/wp/.htaccess
 fi
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -277,6 +277,7 @@ elif [ "$RUNNING" == "false" ]; then
   FRONTENDRUNNING="false"
 
 fi
+
 if  [ "$FRONTENDRUNNING" == "false" ]; then
 
     mkdir traefik-temp
@@ -316,31 +317,6 @@ STARTED=$(docker inspect --format="{{ .State.StartedAt }}" $CONTAINER)
 
 matches_in_hosts="$(grep -n ${SERVER_NAME} /etc/hosts | cut -f1 -d:)"
 host_entry="${NETWORK} ${SERVER_NAME}"
-
-#echo "#########################################################################"
-#echo "#########################################################################"
-#echo "# Please enter your password if requested so the host file is modified. #"
-#echo "#########################################################################"
-#echo "#########################################################################"
-#
-#if [ ! -z "$matches_in_hosts" ]
-#then
-#    echo "Updating existing hosts entry."
-#    # iterate over the line numbers on which matches were found
-#    while read -r line_number; do
-#        # replace the text of each line with the desired host entry
-#        sudo sed -i '' "${line_number}s/.*/${host_entry} /" /etc/hosts
-#    done <<< "$matches_in_hosts"
-#else
-#    echo "Adding new hosts entry."
-#    echo "$host_entry" | sudo tee -a /etc/hosts > /dev/null
-#fi
-#
-#echo "OK - $CONTAINER is running. IP: $NETWORK, StartedAt: $STARTED"
-#echo "OK - $SERVER_NAME is running. IP: $NETWORK, is running as well and has being added to the host file or it was already there ;)"
-
-##############################################################
-##############################################################
 
 if [ "$REDOIMAGES" == "$NOT" ]; then
     echo "${CYAN}#########################################################################"
@@ -386,6 +362,8 @@ case $answer in
       ;;
 esac
 fi
+
+
 if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "${YELLOW}#########################################################################"
     echo "removing dependencies folders";
@@ -416,9 +394,9 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "#########################################################################"
     echo "yarn upgrade"
     if [ "$VERBOSE" == "false" ]; then
-    docker-compose exec laravel yarn upgrade --silent
+        docker-compose exec laravel yarn upgrade --silent
     else
-    docker-compose exec laravel yarn upgrade
+        docker-compose exec laravel yarn upgrade
     fi
     echo "#########################################################################"
 #        read -e -p "yarn install ... press enter" answer;
@@ -426,18 +404,18 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "#########################################################################"
     echo "npm -g update"
     if [ "$VERBOSE" == "false" ]; then
-    docker-compose exec laravel npm -g update --silent
+        docker-compose exec laravel npm -g update --silent
     else
-    docker-compose exec laravel npm -g update
+        docker-compose exec laravel npm -g update
     fi
 #        read -e -p "npm -g update ... press enter" answer;
     echo "#########################################################################${GREEN}"
     echo "#########################################################################"
     echo "bower update --force"
     if [ "$VERBOSE" == "false" ]; then
-    docker-compose exec laravel bower update --force --silent
+        docker-compose exec laravel bower update --force --silent
     else
-    docker-compose exec laravel bower update --force --quiet
+        docker-compose exec laravel bower update --force --quiet
     fi
 #        docker-compose exec laravel bower
 #        read -e -p "npm -g install ... press enter" answer;
@@ -445,9 +423,9 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "#########################################################################"
     echo "composer update"
     if [ "$VERBOSE" == "false" ]; then
-    docker-compose exec laravel composer update --quiet
+        docker-compose exec laravel composer update --quiet
     else
-    docker-compose exec laravel composer update
+        docker-compose exec laravel composer update
     fi
     echo "#########################################################################${CYAN}"
     echo "#########################################################################"
@@ -457,8 +435,8 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     #read -e -p "artisan key ... press enter" answer;
 
     echo "#########################################################################${NONE}"
-
 fi
+
     echo "${CYAN}#########################################################################"
     echo "Opening laravel --> container ID: $ImageName ${NONE}" ;
     echo "#########################################################################"
