@@ -87,7 +87,7 @@ fi
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-echo "docker-compose check";
+#echo "docker-compose check";
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 #/// docker-compose check ///////////////////////////////////////////////////////////////////////////////////
 #//////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -273,89 +273,89 @@ loadenv
 
 
 echo "$REMOVEDEPENDENCIES" == "not";
+if  [  "${doc_jenkins}" != "false" ]; then
+    ##############################################################
+    ##############################################################
+    #if you have problems loading the docker machine, remove the # symbol from the beginning of the next two lines
+    #docker-machine rm default
+    #docker-machine create default --driver virtualbox
+    CONTAINER=frontend
+    FRONTENDRUNNING="true"
+    #important this will set the default vb machine so is found every time
+    ##set docker default image to default used one
+    #eval "$(docker-machine env default)"
+    #check if the front end is running. if not run it from scratch
+    RUNNING=$(docker inspect --format="{{ .State.Running }}" $CONTAINER 2> /dev/null)
 
-##############################################################
-##############################################################
-#if you have problems loading the docker machine, remove the # symbol from the beginning of the next two lines
-#docker-machine rm default
-#docker-machine create default --driver virtualbox
-CONTAINER=frontend
-FRONTENDRUNNING="true"
-#important this will set the default vb machine so is found every time
-##set docker default image to default used one
-#eval "$(docker-machine env default)"
-#check if the front end is running. if not run it from scratch
-RUNNING=$(docker inspect --format="{{ .State.Running }}" $CONTAINER 2> /dev/null)
+    if [ $? -eq 1 ]; then
+      echo "UNKNOWN - $CONTAINER does not exist."
+      FRONTENDRUNNING="false"
 
-if [ $? -eq 1 ]; then
-  echo "UNKNOWN - $CONTAINER does not exist."
-  FRONTENDRUNNING="false"
+    elif [ "$RUNNING" == "false" ]; then
+      echo "CRITICAL - $CONTAINER is not running."
+      FRONTENDRUNNING="false"
 
-elif [ "$RUNNING" == "false" ]; then
-  echo "CRITICAL - $CONTAINER is not running."
-  FRONTENDRUNNING="false"
+    fi
 
+    if  [ "$FRONTENDRUNNING" == "false" ]; then
+
+        cd "${MAINDIRECTORY}"
+
+        mkdir traefik-temp
+
+        cd traefik-temp
+
+        git clone https://github.com/castillo-n/traefik-image
+
+        cd traefik-image
+
+        sh init.sh
+
+        cd ..
+
+        cd ..
+
+        rm -rf traefik-temp
+    fi
+    ##############################################################
+    ##############################################################
+
+
+    ##############################################################
+    ##############################################################
+    #now added this to the host file if it doesnt exist
+    ## this will only work on macs (I havent tested on windows --sorry Garrett)
+    ##############################################################
+    echo "#################"
+    echo "check host"
+    echo "#################"
+    STARTED=$(docker inspect --format="{{ .State.StartedAt }}" $CONTAINER)
+    #NETWORK=$(docker-machine ip default)
+    # Fallback to localhost if docker-machine not found or error occurs
+    #if [ -z "$NETWORK" ]; then
+        NETWORK=127.0.0.1
+    #fi
+
+    matches_in_hosts="$(grep -n ${SERVER_NAME} /etc/hosts | cut -f1 -d:)"
+    host_entry="${NETWORK} ${SERVER_NAME}"
+
+    if [ "$REDOIMAGES" == "$NOT" ]; then
+        echo "${CYAN}#########################################################################"
+        echo "#########################################################################"
+        echo "#########################################################################"
+        echo "Would you like to build the docker images?"
+        echo "Intro y and press enter to accept, anything else to skip this option"
+        echo "-------------------------------------------------------------------------${RED}"
+        read -e -p "##### (y??)>>: " build;
+        echo "${NONE} ";
+        case $build in
+            [yY][eE][sS]|[yY])
+              REDOIMAGES="true";;
+              *)
+              REDOIMAGES="false";;
+        esac
+    fi
 fi
-
-if  [ "$FRONTENDRUNNING" == "false" ]; then
-
-    cd "${MAINDIRECTORY}"
-
-    mkdir traefik-temp
-
-    cd traefik-temp
-
-    git clone https://github.com/castillo-n/traefik-image
-
-    cd traefik-image
-
-    sh init.sh
-
-    cd ..
-
-    cd ..
-
-    rm -rf traefik-temp
-fi
-##############################################################
-##############################################################
-
-
-##############################################################
-##############################################################
-#now added this to the host file if it doesnt exist
-## this will only work on macs (I havent tested on windows --sorry Garrett)
-##############################################################
-echo "#################"
-echo "check host"
-echo "#################"
-STARTED=$(docker inspect --format="{{ .State.StartedAt }}" $CONTAINER)
-#NETWORK=$(docker-machine ip default)
-# Fallback to localhost if docker-machine not found or error occurs
-#if [ -z "$NETWORK" ]; then
-    NETWORK=127.0.0.1
-#fi
-
-matches_in_hosts="$(grep -n ${SERVER_NAME} /etc/hosts | cut -f1 -d:)"
-host_entry="${NETWORK} ${SERVER_NAME}"
-
-if [ "$REDOIMAGES" == "$NOT" ]; then
-    echo "${CYAN}#########################################################################"
-    echo "#########################################################################"
-    echo "#########################################################################"
-    echo "Would you like to build the docker images?"
-    echo "Intro y and press enter to accept, anything else to skip this option"
-    echo "-------------------------------------------------------------------------${RED}"
-    read -e -p "##### (y??)>>: " build;
-    echo "${NONE} ";
-    case $build in
-        [yY][eE][sS]|[yY])
-          REDOIMAGES="true";;
-          *)
-          REDOIMAGES="false";;
-    esac
-fi
-
 cd "${MAINDIRECTORY}"
 if [ "$REDOIMAGES" == "$TRUE" ]; then
 
