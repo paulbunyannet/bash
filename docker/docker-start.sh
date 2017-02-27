@@ -1,4 +1,6 @@
 #!/bin/sh
+#version 1.2
+#2017/02/27
 REMOVEDEPENDENCIES="not";
 REDOIMAGES="not";
 ONECHECK="false";
@@ -48,7 +50,42 @@ then
 # otherwise make first arg as a rental
   ARG3=$3
 fi
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////
+#//// Docker start doesnt need any other file now //////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+cd ${PWD}/var/www/html
+
+chmod -R 755 public_html
+chmod -R 755 storage/framework
+
+php-fpm
+
+# make .env if not already created
+ if [ ! -f ".env" ]
+ then
+    cp .env.example .env
+    echo ".env was created from example file"
+ fi
+
+# cleanup wordpress install
+if [ -d "public_html/wp/wp-content" ]
+then
+    rm -rf public_html/wp/wp-content
+fi
+
+if [ -f "public_html/wp/wp-config-sample.php" ]
+then
+    rm -f public_html/wp/wp-config-sample.php
+fi
+
+if [ -f "public_html/wp/.htaccess" ]
+then
+    rm -f public_html/wp/.htaccess
+fi
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////
 case $ARG1 in
     [-][hH]|[-][-][hH][eE][lL][pP])
 
@@ -85,9 +122,6 @@ case $ARG1 in
                 docker-compose exec laravel bash
                 exit;
             else
-                echo "${RED}##############################################################/n##############################################################";
-                echo "I imagine you have already run docker-start.sh to build your images and load your dependencies, so I will just skip everything :)";
-                echo "##############################################################/n##############################################################${NONE}";
                 REDOIMAGES="false";
                 REMOVEDEPENDENCIES="false";
                 ONECHECK="true";

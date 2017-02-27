@@ -39,11 +39,3 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 #Install Prestissimo
 RUN composer global require "hirak/prestissimo:^0.3"
 
-#COPY over start script
-COPY start.sh /run/
-
-#Gives execute permissions
-RUN chmod +x /run/start.sh
-
-#Run start script
-CMD ["/bin/sh" , "/run/start.sh"]
