@@ -379,8 +379,6 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "Now installing dependencies";
     echo "#########################################################################"
     echo "Opening laravel --> container ID: $ImageName";
-    echo " ./doc-install.sh";
-    docker-compose exec laravel ./doc-install.sh;
 #        docker-compose exec laravel npm
 #        read -e -p "npm ... press enter" answer;
     echo "#########################################################################${YELLOW}"
