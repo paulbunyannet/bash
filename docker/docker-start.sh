@@ -389,13 +389,16 @@ esac
 fi
 
 echo "check folder path";
-docker-compose exec -T laravel sh -c "cd ~; ls"
-docker-compose exec -T laravel sh -c "cd ~; ${PATH}"
+docker-compose exec -T laravel sh -c "cd /; ls"
+docker-compose exec -T laravel sh -c "cd /; ${WORKDIR}"
 docker-compose exec -T laravel sh -c "cd ..; ls"
-docker-compose exec -T laravel sh -c "cd ..; ${PATH}"
+docker-compose exec -T laravel sh -c "cd ..; ${WORKDIR}"
+docker-compose exec -T laravel sh -c "cd ../..; ls"
+docker-compose exec -T laravel sh -c "cd ../..; ${WORKDIR}"
+docker-compose exec -T laravel sh -c "cd ../../..; ls"
+docker-compose exec -T laravel sh -c "cd ../../..; ${WORKDIR}"
 docker-compose exec -T laravel sh -c "cd /var/www/html; ls"
-docker-compose exec -T laravel sh -c "cd /var/www/html; ${PATH}"
-docker-compose exec -T laravel sh -c "cd .; ${PATH}"
+docker-compose exec -T laravel sh -c "cd /var/www/html; ${WORKDIR}"
 echo "checked folder path";
 
 if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
