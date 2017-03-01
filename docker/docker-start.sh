@@ -250,7 +250,7 @@ fi
 ##############################################################
 function loadenv() {
 cd "${MAINDIRECTORY}"
-source .env
+source "${MAINDIRECTORY}"/.env
 #  env=${1:-.env}
 #  echo Loading $env
 #  file=`mktemp -t tmp `
