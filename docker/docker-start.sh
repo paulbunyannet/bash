@@ -137,7 +137,7 @@ case $ARG1 in
             fi
             if  [ "$LARAVELRUNNING" != "false" ]; then
                 cd "${MAINDIRECTORY}"
-                docker-compose exec -T laravel bash
+                docker-compose exec laravel bash
                 exit;
             else
                 REDOIMAGES="false";
@@ -359,7 +359,6 @@ echo "$REMOVEDEPENDENCIES" == "not";
 cd "${MAINDIRECTORY}"
 if [ "$REDOIMAGES" == "$TRUE" ]; then
 
-    cd "${MAINDIRECTORY}"
     docker-compose build;
 fi
 
