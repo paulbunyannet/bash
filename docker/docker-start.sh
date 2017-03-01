@@ -59,7 +59,7 @@ fi
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 MAINDIRECTORY=$(readlink -m "$PATH");
-echo "this is the directory docker will work at ${MAINDIRECTORY}";
+echo "this is the directory docker will work at : ${MAINDIRECTORY}";
 cd "${MAINDIRECTORY}"
 chmod -R 755 public_html
 chmod -R 755 storage/framework
@@ -399,10 +399,10 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     #      rm -rf /usr/local/share/.cache/yarn;
 
         cd "${MAINDIRECTORY}"
-        docker-compose exec -T laravel rm -rf vendor;
-        docker-compose exec -T laravel rm -rf node_modules;
-        docker-compose exec -T laravel rm -rf /usr/local/share/.cache;
-        docker-compose exec -T laravel rm -rf ~/.npm;
+        docker-compose exec -T laravel sh -c "cd /var/www/html; rm -rf vendor;"
+        docker-compose exec -T laravel sh -c "cd /var/www/html; rm -rf node_modules;"
+        docker-compose exec -T laravel sh -c "cd /var/www/html; rm -rf /usr/local/share/.cache;"
+        docker-compose exec -T laravel sh -c "cd /var/www/html; rm -rf ~/.npm;"
     fi
     echo "${CYAN}#########################################################################"
     echo "Now installing dependencies";
@@ -414,18 +414,18 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "#########################################################################"
     echo " npm cache clean"
     echo "#########################################################################"
-    docker-compose exec -T laravel npm cache clean
+    docker-compose exec -T laravel sh -c "cd /var/www/html; npm cache clean"
 #        docker-compose exec -T laravel yarn
 #        read -e -p "npm clean ... press enter" answer;
     echo "#########################################################################${BLUE}"
     echo "#########################################################################"
     echo "yarn upgrade"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T laravel yarn upgrade --silent
-        docker-compose exec -T laravel yarn install --silent
+        docker-compose exec -T laravel sh -c "cd /var/www/html; yarn upgrade --silent"
+        docker-compose exec -T laravel sh -c "cd /var/www/html; yarn install --silent"
     else
-        docker-compose exec -T laravel yarn upgrade
-        docker-compose exec -T laravel yarn install
+        docker-compose exec -T laravel sh -c "cd /var/www/html; yarn upgrade"
+        docker-compose exec -T laravel sh -c "cd /var/www/html; yarn install"
     fi
     echo "#########################################################################"
 #        read -e -p "yarn install ... press enter" answer;
@@ -433,18 +433,18 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "#########################################################################"
     echo "npm -g update"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T laravel npm -g update --silent
+        docker-compose exec -T laravel sh -c "cd /var/www/html; npm -g update --silent"
     else
-        docker-compose exec -T laravel npm -g update
+        docker-compose exec -T laravel sh -c "cd /var/www/html;  npm -g update"
     fi
 #        read -e -p "npm -g update ... press enter" answer;
     echo "#########################################################################${GREEN}"
     echo "#########################################################################"
     echo "bower update --force"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T laravel bower update --force --allow-root --silent
+        docker-compose exec -T laravel sh -c "cd /var/www/html; bower update --force --allow-root --silent"
     else
-        docker-compose exec -T laravel bower update --force --allow-root --quiet
+        docker-compose exec -T laravel sh -c "cd /var/www/html; bower update --force --allow-root --quiet"
     fi
 #        docker-compose exec -T laravel bower
 #        read -e -p "npm -g install ... press enter" answer;
@@ -453,9 +453,9 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
 if [ "$doc_jenkins" != "true" ]; then
     echo "composer update"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T laravel composer update --quiet
+        docker-compose exec -T laravel sh -c "cd /var/www/html; composer update --quiet"
     else
-        docker-compose exec -T laravel composer update
+        docker-compose exec -T laravel sh -c "cd /var/www/html; composer update"
     fi
 fi
     echo "#########################################################################${CYAN}"
