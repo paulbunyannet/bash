@@ -460,7 +460,7 @@ fi
     echo "#########################################################################"
     echo "php artisan key:generate"
     #read -e -p "composer update ... press enter" answer;
-    docker-compose exec -T laravel "cd /var/www/html && ls && ${cwd} && php artisan key:generate"
+    docker-compose exec -T laravel cd /var/www/html && ls && ${cwd} && php artisan key:generate
     #read -e -p "artisan key ... press enter" answer;
 
     echo "#########################################################################${NONE}"
