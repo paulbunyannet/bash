@@ -110,7 +110,7 @@ case $ARG1 in
     echo "${CYAN}########################################################################################${NONE}";
     echo " ";
     echo "${GREEN}   *${NONE} ${YELLOW}-h or --help${NONE}\n      ${RED} ->${NONE} to show this menu..... \n";
-    echo "${GREEN}   *${NONE} ${YELLOW}open or -open or --open${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose exec laravel bash..... just if you couldn't remember the command :P \n";
+    echo "${GREEN}   *${NONE} ${YELLOW}open or -open or --open${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose exec -T laravel bash..... just if you couldn't remember the command :P \n";
     echo "${GREEN}   *${NONE} ${YELLOW}down or -down or --down${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down..... just if you couldn't remember the command :P \n";
     echo "${GREEN}   *${NONE} ${YELLOW}-i or --images${NONE}\n      ${RED} ->${NONE} to tell the script that you want to build the images\n";
     echo "${GREEN}   *${NONE} ${YELLOW}-ni or --notimages${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to build the images\n";
@@ -137,7 +137,7 @@ case $ARG1 in
             fi
             if  [ "$LARAVELRUNNING" != "false" ]; then
                 cd "${MAINDIRECTORY}"
-                docker-compose exec laravel bash
+                docker-compose exec -T laravel bash
                 exit;
             else
                 REDOIMAGES="false";
@@ -399,15 +399,15 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
 #      rm -rf /usr/local/share/.cache/yarn;
 
     cd "${MAINDIRECTORY}"
-    docker-compose exec laravel rm -rf vendor;
-    docker-compose exec laravel rm -rf node_modules;
-    docker-compose exec laravel rm -rf /usr/local/share/.cache;
-    docker-compose exec laravel rm -rf ~/.npm;
+    docker-compose exec -T laravel rm -rf vendor;
+    docker-compose exec -T laravel rm -rf node_modules;
+    docker-compose exec -T laravel rm -rf /usr/local/share/.cache;
+    docker-compose exec -T laravel rm -rf ~/.npm;
     echo "${CYAN}#########################################################################"
     echo "Now installing dependencies";
     echo "#########################################################################"
     echo "Opening laravel --> container ID: $ImageName";
-#        docker-compose exec laravel npm
+#        docker-compose exec -T laravel npm
 #        read -e -p "npm ... press enter" answer;
     echo "#########################################################################${YELLOW}"
     echo "#########################################################################"
@@ -476,7 +476,7 @@ fi
     echo "${YELLOW}Going into command line (type ${RED}exit ${YELLOW}and press enter to leave the container)${NONE}";
 
 if [ "$doc_jenkins" != "true" ]; then
-    docker-compose exec laravel bash
+    docker-compose exec -T laravel bash
 fi
     echo "#########################################################################"
     echo "#################/-------------------------------------\#################"
