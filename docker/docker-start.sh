@@ -58,7 +58,7 @@ fi
 #//// Docker start doesnt need any other file now //////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MAINDIRECTORY=$(dirname "$0");
+MAINDIRECTORY=$(readlink -m "$PATH");
 echo "this is the directory docker will work at ${MAINDIRECTORY}";
 cd "${MAINDIRECTORY}"
 chmod -R 755 public_html
@@ -461,7 +461,7 @@ fi
     echo "#########################################################################${CYAN}"
     echo "#########################################################################"
     echo "php artisan key:generate"
-    docker-compose exec laravel sh -c "cd /var/www/html; ls; php artisan key:generate"
+    docker-compose exec -T laravel sh -c "cd /var/www/html; php artisan key:generate"
     echo "#########################################################################${NONE}"
 fi
 
