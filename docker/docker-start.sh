@@ -272,7 +272,6 @@ loadenv
 ##############################################################
 
 
-echo "$REMOVEDEPENDENCIES" == "not";
 #if  [  "$doc_jenkins" != "true" ]; then
     ##############################################################
     ##############################################################
@@ -388,54 +387,89 @@ case $answer in
 esac
 fi
 
-echo "check folder path";
-docker-compose exec -T laravel sh -c "cd /; ls"
-docker-compose exec -T laravel sh -c "cd /; ${WORKDIR}"
-echo "-------------------------------------------------";
-docker-compose exec -T laravel sh -c "cd ..; ls"
-docker-compose exec -T laravel sh -c "cd ..; ${WORKDIR}"
-echo "-------------------------------------------------";
-docker-compose exec -T laravel sh -c "cd ../..; ls"
-docker-compose exec -T laravel sh -c "cd ../..; ${WORKDIR}"
-echo "-------------------------------------------------";
-docker-compose exec -T laravel sh -c "cd ../../..; ls"
-docker-compose exec -T laravel sh -c "cd ../../..; ${WORKDIR}"
-echo "-------------------------------------------------";
-docker-compose exec -T laravel sh -c "cd ../../../..; ls"
-docker-compose exec -T laravel sh -c "cd ../../../..; ${WORKDIR}"
-echo "-------------------------------------------------";
-docker-compose exec -T laravel sh -c "cd /var/www/html; ls"
-docker-compose exec -T laravel sh -c "cd /var/www/html; ${WORKDIR}"
-echo "checked folder path";
-
-if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
-    if [ "$doc_jenkins" != "true" ]; then
-        echo "${YELLOW}#########################################################################"
-        echo "removing dependencies folders";
-        echo "#########################################################################"
-    #    rm -rf vendor;
-    #    rm -rf node_modules;
-    #      rm -rf /usr/local/share/.cache/yarn;
-
-        cd "${MAINDIRECTORY}"
-        docker-compose exec -T laravel sh -c "cd /var/www/html; rm -rf vendor;"
-        docker-compose exec -T laravel sh -c "cd /var/www/html; rm -rf node_modules;"
-        docker-compose exec -T laravel sh -c "cd /var/www/html; rm -rf /usr/local/share/.cache;"
-        docker-compose exec -T laravel sh -c "cd /var/www/html; rm -rf ~/.npm;"
-    fi
-    echo "${CYAN}#########################################################################"
-    echo "Now installing dependencies";
+#echo "check folder path";
+#docker-compose exec -T laravel sh -c "cd /; ls"
+#docker-compose exec -T laravel sh -c "cd /; ${doc_jenkins_root}"
+#echo "-------------------------------------------------";
+#docker-compose exec -T laravel sh -c "cd ..; ls"
+#docker-compose exec -T laravel sh -c "cd ..; ${doc_jenkins_root}"
+#echo "-------------------------------------------------";
+#docker-compose exec -T laravel sh -c "cd ../..; ls"
+#docker-compose exec -T laravel sh -c "cd ../..; ${doc_jenkins_root}"
+#echo "-------------------------------------------------";
+#docker-compose exec -T laravel sh -c "cd ../../..; ls"
+#docker-compose exec -T laravel sh -c "cd ../../..; ${doc_jenkins_root}"
+#echo "-------------------------------------------------";
+#docker-compose exec -T laravel sh -c "cd ../../../..; ls"
+#docker-compose exec -T laravel sh -c "cd ../../../..; ${doc_jenkins_root}"
+#echo "-------------------------------------------------";
+#docker-compose exec -T laravel sh -c "cd /var/www/html; ls"
+#docker-compose exec -T laravel sh -c "cd /var/www/html; ${doc_jenkins_root}"
+#echo "checked folder path";
+##############################################################
+function remove_dependencies() {
+    echo "${YELLOW}#########################################################################"
+    echo "removing dependencies folders";
     echo "#########################################################################"
-    echo "Opening laravel --> container ID: $ImageName";
-#        docker-compose exec -T laravel npm
-#        read -e -p "npm ... press enter" answer;
+    docker-compose exec -T laravel rm -rf vendor
+    docker-compose exec -T laravel rm -rf node_modules
+    docker-compose exec -T laravel rm -rf /usr/local/share/.cache
+    docker-compose exec -T laravel rm -rf ~/.npm
     echo "#########################################################################${YELLOW}"
     echo "#########################################################################"
     echo " npm cache clean"
     echo "#########################################################################"
-    docker-compose exec -T laravel sh -c "cd /var/www/html; npm cache clean"
-#        docker-compose exec -T laravel yarn
-#        read -e -p "npm clean ... press enter" answer;
+    docker-compose exec -T laravel npm cache clean
+}
+function install_dependencies() {
+
+    echo "${CYAN}#########################################################################"
+    echo "Now installing dependencies";
+    echo "#########################################################################"
+    echo "Opening laravel --> container ID: $ImageName";
+    echo "#########################################################################${BLUE}"
+    echo "#########################################################################"
+    echo "yarn upgrade"
+    if [ "$VERBOSE" == "false" ]; then
+        docker-compose exec -T laravel yarn upgrade --silent
+        docker-compose exec -T laravel yarn install --silent
+    else
+        docker-compose exec -T laravel yarn upgrade
+        docker-compose exec -T laravel yarn install
+    fi
+    echo "#########################################################################${RED}"
+    echo "#########################################################################"
+    echo "npm -g update"
+    if [ "$VERBOSE" == "false" ]; then
+        docker-compose exec -T laravel npm -g update --silent
+    else
+        docker-compose exec -T laravel  npm -g update
+    fi
+    echo "#########################################################################${GREEN}"
+    echo "#########################################################################"
+    echo "bower update --force"
+    if [ "$VERBOSE" == "false" ]; then
+        docker-compose exec -T laravel bower update --force --allow-root --silent
+    else
+        docker-compose exec -T laravel bower update --force --allow-root --quiet
+    fi
+    echo "#########################################################################${PURPLE}"
+    echo "#########################################################################"
+
+    if [ "$VERBOSE" == "false" ]; then
+        docker-compose exec -T laravel composer update --quiet
+    else
+        docker-compose exec -T laravel composer update
+    fi
+    docker-compose exec -T laravel php artisan key:generate
+
+}
+function install_jenkins_dependencies() {
+
+    echo "${CYAN}#########################################################################"
+    echo "Now installing dependencies";
+    echo "#########################################################################"
+    echo "Opening laravel --> container ID: $ImageName";
     echo "#########################################################################${BLUE}"
     echo "#########################################################################"
     echo "yarn upgrade"
@@ -469,14 +503,17 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
 #        read -e -p "npm -g install ... press enter" answer;
     echo "#########################################################################${PURPLE}"
     echo "#########################################################################"
-if [ "$doc_jenkins" != "true" ]; then
-    echo "composer update"
-    if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T laravel sh -c "cd /var/www/html; composer update --quiet"
+
+    docker-compose exec -T laravel sh -c "cd /var/www/html; php artisan key:generate"
+
+}
+if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
+    if [ "$doc_jenkins" != "true" ]; then
+        remove_dependencies
+        install_dependencies
     else
-        docker-compose exec -T laravel sh -c "cd /var/www/html; composer update"
+        install_jenkins_dependencies
     fi
-fi
     echo "#########################################################################${CYAN}"
     echo "#########################################################################"
     echo "php artisan key:generate"
@@ -497,6 +534,8 @@ fi
 
 if [ "$doc_jenkins" != "true" ]; then
     docker-compose exec -T laravel bash
+else
+    docker-compose down
 fi
     echo "#########################################################################"
     echo "#################/-------------------------------------\#################"
