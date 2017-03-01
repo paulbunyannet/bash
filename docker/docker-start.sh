@@ -461,6 +461,7 @@ fi
     echo "#########################################################################"
     echo "php artisan key:generate"
     #read -e -p "composer update ... press enter" answer;
+    docker-compose exec -T laravel ls
     docker-compose exec -T laravel php artisan key:generate
     #read -e -p "artisan key ... press enter" answer;
 
