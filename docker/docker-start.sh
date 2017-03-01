@@ -413,16 +413,16 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "#########################################################################"
     echo " npm cache clean"
     echo "#########################################################################"
-    docker-compose exec laravel npm cache clean
-#        docker-compose exec laravel yarn
+    docker-compose exec -T laravel npm cache clean
+#        docker-compose exec -T laravel yarn
 #        read -e -p "npm clean ... press enter" answer;
     echo "#########################################################################${BLUE}"
     echo "#########################################################################"
     echo "yarn upgrade"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec laravel yarn upgrade --silent
+        docker-compose exec -T laravel yarn upgrade --silent
     else
-        docker-compose exec laravel yarn upgrade
+        docker-compose exec -T laravel yarn upgrade
     fi
     echo "#########################################################################"
 #        read -e -p "yarn install ... press enter" answer;
@@ -430,34 +430,34 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "#########################################################################"
     echo "npm -g update"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec laravel npm -g update --silent
+        docker-compose exec -T laravel npm -g update --silent
     else
-        docker-compose exec laravel npm -g update
+        docker-compose exec -T laravel npm -g update
     fi
 #        read -e -p "npm -g update ... press enter" answer;
     echo "#########################################################################${GREEN}"
     echo "#########################################################################"
     echo "bower update --force"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec laravel bower update --force --silent
+        docker-compose exec -T laravel bower update --force --silent
     else
-        docker-compose exec laravel bower update --force --quiet
+        docker-compose exec -T laravel bower update --force --quiet
     fi
-#        docker-compose exec laravel bower
+#        docker-compose exec -T laravel bower
 #        read -e -p "npm -g install ... press enter" answer;
     echo "#########################################################################${PURPLE}"
     echo "#########################################################################"
     echo "composer update"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec laravel composer update --quiet
+        docker-compose exec -T laravel composer update --quiet
     else
-        docker-compose exec laravel composer update
+        docker-compose exec -T laravel composer update
     fi
     echo "#########################################################################${CYAN}"
     echo "#########################################################################"
     echo "php artisan key:generate"
     #read -e -p "composer update ... press enter" answer;
-    docker-compose exec laravel php artisan key:generate
+    docker-compose exec -T laravel php artisan key:generate
     #read -e -p "artisan key ... press enter" answer;
 
     echo "#########################################################################${NONE}"
@@ -467,14 +467,17 @@ fi
     echo "Opening laravel --> container ID: $ImageName ${NONE}" ;
     echo "#########################################################################"
     echo "php artisan migrate"
-    docker-compose exec laravel php artisan migrate
+    docker-compose exec -T laravel php artisan migrate
     echo "#########################################################################"
     echo "gulp"
-    docker-compose exec laravel node node_modules/node-sass/scripts/install.js
-    docker-compose exec laravel gulp
+    docker-compose exec -T laravel node node_modules/node-sass/scripts/install.js
+    docker-compose exec -T laravel gulp
     echo "#########################################################################"
     echo "${YELLOW}Going into command line (type ${RED}exit ${YELLOW}and press enter to leave the container)${NONE}";
+
+if [ "$doc_jenkins" != "true" ]; then
     docker-compose exec laravel bash
+fi
     echo "#########################################################################"
     echo "#################/-------------------------------------\#################"
     echo "################|  Paul Bunyan Communications Rocks!!!  |################"
