@@ -39,3 +39,4 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 #Install Prestissimo
 RUN composer global require "hirak/prestissimo:^0.3"
 
+WORKDIR /var/www/html

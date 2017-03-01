@@ -463,6 +463,9 @@ fi
     docker-compose exec -T laravel echo ${pwd}
     docker-compose exec -T laravel ls
     docker-compose exec -T laravel php artisan key:generate
+    docker-compose exec -T laravel "cd /var/www/html; echo ${pwd}"
+    docker-compose exec -T laravel "cd /var/www/html;ls"
+    docker-compose exec -T laravel "cd /var/www/html;php artisan key:generate"
     #read -e -p "artisan key ... press enter" answer;
 
     echo "#########################################################################${NONE}"
