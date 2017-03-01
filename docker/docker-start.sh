@@ -422,8 +422,10 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "yarn upgrade"
     if [ "$VERBOSE" == "false" ]; then
         docker-compose exec -T laravel yarn upgrade --silent
+        docker-compose exec -T laravel yarn install --silent
     else
         docker-compose exec -T laravel yarn upgrade
+        docker-compose exec -T laravel yarn install
     fi
     echo "#########################################################################"
 #        read -e -p "yarn install ... press enter" answer;
@@ -460,7 +462,7 @@ fi
     echo "#########################################################################"
     echo "php artisan key:generate"
     #read -e -p "composer update ... press enter" answer;
-    docker-compose exec -T laravel cd /var/www/html && ls && ${cwd} && php artisan key:generate
+    docker-compose exec -T laravel bash -c "cd /var/www/html ; ls ; ${cwd} ; php artisan key:generate"
     #read -e -p "artisan key ... press enter" answer;
 
     echo "#########################################################################${NONE}"
