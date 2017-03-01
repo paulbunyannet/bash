@@ -388,6 +388,8 @@ case $answer in
 esac
 fi
 
+docker-compose exec -T laravel sh -c "cd /var/www/html; ls"
+docker-compose exec -T laravel sh -c "cd /var/www/html; ${PATH}"
 
 if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     if [ "$doc_jenkins" != "true" ]; then
