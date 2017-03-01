@@ -391,18 +391,20 @@ fi
 
 
 if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
-    echo "${YELLOW}#########################################################################"
-    echo "removing dependencies folders";
-    echo "#########################################################################"
-#    rm -rf vendor;
-#    rm -rf node_modules;
-#      rm -rf /usr/local/share/.cache/yarn;
+    if [ "$doc_jenkins" != "true" ]; then
+        echo "${YELLOW}#########################################################################"
+        echo "removing dependencies folders";
+        echo "#########################################################################"
+    #    rm -rf vendor;
+    #    rm -rf node_modules;
+    #      rm -rf /usr/local/share/.cache/yarn;
 
-    cd "${MAINDIRECTORY}"
-    docker-compose exec -T laravel rm -rf vendor;
-    docker-compose exec -T laravel rm -rf node_modules;
-    docker-compose exec -T laravel rm -rf /usr/local/share/.cache;
-    docker-compose exec -T laravel rm -rf ~/.npm;
+        cd "${MAINDIRECTORY}"
+        docker-compose exec -T laravel rm -rf vendor;
+        docker-compose exec -T laravel rm -rf node_modules;
+        docker-compose exec -T laravel rm -rf /usr/local/share/.cache;
+        docker-compose exec -T laravel rm -rf ~/.npm;
+    fi
     echo "${CYAN}#########################################################################"
     echo "Now installing dependencies";
     echo "#########################################################################"
@@ -439,20 +441,22 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "#########################################################################"
     echo "bower update --force"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T laravel bower update --force --silent
+        docker-compose exec -T laravel bower update --force --allow-root --silent
     else
-        docker-compose exec -T laravel bower update --force --quiet
+        docker-compose exec -T laravel bower update --force --allow-root --quiet
     fi
 #        docker-compose exec -T laravel bower
 #        read -e -p "npm -g install ... press enter" answer;
     echo "#########################################################################${PURPLE}"
     echo "#########################################################################"
+if [ "$doc_jenkins" != "true" ]; then
     echo "composer update"
     if [ "$VERBOSE" == "false" ]; then
         docker-compose exec -T laravel composer update --quiet
     else
         docker-compose exec -T laravel composer update
     fi
+fi
     echo "#########################################################################${CYAN}"
     echo "#########################################################################"
     echo "php artisan key:generate"
@@ -470,7 +474,6 @@ fi
     docker-compose exec -T laravel php artisan migrate
     echo "#########################################################################"
     echo "gulp"
-    docker-compose exec -T laravel node node_modules/node-sass/scripts/install.js
     docker-compose exec -T laravel gulp
     echo "#########################################################################"
     echo "${YELLOW}Going into command line (type ${RED}exit ${YELLOW}and press enter to leave the container)${NONE}";
