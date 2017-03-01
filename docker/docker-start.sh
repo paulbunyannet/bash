@@ -273,7 +273,7 @@ loadenv
 
 
 echo "$REMOVEDEPENDENCIES" == "not";
-if  [  "${doc_jenkins}" != "true" ]; then
+#if  [  "$doc_jenkins" != "true" ]; then
     ##############################################################
     ##############################################################
     #if you have problems loading the docker machine, remove the # symbol from the beginning of the next two lines
@@ -355,7 +355,7 @@ if  [  "${doc_jenkins}" != "true" ]; then
               REDOIMAGES="false";;
         esac
     fi
-fi
+#fi
 cd "${MAINDIRECTORY}"
 if [ "$REDOIMAGES" == "$TRUE" ]; then
 
