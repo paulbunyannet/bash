@@ -228,21 +228,20 @@ fi
 #load variables of env file
 ##############################################################
 function loadenv() {
-    if [ "$doc_jenkins" != "true" ]; then
-      env=${1:-.env}
-      echo Loading $env
-      file=`mktemp -t tmp `
-      if [ -f $env ]; then
-        cat $env | while read line; do
-          echo export $line >> $file
-        done
-        source $file
-      else
-        echo No file $env
-      fi
-    else
-      source ./.env
-    fi
+  env=${1:-.env}
+  echo Loading $env
+  file=`mktemp -t tmp `
+  if [ -f $env ]; then
+    cat $env | while read line; do
+      echo export $line >> $file
+    done
+    source $file
+  else
+    echo No file $env
+  fi
+  if [ -z ${doc_jenkins+x} ]; then
+    source ./.env
+  fi
 }
 ##############################################################
 #load the variables!! -->
