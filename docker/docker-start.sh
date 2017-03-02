@@ -414,7 +414,6 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo " npm cache clean"
     echo "#########################################################################"
     docker-compose exec -T laravel npm cache clean
-    docker-compose exec -T laravel ./
 #        docker-compose exec -T laravel yarn
 #        read -e -p "npm clean ... press enter" answer;
     echo "#########################################################################${BLUE}"
