@@ -387,54 +387,68 @@ fi
     echo " npm cache clean"
     echo "#########################################################################"
     docker-compose exec -T laravel npm cache clean
-    echo "#########################################################################${BLUE}"
-    echo "#########################################################################"
-    echo "yarn upgrade"
-    if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T laravel yarn upgrade --silent
-    else
-        docker-compose exec -T laravel yarn upgrade
+
+    if [ "$doc_yarn" == "true" ]; then
+        echo "#########################################################################${BLUE}"
+        echo "#########################################################################"
+        echo "yarn upgrade"
+        if [ "$VERBOSE" == "false" ]; then
+            docker-compose exec -T laravel yarn upgrade --silent
+        else
+            docker-compose exec -T laravel yarn upgrade
+        fi
+        echo "#########################################################################"
     fi
-    echo "#########################################################################"
-    echo "#########################################################################${RED}"
-    echo "#########################################################################"
-    echo "npm -g update"
-    if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T laravel npm -g update --silent
-    else
-        docker-compose exec -T laravel npm -g update
+    if [ "$doc_npm" == "true" ]; then
+        echo "#########################################################################${RED}"
+        echo "#########################################################################"
+        echo "npm -g update"
+        if [ "$VERBOSE" == "false" ]; then
+            docker-compose exec -T laravel npm -g update --silent
+        else
+            docker-compose exec -T laravel npm -g update
+        fi
     fi
-    echo "#########################################################################${GREEN}"
-    echo "#########################################################################"
-    echo "bower update --force"
-    if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T laravel bower update --force  --allow-root --silent
-    else
-        docker-compose exec -T laravel bower update --force  --allow-root --quiet
+    if [ "$doc_bower" == "true" ]; then
+        echo "#########################################################################${GREEN}"
+        echo "#########################################################################"
+        echo "bower update --force"
+        if [ "$VERBOSE" == "false" ]; then
+            docker-compose exec -T laravel bower update --force  --allow-root --silent
+        else
+            docker-compose exec -T laravel bower update --force  --allow-root --quiet
+        fi
     fi
-    echo "#########################################################################${PURPLE}"
-    echo "#########################################################################"
-    echo "composer update"
-    if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T laravel composer update --quiet
-    else
-        docker-compose exec -T laravel composer update
+    if [ "$doc_bower" == "true" ]; then
+        echo "#########################################################################${PURPLE}"
+        echo "#########################################################################"
+        echo "composer update"
+        if [ "$VERBOSE" == "false" ]; then
+            docker-compose exec -T laravel composer update --quiet
+        else
+            docker-compose exec -T laravel composer update
+        fi
     fi
-    echo "#########################################################################${CYAN}"
-    echo "#########################################################################"
-    echo "php artisan key:generate"
-    docker-compose exec -T laravel php artisan key:generate
-    echo "#########################################################################${NONE}"
-    echo "${CYAN}#########################################################################"
-    echo "Opening laravel --> container ID: $ImageName ${NONE}" ;
-    echo "#########################################################################"
-    echo "php artisan migrate"
-    docker-compose exec -T laravel php artisan migrate
-    echo "#########################################################################"
-    echo "gulp"
-    docker-compose exec -T laravel node node_modules/node-sass/scripts/install.js
-    docker-compose exec -T laravel gulp
-    echo "#########################################################################"
+    if [ "$doc_artisan_key" == "true" ]; then
+        echo "#########################################################################${CYAN}"
+        echo "#########################################################################"
+        echo "php artisan key:generate"
+        docker-compose exec -T laravel php artisan key:generate
+    fi
+    if [ "$doc_artisan_migrate" == "true" ]; then
+        echo "#########################################################################${NONE}"
+        echo "${CYAN}#########################################################################"
+        echo "Opening laravel --> container ID: $ImageName ${NONE}" ;
+        echo "#########################################################################"
+        echo "php artisan migrate"
+        docker-compose exec -T laravel php artisan migrate
+    fi
+    if [ "$doc_gulp" == "true" ]; then
+        echo "#########################################################################"
+        echo "gulp"
+        docker-compose exec -T laravel gulp
+        echo "#########################################################################"
+    fi
     echo "${YELLOW}Going into command line (type ${RED}exit ${YELLOW}and press enter to leave the container)${NONE}";
 
 if [ "$doc_jenkins" != "true" ]; then
