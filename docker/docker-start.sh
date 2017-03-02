@@ -58,9 +58,6 @@ fi
 #//// Docker start doesnt need any other file now //////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MAINDIRECTORY=$(dirname "$0");
-echo "this is the directory docker will work at ${MAINDIRECTORY}";
-cd "${MAINDIRECTORY}"
 chmod -R 755 public_html
 chmod -R 755 storage/framework
 
@@ -123,7 +120,7 @@ case $ARG1 in
             exit;
     ;;
     [dD][oO][wW][nN]|[-][dD][oO][wW][nN]|[-][-][dD][oO][wW][nN])
-            cd "${MAINDIRECTORY}"
+
             docker-compose down;
             exit;
     ;;
@@ -136,7 +133,7 @@ case $ARG1 in
               LARAVELRUNNING="false"
             fi
             if  [ "$LARAVELRUNNING" != "false" ]; then
-                cd "${MAINDIRECTORY}"
+
                 docker-compose exec laravel bash
                 exit;
             else
@@ -249,7 +246,7 @@ fi
 #load variables of env file
 ##############################################################
 function loadenv() {
-cd "${MAINDIRECTORY}"
+
 source ./.env
 #  env=${1:-.env}
 #  echo Loading $env
@@ -299,7 +296,7 @@ echo "$REMOVEDEPENDENCIES" == "not";
 
     if  [ "$FRONTENDRUNNING" == "false" ]; then
 
-        cd "${MAINDIRECTORY}"
+
 
         mkdir traefik-temp
 
@@ -356,10 +353,10 @@ echo "$REMOVEDEPENDENCIES" == "not";
         esac
     fi
 #fi
-cd "${MAINDIRECTORY}"
+
 if [ "$REDOIMAGES" == "$TRUE" ]; then
 
-    cd "${MAINDIRECTORY}"
+
     docker-compose build;
 fi
 
@@ -398,7 +395,7 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
 #    rm -rf node_modules;
 #      rm -rf /usr/local/share/.cache/yarn;
 
-    cd "${MAINDIRECTORY}"
+
     docker-compose exec laravel rm -rf vendor;
     docker-compose exec laravel rm -rf node_modules;
     docker-compose exec laravel rm -rf /usr/local/share/.cache;
