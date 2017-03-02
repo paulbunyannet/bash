@@ -80,24 +80,6 @@ fi
 if [ -f "public_html/wp/.htaccess" ];then
     rm -f public_html/wp/.htaccess
 fi
-#///////////////////////////////////////////////////////////////////////////////////////////////////////////
-#///////////////////////////////////////////////////////////////////////////////////////////////////////////
-#///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#echo "docker-compose check";
-#///////////////////////////////////////////////////////////////////////////////////////////////////////////
-#/// docker-compose check ///////////////////////////////////////////////////////////////////////////////////
-#//////////////////////////////////////////////////////////////////////////////////////////////////////////
-#COMPOSE="1";
-#command -v docker-compose >/dev/null 2>&1 || COMPOSE="0";
-#
-#if [ "$COMPOSE" == "0" ]; then
-#    curl -L https://github.com/docker/compose/releases/download/1.11.1/run.sh > /usr/local/bin/docker-compose;
-#fi
-#sudo chmod +x /usr/local/bin/docker-compose;
-#///////////////////////////////////////////////////////////////////////////////////////////////////////////
-#///////////////////////////////////////////////////////////////////////////////////////////////////////////
-#///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 case $ARG1 in
     [-][hH]|[-][-][hH][eE][lL][pP])
@@ -246,21 +228,22 @@ fi
 #load variables of env file
 ##############################################################
 function loadenv() {
-
-source ./.env
-#  env=${1:-.env}
-#  echo Loading $env
-#  file=`mktemp -t tmp `
-#  if [ -f $env ]; then
-#    cat $env | while read line; do
-#      echo export $line >> $file
-#    done
-#    source $file
-#  else
-#    echo No file $env
-#  fi
+    if [ "$doc_jenkins" != "true" ]; then
+      env=${1:-.env}
+      echo Loading $env
+      file=`mktemp -t tmp `
+      if [ -f $env ]; then
+        cat $env | while read line; do
+          echo export $line >> $file
+        done
+        source $file
+      else
+        echo No file $env
+      fi
+    else
+      source ./.env
+    fi
 }
-
 ##############################################################
 #load the variables!! -->
 loadenv
@@ -391,28 +374,20 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "${YELLOW}#########################################################################"
     echo "removing dependencies folders";
     echo "#########################################################################"
-#    rm -rf vendor;
-#    rm -rf node_modules;
-#      rm -rf /usr/local/share/.cache/yarn;
-
-
     docker-compose exec laravel rm -rf vendor;
     docker-compose exec laravel rm -rf node_modules;
     docker-compose exec laravel rm -rf /usr/local/share/.cache;
     docker-compose exec laravel rm -rf ~/.npm;
+fi
     echo "${CYAN}#########################################################################"
     echo "Now installing dependencies";
     echo "#########################################################################"
     echo "Opening laravel --> container ID: $ImageName";
-#        docker-compose exec laravel npm
-#        read -e -p "npm ... press enter" answer;
     echo "#########################################################################${YELLOW}"
     echo "#########################################################################"
     echo " npm cache clean"
     echo "#########################################################################"
     docker-compose exec -T laravel npm cache clean
-#        docker-compose exec -T laravel yarn
-#        read -e -p "npm clean ... press enter" answer;
     echo "#########################################################################${BLUE}"
     echo "#########################################################################"
     echo "yarn upgrade"
@@ -422,7 +397,6 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         docker-compose exec -T laravel yarn upgrade
     fi
     echo "#########################################################################"
-#        read -e -p "yarn install ... press enter" answer;
     echo "#########################################################################${RED}"
     echo "#########################################################################"
     echo "npm -g update"
@@ -431,7 +405,6 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     else
         docker-compose exec -T laravel npm -g update
     fi
-#        read -e -p "npm -g update ... press enter" answer;
     echo "#########################################################################${GREEN}"
     echo "#########################################################################"
     echo "bower update --force"
@@ -440,8 +413,6 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     else
         docker-compose exec -T laravel bower update --force --quiet
     fi
-#        docker-compose exec -T laravel bower
-#        read -e -p "npm -g install ... press enter" answer;
     echo "#########################################################################${PURPLE}"
     echo "#########################################################################"
     echo "composer update"
@@ -453,13 +424,8 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "#########################################################################${CYAN}"
     echo "#########################################################################"
     echo "php artisan key:generate"
-    #read -e -p "composer update ... press enter" answer;
     docker-compose exec -T laravel php artisan key:generate
-    #read -e -p "artisan key ... press enter" answer;
-
     echo "#########################################################################${NONE}"
-fi
-
     echo "${CYAN}#########################################################################"
     echo "Opening laravel --> container ID: $ImageName ${NONE}" ;
     echo "#########################################################################"
@@ -474,6 +440,8 @@ fi
 
 if [ "$doc_jenkins" != "true" ]; then
     docker-compose exec laravel bash
+else
+    docker-compose down
 fi
     echo "#########################################################################"
     echo "#################/-------------------------------------\#################"
