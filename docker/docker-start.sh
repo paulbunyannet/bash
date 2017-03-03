@@ -449,6 +449,8 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         echo "#########################################################################"
     fi
     echo "${YELLOW}Going into command line (type ${RED}exit ${YELLOW}and press enter to leave the container)${NONE}";
+else
+    echo "You chose to not build the assets so they were skipt";
 fi
 
 if [ "$doc_jenkins" != "true" ]; then
