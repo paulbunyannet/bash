@@ -377,7 +377,6 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     docker-compose exec laravel rm -rf node_modules;
     docker-compose exec laravel rm -rf /usr/local/share/.cache;
     docker-compose exec laravel rm -rf ~/.npm;
-fi
     echo "${CYAN}#########################################################################"
     echo "Now installing dependencies";
     echo "#########################################################################"
@@ -419,7 +418,7 @@ fi
             docker-compose exec -T laravel bower update --force  --allow-root --quiet
         fi
     fi
-    if [ "$doc_bower" == "true" ]; then
+    if [ "$doc_composer" == "true" ]; then
         echo "#########################################################################${PURPLE}"
         echo "#########################################################################"
         echo "composer update"
@@ -450,10 +449,12 @@ fi
         echo "#########################################################################"
     fi
     echo "${YELLOW}Going into command line (type ${RED}exit ${YELLOW}and press enter to leave the container)${NONE}";
+fi
 
 if [ "$doc_jenkins" != "true" ]; then
     docker-compose exec laravel bash
 else
+    docker-compose exec -T laravel codecept run
     docker-compose down
 fi
     echo "#########################################################################"
