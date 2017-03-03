@@ -387,79 +387,91 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "#########################################################################"
     docker-compose exec -T laravel npm cache clean
 
-    if [ "$doc_yarn" == "true" ]; then
-        echo "#########################################################################${BLUE}"
-        echo "#########################################################################"
-        echo "yarn upgrade"
-        if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T laravel yarn upgrade --silent
-        else
-            docker-compose exec -T laravel yarn upgrade
+    if [ "$doc_jenkins" != "true" ]; then
+        if [ "$doc_yarn" == "true" ]; then
+            echo "#########################################################################${BLUE}"
+            echo "#########################################################################"
+            echo "yarn upgrade"
+            if [ "$VERBOSE" == "false" ]; then
+                docker-compose exec -T laravel yarn upgrade --silent
+            else
+                docker-compose exec -T laravel yarn upgrade
+            fi
+            echo "#########################################################################"
         fi
-        echo "#########################################################################"
-    fi
-    if [ "$doc_npm" == "true" ]; then
-        echo "#########################################################################${RED}"
-        echo "#########################################################################"
-        echo "npm -g update"
-        if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T laravel npm -g update --silent
-        else
-            docker-compose exec -T laravel npm -g update
+        if [ "$doc_npm" == "true" ]; then
+            echo "#########################################################################${RED}"
+            echo "#########################################################################"
+            echo "npm -g update"
+            if [ "$VERBOSE" == "false" ]; then
+                docker-compose exec -T laravel npm -g update --silent
+            else
+                docker-compose exec -T laravel npm -g update
+            fi
         fi
-    fi
-    if [ "$doc_bower" == "true" ]; then
-        echo "#########################################################################${GREEN}"
-        echo "#########################################################################"
-        echo "bower update --force"
-        if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T laravel bower update --force  --allow-root --silent
-        else
-            docker-compose exec -T laravel bower update --force  --allow-root --quiet
+        if [ "$doc_bower" == "true" ]; then
+            echo "#########################################################################${GREEN}"
+            echo "#########################################################################"
+            echo "bower update --force"
+            if [ "$VERBOSE" == "false" ]; then
+                docker-compose exec -T laravel bower update --force  --allow-root --silent
+            else
+                docker-compose exec -T laravel bower update --force  --allow-root --quiet
+            fi
         fi
-    fi
-    if [ "$doc_composer" == "true" ]; then
-        echo "#########################################################################${PURPLE}"
-        echo "#########################################################################"
-        echo "composer update"
-        if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T laravel composer update --quiet
-        else
-            docker-compose exec -T laravel composer update
+        if [ "$doc_composer" == "true" ]; then
+            echo "#########################################################################${PURPLE}"
+            echo "#########################################################################"
+            echo "composer update"
+            if [ "$VERBOSE" == "false" ]; then
+                docker-compose exec -T laravel composer update --quiet
+            else
+                docker-compose exec -T laravel composer update
+            fi
         fi
+        if [ "$doc_artisan_key" == "true" ]; then
+            echo "#########################################################################${CYAN}"
+            echo "#########################################################################"
+            echo "php artisan key:generate"
+            docker-compose exec -T laravel php artisan key:generate
+        fi
+        if [ "$doc_artisan_migrate" == "true" ]; then
+            echo "#########################################################################${NONE}"
+            echo "${CYAN}#########################################################################"
+            echo "Opening laravel --> container ID: $ImageName ${NONE}" ;
+            echo "#########################################################################"
+            echo "php artisan migrate"
+            docker-compose exec -T laravel php artisan migrate
+        fi
+        if [ "$doc_gulp" == "true" ]; then
+            echo "#########################################################################"
+            echo "gulp"
+            docker-compose exec -T laravel gulp
+            echo "#########################################################################"
+        fi
+        echo "${YELLOW}Going into command line (type ${RED}exit ${YELLOW}and press enter to leave the container)${NONE}";
+    else
+        echo "Running Composer";
+        docker-compose exec -T laravel composer install >/dev/null 2>&1;
+        docker-compose exec -T laravel composer dump-autoload --optimize >/dev/null 2>&1;
+        echo "Running Yarn";
+        docker-compose exec -T laravel yarn >/dev/null 2>&1 | true
+        docker-compose exec -T laravel yarn upgrade >/dev/null 2>&1 | true
+        docker-compose exec -T laravel yarn run postinstall >/dev/null 2>&1 | true
+        echo "Running Bower";
+        docker-compose exec -T laravel bower install >/dev/null 2>&1
+        echo "Running Gulp";
+        docker-compose exec -T laravel gulp --production;
+        echo "docker will start running tests";
+        docker-compose exec -T laravel codecept run
+        echo "--------------------------------------";
     fi
-    if [ "$doc_artisan_key" == "true" ]; then
-        echo "#########################################################################${CYAN}"
-        echo "#########################################################################"
-        echo "php artisan key:generate"
-        docker-compose exec -T laravel php artisan key:generate
-    fi
-    if [ "$doc_artisan_migrate" == "true" ]; then
-        echo "#########################################################################${NONE}"
-        echo "${CYAN}#########################################################################"
-        echo "Opening laravel --> container ID: $ImageName ${NONE}" ;
-        echo "#########################################################################"
-        echo "php artisan migrate"
-        docker-compose exec -T laravel php artisan migrate
-    fi
-    if [ "$doc_gulp" == "true" ]; then
-        echo "#########################################################################"
-        echo "gulp"
-        docker-compose exec -T laravel gulp
-        echo "#########################################################################"
-    fi
-    echo "${YELLOW}Going into command line (type ${RED}exit ${YELLOW}and press enter to leave the container)${NONE}";
 else
     echo "You chose to not build the assets so they were skipt";
 fi
 
 if [ "$doc_jenkins" != "true" ]; then
     docker-compose exec laravel bash
-else
-    echo "docker will start running tests";
-    docker-compose exec -T laravel codecept run
-    echo "docker will go down now";
-    docker-compose down
 fi
     echo "#########################################################################"
     echo "#################/-----------------------------------------------\#################"
