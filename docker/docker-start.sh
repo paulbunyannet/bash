@@ -456,7 +456,9 @@ fi
 if [ "$doc_jenkins" != "true" ]; then
     docker-compose exec laravel bash
 else
+    echo "docker will start running tests";
     docker-compose exec -T laravel codecept run
+    echo "docker will go down now";
     docker-compose down
 fi
     echo "#########################################################################"
