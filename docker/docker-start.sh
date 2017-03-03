@@ -373,10 +373,10 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "${YELLOW}#########################################################################"
     echo "removing dependencies folders";
     echo "#########################################################################"
-    docker-compose exec laravel rm -rf vendor;
-    docker-compose exec laravel rm -rf node_modules;
-    docker-compose exec laravel rm -rf /usr/local/share/.cache;
-    docker-compose exec laravel rm -rf ~/.npm;
+    docker-compose exec -T laravel rm -rf vendor;
+    docker-compose exec -T laravel rm -rf node_modules;
+    docker-compose exec -T laravel rm -rf /usr/local/share/.cache;
+    docker-compose exec -T laravel rm -rf ~/.npm;
     echo "${CYAN}#########################################################################"
     echo "Now installing dependencies";
     echo "#########################################################################"
@@ -449,7 +449,7 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
             docker-compose exec -T laravel gulp
             echo "#########################################################################"
         fi
-        echo "${YELLOW}Going into command line (type ${RED}exit ${YELLOW}and press enter to leave the container)${NONE}";
+        echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}";
     else
         echo "Running Composer";
         docker-compose exec -T laravel composer install >/dev/null 2>&1;
