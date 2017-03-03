@@ -228,6 +228,8 @@ fi
 #load variables of env file
 ##############################################################
 function loadenv() {
+  source ./.env
+  if [ -z ${doc_jenkins+x} ]; then
   env=${1:-.env}
   echo Loading $env
   file=`mktemp -t tmp `
@@ -239,8 +241,6 @@ function loadenv() {
   else
     echo No file $env
   fi
-  if [ -z ${doc_jenkins+x} ]; then
-    source ./.env
   fi
 }
 ##############################################################
