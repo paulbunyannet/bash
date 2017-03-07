@@ -84,21 +84,21 @@ fi
 case $ARG1 in
     [-][hH]|[-][-][hH][eE][lL][pP])
 
-    echo "${CYAN}########################################################################################${NONE}";
-    echo "${CYAN}##############################${NONE} ${RED}parameters available${NONE} ${CYAN}####################################${NONE}";
-    echo "${CYAN}########################################################################################${NONE}";
-    echo " ";
-    echo "${GREEN}   *${NONE} ${YELLOW}-h or --help${NONE}\n      ${RED} ->${NONE} to show this menu..... \n";
-    echo "${GREEN}   *${NONE} ${YELLOW}open or -open or --open${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose exec laravel bash..... just if you couldn't remember the command :P \n";
-    echo "${GREEN}   *${NONE} ${YELLOW}down or -down or --down${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down..... just if you couldn't remember the command :P \n";
-    echo "${GREEN}   *${NONE} ${YELLOW}-i or --images${NONE}\n      ${RED} ->${NONE} to tell the script that you want to build the images\n";
-    echo "${GREEN}   *${NONE} ${YELLOW}-ni or --notimages${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to build the images\n";
-    echo "${GREEN}   *${NONE} ${YELLOW}-d or --dependencies${NONE}\n      ${RED} ->${NONE} to tell the script that you want to install dependencies\n";
-    echo "${GREEN}   *${NONE} ${YELLOW}-nd or --notdependencies${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to install dependencies\n";
-    echo "${GREEN}   *${NONE} ${YELLOW}-a or --all${NONE}\n      ${RED} ->${NONE} to tell the script that you want to rebuild the images and to install dependencies\n";
-    echo "${GREEN}   *${NONE} ${YELLOW}-n or --none${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to rebuild the images or to install dependencies\n";
-    echo " ";
-    echo "########################################################################################";
+    echo "${CYAN}########################################################################################${NONE}"
+    echo "${CYAN}##############################${NONE} ${RED}parameters available${NONE} ${CYAN}####################################${NONE}"
+    echo "${CYAN}########################################################################################${NONE}"
+    echo " "
+    echo "${GREEN}   *${NONE} ${YELLOW}-h or --help${NONE}\n      ${RED} ->${NONE} to show this menu..... \n"
+    echo "${GREEN}   *${NONE} ${YELLOW}open or -open or --open${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose exec laravel bash..... just if you couldn't remember the command :P \n"
+    echo "${GREEN}   *${NONE} ${YELLOW}down or -down or --down${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down..... just if you couldn't remember the command :P \n"
+    echo "${GREEN}   *${NONE} ${YELLOW}-i or --images${NONE}\n      ${RED} ->${NONE} to tell the script that you want to build the images\n"
+    echo "${GREEN}   *${NONE} ${YELLOW}-ni or --notimages${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to build the images\n"
+    echo "${GREEN}   *${NONE} ${YELLOW}-d or --dependencies${NONE}\n      ${RED} ->${NONE} to tell the script that you want to install dependencies\n"
+    echo "${GREEN}   *${NONE} ${YELLOW}-nd or --notdependencies${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to install dependencies\n"
+    echo "${GREEN}   *${NONE} ${YELLOW}-a or --all${NONE}\n      ${RED} ->${NONE} to tell the script that you want to rebuild the images and to install dependencies\n"
+    echo "${GREEN}   *${NONE} ${YELLOW}-n or --none${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to rebuild the images or to install dependencies\n"
+    echo " "
+    echo "########################################################################################"
             exit;
     ;;
     [dD][oO][wW][nN]|[-][dD][oO][wW][nN]|[-][-][dD][oO][wW][nN])
@@ -119,43 +119,43 @@ case $ARG1 in
                 docker-compose exec laravel bash
                 exit;
             else
-                REDOIMAGES="false";
-                REMOVEDEPENDENCIES="false";
-                ONECHECK="true";
+                REDOIMAGES="false"
+                REMOVEDEPENDENCIES="false"
+                ONECHECK="true"
             fi
 
     ;;
     [-][vV]|[-][-][vV][eE][rR][bB][oO][sS][eE])
-          VERBOSE="true";
+          VERBOSE="true"
             echo "VERBOSE is true"
           ;;
     [-][iI]|[-][-][iI][mM][aA][gG][eE][sS])
-          REDOIMAGES="true";
+          REDOIMAGES="true"
             echo "REDOIMAGES is true"
     ;;
     [-][nN][iI]|[-][-][nN][oO][tT][iI][mM][aA][gG][eE][sS])
-          REDOIMAGES="false";
+          REDOIMAGES="false"
             echo "REDOIMAGES is false"
     ;;
     [-][dD]|[-][-][dD][eE][pP][eE][nN][dD][eE][nN][cC][iI][eE][sS])
-          REMOVEDEPENDENCIES="true";
+          REMOVEDEPENDENCIES="true"
             echo "REMOVEDEPENDENCIES is true"
     ;;
     [-][nN][dD]|[-][-][nN][oO][tT][dD][eE][pP][eE][nN][dD][eE][nN][cC][iI][eE][sS])
-          REMOVEDEPENDENCIES="false";
+          REMOVEDEPENDENCIES="false"
             echo "REMOVEDEPENDENCIES is false"
     ;;
     [-][aA]|[-][-][aA][lL][lL])
-          REMOVEDEPENDENCIES="true";
-          REDOIMAGES="true";
-          ONECHECK="true";
+          REMOVEDEPENDENCIES="true"
+          REDOIMAGES="true"
+          ONECHECK="true"
             echo "REDOIMAGES is true"
             echo "REMOVEDEPENDENCIES is true"
     ;;
     [-][nN]|[-][-][nN][oO][nN][eE])
-          REMOVEDEPENDENCIES="false";
-          REDOIMAGES="false";
-          ONECHECK="true";
+          REMOVEDEPENDENCIES="false"
+          REDOIMAGES="false"
+          ONECHECK="true"
             echo "REDOIMAGES is false"
             echo "REMOVEDEPENDENCIES is false"
     ;;
@@ -165,23 +165,23 @@ esac
 if [ "$ONECHECK" == "false" ]; then
     case $ARG2 in
     [-][vV]|[-][-][vV][eE][rR][bB][oO][sS][eE])
-          VERBOSE="true";
+          VERBOSE="true"
             echo "VERBOSE is true"
           ;;
     [-][iI]|[-][-][iI][mM][aA][gG][eE][sS])
-          REDOIMAGES="true";
+          REDOIMAGES="true"
             echo "REDOIMAGES is true"
           ;;
     [-][nN][iI]|[-][-][nN][oO][tT][iI][mM][aA][gG][eE][sS])
-          REDOIMAGES="false";
+          REDOIMAGES="false"
             echo "REDOIMAGES is false"
     ;;
     [-][dD]|[-][-][dD][eE][pP][eE][nN][dD][eE][nN][cC][iI][eE][sS])
-          REMOVEDEPENDENCIES="true";
+          REMOVEDEPENDENCIES="true"
             echo "REMOVEDEPENDENCIES is true"
           ;;
     [-][nN][dD]|[-][-][nN][oO][tT][dD][eE][pP][eE][nN][dD][eE][nN][cC][iI][eE][sS])
-          REMOVEDEPENDENCIES="false";
+          REMOVEDEPENDENCIES="false"
             echo "REMOVEDEPENDENCIES is false"
     ;;
     *)
@@ -191,7 +191,7 @@ else
     if [ "$ARG2" != "false" ]; then
         case $ARG2 in
         [-][vV]|[-][-][vV][eE][rR][bB][oO][sS][eE])
-              VERBOSE="true";
+              VERBOSE="true"
                 echo "VERBOSE is true"
               ;;
         esac
@@ -200,23 +200,23 @@ fi
 if [ "$TWOCHECKS" == "false" ]; then
     case $ARG3 in
     [-][vV]|[-][-][vV][eE][rR][bB][oO][sS][eE])
-          VERBOSE="true";
+          VERBOSE="true"
             echo "VERBOSE is true"
           ;;
     [-][iI]|[-][-][iI][mM][aA][gG][eE][sS])
-          REDOIMAGES="true";
+          REDOIMAGES="true"
             echo "REDOIMAGES is true"
           ;;
     [-][nN][iI]|[-][-][nN][oO][tT][iI][mM][aA][gG][eE][sS])
-          REDOIMAGES="false";
+          REDOIMAGES="false"
             echo "REDOIMAGES is false"
     ;;
     [-][dD]|[-][-][dD][eE][pP][eE][nN][dD][eE][nN][cC][iI][eE][sS])
-          REMOVEDEPENDENCIES="true";
+          REMOVEDEPENDENCIES="true"
             echo "REMOVEDEPENDENCIES is true"
           ;;
     [-][nN][dD]|[-][-][nN][oO][tT][dD][eE][pP][eE][nN][dD][eE][nN][cC][iI][eE][sS])
-          REMOVEDEPENDENCIES="false";
+          REMOVEDEPENDENCIES="false"
             echo "REMOVEDEPENDENCIES is false"
     ;;
     *)
@@ -251,7 +251,7 @@ loadenv
 ##############################################################
 
 
-echo "$REMOVEDEPENDENCIES" == "not";
+echo "$REMOVEDEPENDENCIES" == "not"
 #if  [  "$doc_jenkins" != "true" ]; then
     ##############################################################
     ##############################################################
@@ -326,7 +326,7 @@ echo "$REMOVEDEPENDENCIES" == "not";
         echo "Intro y and press enter to accept, anything else to skip this option"
         echo "-------------------------------------------------------------------------${RED}"
         read -e -p "##### (y??)>>: " build;
-        echo "${NONE} ";
+        echo "${NONE} "
         case $build in
             [yY][eE][sS]|[yY])
               REDOIMAGES="true";;
@@ -371,16 +371,16 @@ fi
 
 if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "${YELLOW}#########################################################################"
-    echo "removing dependencies folders";
+    echo "removing dependencies folders"
     echo "#########################################################################"
     docker-compose exec -T laravel rm -rf vendor;
     docker-compose exec -T laravel rm -rf node_modules;
     docker-compose exec -T laravel rm -rf /usr/local/share/.cache;
     docker-compose exec -T laravel rm -rf ~/.npm;
     echo "${CYAN}#########################################################################"
-    echo "Now installing dependencies";
+    echo "Now installing dependencies"
     echo "#########################################################################"
-    echo "Opening laravel --> container ID: $ImageName";
+    echo "Opening laravel --> container ID: $ImageName"
     echo "#########################################################################${YELLOW}"
     echo "#########################################################################"
     echo " npm cache clean"
@@ -449,30 +449,29 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
             docker-compose exec -T laravel gulp
             echo "#########################################################################"
         fi
-        echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}";
+        echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}"
     else
-        echo "Running Composer";
+        echo "Running Composer"
         docker-compose exec -T laravel composer install >/dev/null 2>&1;
         docker-compose exec -T laravel composer dump-autoload --optimize >/dev/null 2>&1;
-        echo "Running git_log.sh to get current commit hash";
+        echo "Running git_log.sh to get current commit hash"
         docker-compose exec -T laravel bash git_log.sh;
         echo "Latest commit hash: $(head -n 1 git_log.txt)"
-        echo "Running Yarn";
+        echo "Running Yarn"
         docker-compose exec -T laravel yarn >/dev/null 2>&1 | true
         docker-compose exec -T laravel yarn upgrade >/dev/null 2>&1 | true
         docker-compose exec -T laravel yarn run postinstall >/dev/null 2>&1 | true
-        echo "Running Bower";
+        echo "Running Bower"
         docker-compose exec -T laravel bower install >/dev/null 2>&1
-        echo "Running Gulp";
+        echo "Running Gulp"
         docker-compose exec -T laravel gulp --production;
-        echo "docker will start running tests";
+        echo "docker will start running tests"
         docker-compose exec -T laravel codecept run
-        echo "--------------------------------------";
+        echo "--------------------------------------"
     fi
 else
-    echo "You chose to not build the assets so they were skipt";
+    echo "You chose to not build the assets so they were skip"
 fi
-
 if [ "$doc_jenkins" != "true" ]; then
     docker-compose exec laravel bash
 fi
