@@ -74,13 +74,14 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
 fi
 ##############################################################
 ##############################################################
-RUN echo $'\n\
+RUN echo '\n\
 WORKDIR /var/www/html\n'\
 >> Dockerfile
 
 docker-compose build;
 
 docker-compose up -d;
+
 directory="/var/www/html/test/dump/wordpress.sql"
 if [ -d $directory ];then
     docker-compose exec -T mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$directory";
