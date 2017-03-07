@@ -74,9 +74,7 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
 fi
 ##############################################################
 ##############################################################
-RUN echo '\n\
-WORKDIR /var/www/html\n'\
->> Dockerfile
+RUN printf '\nWORKDIR /var/www/html\n' >> Dockerfile
 
 docker-compose build;
 
