@@ -99,13 +99,13 @@ echo "Running Bower"
 docker-compose exec -T laravel bower install >/dev/null 2>&1
 echo "Running Gulp"
 docker-compose exec -T laravel gulp --production;
-echo "docker will start running tests"
-docker-compose exec -T laravel codecept run
+#echo "docker will start running tests"
+#docker-compose exec -T laravel codecept run
 echo "--------------------------------------"
 echo "--------------------------------------"
-docker-compose exec -T docker-compose down
-echo "--------------------------------------"
-echo "--------------------------------------"
+#docker-compose exec -T docker-compose down
+#echo "--------------------------------------"
+#echo "--------------------------------------"
 echo "#####################################################################"
 echo "#################/---------------------------------------------------\#################"
 echo "################|   Paul Bunyan Communications Rocks!!!   |################"
