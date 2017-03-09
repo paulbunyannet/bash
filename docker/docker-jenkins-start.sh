@@ -87,14 +87,18 @@ cd ${WORKSPACE}
 
 echo $PWD
 
+cd tests/_data/
+
+echo $PWD
+
 directory="tests/_data/dump.sql"
 
-if [ -d ${WORKSPACE}/${directory} ];then
+if [ -d dump.sql ];then
 
     echo "got it!"
 fi
 
-if [ -d ${directory} ];then
+if [ -d "dump.sql" ];then
     echo "got it! old way"
     echo $PWD
     cd ${WORKSPACE}
