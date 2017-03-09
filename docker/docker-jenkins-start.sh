@@ -79,12 +79,23 @@ docker-compose build;
 
 docker-compose up -d;
 
+echo ${cwd}
 
-echo "Pushing db dump";
+echo "Pushing db dump"
+
+cd ${WORKSPACE}
+
+echo ${cwd}
+
 directory="test/dump/wordpress.sql"
+
 if [ -d $directory ];then
-    echo "Pushing db dump";
+    echo ${cwd}
+    cd ${WORKSPACE}
+    echo ${cwd}
+    echo "Pushing db dump"
     chmod 744 tests/_data/dump.sql
+    echo ${cwd}
     docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$directory";
 
 fi
