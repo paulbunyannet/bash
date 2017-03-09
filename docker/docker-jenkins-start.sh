@@ -79,14 +79,16 @@ docker-compose build;
 
 docker-compose up -d;
 
+
+echo "Pushing db dump";
 directory="test/dump/wordpress.sql"
 if [ -d $directory ];then
+    echo "Pushing db dump";
     chmod 744 tests/_data/dump.sql
     docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$directory";
 
 fi
 docker-compose exec -T laravel npm cache clean
-echo "Pushing db dump";
 
 
 echo "Running Composer"
