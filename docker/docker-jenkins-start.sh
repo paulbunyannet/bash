@@ -79,20 +79,24 @@ docker-compose build;
 
 docker-compose up -d;
 
-echo ${cwd}
+echo $$PWD
 
 echo "Pushing db dump"
 
 cd ${WORKSPACE}
 
-echo ${cwd}
+echo $PWD
+
+cd $WORKSPACE
+
+echo $PWD
 
 directory="test/dump/wordpress.sql"
 
 if [ -d $directory ];then
-    echo ${cwd}
+    echo $PWD
     cd ${WORKSPACE}
-    echo ${cwd}
+    echo $PWD
     echo "Pushing db dump"
     chmod 744 tests/_data/dump.sql
     echo ${cwd}
