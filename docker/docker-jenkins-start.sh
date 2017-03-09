@@ -87,9 +87,15 @@ cd ${WORKSPACE}
 
 echo $PWD
 
-directory="test/dump/wordpress.sql"
+directory="tests/_data/dump.sql"
+
+if [ -d ${WORKSPACE}/${directory} ];then
+
+    echo "got it!"
+fi
 
 if [ -d ${directory} ];then
+    echo "got it! old way"
     echo $PWD
     cd ${WORKSPACE}
     echo $PWD
@@ -97,7 +103,6 @@ if [ -d ${directory} ];then
     chmod 744 tests/_data/dump.sql
     echo ${cwd}
     docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$directory";
-
 fi
 docker-compose exec -T laravel npm cache clean
 
