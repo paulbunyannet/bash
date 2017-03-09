@@ -37,7 +37,7 @@ fi
 function loadenv() {
   env=${WORKSPACE}/.env
   echo Loading $env
-  file=`mktemp -t tmp `
+  file=`mktemp -p tmp `
   if [ -f $env ]; then
     cat $env | while read line; do
       echo export $line >> $file
