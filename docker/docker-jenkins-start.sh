@@ -35,7 +35,7 @@ fi
 #load variables of env file
 ##############################################################
 function loadenv() {
-  env=${WORKSPACE}.env
+  env=${WORKSPACE}/.env
   echo Loading $env
   file=`mktemp -t tmp `
   if [ -f $env ]; then
