@@ -34,7 +34,7 @@ fi
 ##############################################################
 #load variables of env file
 ##############################################################
-source ./.env
+source ${WORKSPACE}/.env
 
 
 echo "$REMOVEDEPENDENCIES" == "not"
