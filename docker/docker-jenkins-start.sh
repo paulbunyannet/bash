@@ -69,6 +69,15 @@ fi
 if [ -z ${DB_CHARSET+x} ]; then
 DB_CHARSET="utf8"
 fi
+if [ -z ${IMAGE_NAME+x} ]; then
+IMAGE_NAME="laravelwordpress"
+fi
+if [ -z ${SUB_IMAGE_NAME+x} ]; then
+SUB_IMAGE_NAME="laravelwordp"
+fi
+if [ -z ${SERVER_NAME+x} ]; then
+SERVER_NAME="laravelwordpress.localhost"
+fi
 }
 ##############################################################
 #load the variables!! -->
