@@ -41,6 +41,7 @@ function loadenv() {
   if [ -f $env ]; then
     cat $env | while read line; do
       echo export $line >> $file
+      echo $line
     done
     source $file
   else
