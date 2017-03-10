@@ -48,6 +48,27 @@ function loadenv() {
 #  else
 #    echo No file $env
 #  fi
+if [ -z ${DB_CONNECTION+x} ]; then
+DB_CONNECTION="mysql"
+fi
+if [ -z ${DB_USERNAME+x} ]; then
+DB_USERNAME="wordpress_user"
+fi
+if [ -z ${DB_PASSWORD+x} ]; then
+DB_PASSWORD="wordpress_password"
+fi
+if [ -z ${DB_DATABASE+x} ]; then
+DB_DATABASE="wordpress"
+fi
+if [ -z ${DB_HOST+x} ]; then
+DB_HOST="db"
+fi
+if [ -z ${DB_PREFIX+x} ]; then
+DB_PREFIX="wp_"
+fi
+if [ -z ${DB_CHARSET+x} ]; then
+DB_CHARSET="utf8"
+fi
 }
 ##############################################################
 #load the variables!! -->
