@@ -22,6 +22,8 @@ services:
       dockerfile: Dockerfile.httpd
     volumes:
     - ./:/var/www/html
+    env_file:
+    - ./.env
     expose:
     - "80"
     labels:
