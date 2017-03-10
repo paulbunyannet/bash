@@ -24,9 +24,6 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
 #Install GD
 RUN docker-php-ext-install -j$(nproc) gd
 
-#Install  intl
-RUN docker-php-ext-install -j$(nproc) intl
-
 #Install Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && php composer-setup.php --install-dir=/usr/bin --filename=composer && php -r "unlink('composer-setup.php');"
 
