@@ -52,8 +52,8 @@ services:
     image: mysql:5.7
     volumes:
       - db:/var/lib/mysql/
-      - ./tests/_data:/var/www/html/tests/_data
-#      - ./sql_exp_local/:/docker-entrypoint-initdb.d
+#      - ./tests/_data:/var/www/html/tests/_data
+      - ./sql_exp_local/:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
