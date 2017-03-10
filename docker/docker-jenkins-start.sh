@@ -50,33 +50,53 @@ function loadenv() {
 #  fi
 if [ -z ${DB_CONNECTION+x} ]; then
 DB_CONNECTION="mysql"
+else
+echo $DB_CONNECTION
 fi
 if [ -z ${DB_USERNAME+x} ]; then
 DB_USERNAME="wordpress_user"
+else
+echo $DB_USERNAME
 fi
 if [ -z ${DB_PASSWORD+x} ]; then
 DB_PASSWORD="wordpress_password"
+else
+echo $DB_PASSWORD
 fi
 if [ -z ${DB_DATABASE+x} ]; then
 DB_DATABASE="wordpress"
+else
+echo $DB_DATABASE
 fi
 if [ -z ${DB_HOST+x} ]; then
 DB_HOST="db"
+else
+echo $DB_HOST
 fi
 if [ -z ${DB_PREFIX+x} ]; then
 DB_PREFIX="wp_"
+else
+echo $DB_PREFIX
 fi
 if [ -z ${DB_CHARSET+x} ]; then
 DB_CHARSET="utf8"
+else
+echo $DB_CHARSET
 fi
 if [ -z ${IMAGE_NAME+x} ]; then
 IMAGE_NAME="laravelwordpress"
+else
+echo $IMAGE_NAME
 fi
 if [ -z ${SUB_IMAGE_NAME+x} ]; then
 SUB_IMAGE_NAME="laravelwordp"
+else
+echo $SUB_IMAGE_NAME
 fi
 if [ -z ${SERVER_NAME+x} ]; then
 SERVER_NAME="laravelwordpress.localhost"
+else
+echo $SERVER_NAME
 fi
 }
 ##############################################################
