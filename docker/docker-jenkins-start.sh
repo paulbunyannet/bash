@@ -36,17 +36,18 @@ fi
 ##############################################################
 function loadenv() {
   env=${WORKSPACE}/.env
-  echo Loading $env
-  file=`mktemp -p tmp `
-  if [ -f $env ]; then
-    cat $env | while read line; do
-      echo export $line >> $file
-      echo $line
-    done
-    source $file
-  else
-    echo No file $env
-  fi
+  source "$env";
+#  echo Loading $env
+#  file=`mktemp -p tmp `
+#  if [ -f $env ]; then
+#    cat $env | while read line; do
+#      echo export $line >> $file
+#      echo $line
+#    done
+#    source $file
+#  else
+#    echo No file $env
+#  fi
 }
 ##############################################################
 #load the variables!! -->
