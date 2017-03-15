@@ -37,7 +37,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 RUN curl -O http://codeception.com/codecept.phar && chmod +x codecept.phar && mv codecept.phar /usr/local/bin/codecept
 
 #Install gulp bower and grunt
-RUN yarn global add --no-bin-links gulp bower grunt-cli
+RUN yarn global add --no-bin-links gulp-cli gulp bower grunt-cli
 
 # Disable composer warnings
 ENV COMPOSER_ALLOW_SUPERUSER 1
