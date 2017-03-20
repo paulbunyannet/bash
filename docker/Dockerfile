@@ -16,7 +16,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && echo "d
 RUN apt-get update && apt-get install -y zip unzip curl git nodejs yarn libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev
 
 #Install mysqli, mcrypt, pdo_mysql, php-intl
-RUN docker-php-ext-install -j$(nproc) mysqli mcrypt pdo_mysql
+RUN docker-php-ext-install -j$(nproc) mysqli mcrypt pdo_mysql zip
 
 # Get GD ready to install
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
