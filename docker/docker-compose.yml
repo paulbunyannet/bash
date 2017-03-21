@@ -37,6 +37,8 @@ services:
   laravel:
     restart: always
     build: .
+    links:
+      - "db:database"
     image: pbc/laravel:latest
     environment:
       ServerName: ${SERVER_NAME}
