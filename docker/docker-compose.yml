@@ -37,8 +37,8 @@ services:
   laravel:
     restart: always
     build: .
-    links:
-      - "db:database"
+    env_file:
+    - ./.env
     image: pbc/laravel:latest
     environment:
       ServerName: ${SERVER_NAME}
@@ -54,11 +54,13 @@ services:
   db:
     restart: always
     image: mysql:5.7
+    env_file:
+    - ./.env
     volumes:
       - db:/var/lib/mysql/
-      - /var/run:/var/run
-      - ./tests/_data:/var/www/html/tests/_data
       - ./database/dump/:/docker-entrypoint-initdb.d
+    volumes_from:
+      - laravel:rw
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
