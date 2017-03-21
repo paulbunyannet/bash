@@ -58,7 +58,7 @@ services:
     - ./.env
     volumes:
       - db:/var/lib/mysql/
-      - ./database/dump/:/docker-entrypoint-initdb.d
+#      - ./database/dump/:/docker-entrypoint-initdb.d
     volumes_from:
       - laravel:rw
     environment:
