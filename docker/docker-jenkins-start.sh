@@ -159,12 +159,16 @@ FULLDUMPFILE=$FULLDUMPFOLDER$DUMPFILE
 cd $FULLDUMPFOLDER
 
 echo $PWD
+
+ls
+
 if [ $(find "$DUMPFOLDER" -name "$DUMPFILE") ]; then
 echo "I FOUND IT!!!!"
 fi
 if [ -f "$DUMPFILE" ];then
     echo "got the file!"
 else
+    ls
     echo "did not got the file!"
     echo ${DUMPFILE}
 fi
