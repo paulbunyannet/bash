@@ -149,14 +149,14 @@ docker-compose up -d;
 
 echo $PWD
 
-echo "Pushing db dump"
+echo "Pushing db dump :)"
 DUMPFILE="dump.sql"
 DUMPFOLDER="/tests/_data/"
 DUMPCOMBINE=$DUMPFOLDER$DUMPFILE
 FULLDUMPFOLDER=$WORKSPACE$DUMPFOLDER
 FULLDUMPFILE=$FULLDUMPFOLDER$DUMPFILE
 
-cd
+cd $FULLDUMPFOLDER
 
 echo $PWD
 if [ $(find "$DUMPFOLDER" -name "$DUMPFILE") ]; then
