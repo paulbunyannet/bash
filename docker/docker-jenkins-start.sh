@@ -164,37 +164,24 @@ echo "ls ->"
 ls
 echo "<- ls"
 
-if [ $(find "$DUMPFOLDER" -name "$DUMPFILE") ]; then
-echo "I FOUND IT!!!!"
-fi
-if [ -f "$DUMPFILE" ];then
-    echo "got the file!"
-else
-    ls
-    echo "did not got the file!"
-    echo ${DUMPFILE}
-fi
 
-if [ -f "$FULLDUMPFILE" ];then
+if [ -f "$DUMPFILE" ];then
     echo "got it! old way"
     echo $PWD
-    cd ${WORKSPACE}
-    echo $PWD
     echo "Pushing db dump"
-    chmod 744 tests/_data/dump.sql
+    chmod 744 dump.sql
     echo ${cwd}
-    docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$directory";
+    docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$DUMPCOMBINE";
 else
     echo "still didnt get the file"
     echo "got it! old way"
     echo $PWD
-    cd ${WORKSPACE}
-    echo $PWD
     echo "Pushing db dump"
-    chmod 744 tests/_data/dump.sql
+    chmod 744 dump.sql
     echo ${cwd}
-    docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$directory";
+    docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$DUMPCOMBINE";
 fi
+    cd ${WORKSPACE}
 docker-compose exec -T laravel npm cache clean
 
 
