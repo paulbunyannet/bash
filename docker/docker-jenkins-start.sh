@@ -158,14 +158,14 @@ echo $PWD
 
 directory=${WORKSPACE}"/tests/_data/dump.sql"
 
-if [ -d dump.sql ];then
+if [ -f directory ];then
     echo "got it!"
 else
     echo "did not got it!"
     echo directory
 fi
 
-if [ -d "dump.sql" ];then
+if [ -f "dump.sql" ];then
     echo "got it! old way"
     echo $PWD
     cd ${WORKSPACE}
@@ -174,6 +174,8 @@ if [ -d "dump.sql" ];then
     chmod 744 tests/_data/dump.sql
     echo ${cwd}
     docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$directory";
+else
+    echo "still didnt get the file"
 fi
 docker-compose exec -T laravel npm cache clean
 
