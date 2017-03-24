@@ -150,22 +150,26 @@ docker-compose up -d;
 echo $PWD
 
 echo "Pushing db dump"
+DUMPFILE="dump.sql"
+DUMPFOLDER="/tests/_data/"
+DUMPCOMBINE=$DUMPFOLDER$DUMPFILE
+FULLDUMPFOLDER=$WORKSPACE$DUMPFOLDER
+FULLDUMPFILE=$FULLDUMPFOLDER$DUMPFILE
 
-
-cd "${WORKSPACE}/tests/_data/"
+cd
 
 echo $PWD
-
-directory="${WORKSPACE}/tests/_data/dump.sql"
-
-if [ -f ${directory} ];then
+if [ $(find "$DUMPFOLDER" -name "$DUMPFILE") ]; then
+echo "I FOUND IT!!!!"
+fi
+if [ -f "$DUMPCOMBINE" ];then
     echo "got it!"
 else
     echo "did not got it!"
-    echo ${directory}
+    echo ${DUMPCOMBINE}
 fi
 
-if [ -f "dump.sql" ];then
+if [ -f "$FULLDUMPFILE" ];then
     echo "got it! old way"
     echo $PWD
     cd ${WORKSPACE}
