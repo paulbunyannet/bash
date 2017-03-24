@@ -160,7 +160,9 @@ cd $FULLDUMPFOLDER
 
 echo $PWD
 
+echo "ls ->"
 ls
+echo "<- ls"
 
 if [ $(find "$DUMPFOLDER" -name "$DUMPFILE") ]; then
 echo "I FOUND IT!!!!"
@@ -171,12 +173,6 @@ else
     ls
     echo "did not got the file!"
     echo ${DUMPFILE}
-fi
-if [ -f "$DUMPCOMBINE" ];then
-    echo "got it!"
-else
-    echo "did not got it!"
-    echo ${DUMPCOMBINE}
 fi
 
 if [ -f "$FULLDUMPFILE" ];then
@@ -190,6 +186,14 @@ if [ -f "$FULLDUMPFILE" ];then
     docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$directory";
 else
     echo "still didnt get the file"
+    echo "got it! old way"
+    echo $PWD
+    cd ${WORKSPACE}
+    echo $PWD
+    echo "Pushing db dump"
+    chmod 744 tests/_data/dump.sql
+    echo ${cwd}
+    docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$directory";
 fi
 docker-compose exec -T laravel npm cache clean
 
