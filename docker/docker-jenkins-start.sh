@@ -152,11 +152,11 @@ echo $PWD
 echo "Pushing db dump"
 
 
-cd ${WORKSPACE}"/tests/_data/"
+cd "$WORKSPACE/tests/_data/"
 
 echo $PWD
 
-directory=${WORKSPACE}"/tests/_data/dump.sql"
+directory="$WORKSPACE/tests/_data/dump.sql"
 
 if [ -f ${directory} ];then
     echo "got it!"
