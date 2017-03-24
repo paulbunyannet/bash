@@ -171,6 +171,7 @@ if [ -f "$DUMPFILE" ];then
     echo "Pushing db dump"
     chmod 744 dump.sql
     echo ${cwd}
+    cd ${WORKSPACE}
     docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$DUMPCOMBINE";
 else
     echo "still didnt get the file"
@@ -179,6 +180,7 @@ else
     echo "Pushing db dump"
     chmod 744 dump.sql
     echo ${cwd}
+    cd ${WORKSPACE}
     docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$DUMPCOMBINE";
 fi
     cd ${WORKSPACE}
