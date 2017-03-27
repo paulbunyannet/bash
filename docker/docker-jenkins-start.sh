@@ -144,9 +144,6 @@ fi
 ##############################################################
 
 docker-compose build;
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-ls
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 docker-compose up -d;
 
 docker-compose exec -T laravel npm cache clean
@@ -165,6 +162,10 @@ echo "Running Bower"
 docker-compose exec -T laravel bower install >/dev/null 2>&1
 echo "Running Gulp"
 docker-compose exec -T laravel gulp --production;
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+docker-compose exec -T laravel ls;
+docker-compose exec -T laravel chmod 777 tests/_output;
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "#####################################################################"
 echo "#################/---------------------------------------------------\#################"
 echo "################|   Paul Bunyan Communications Rocks!!!   |################"
