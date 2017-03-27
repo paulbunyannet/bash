@@ -144,40 +144,12 @@ fi
 ##############################################################
 
 docker-compose build;
-
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+ls
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 docker-compose up -d;
 
-echo $PWD
-
-DUMPFILE="dump.sql"
-DUMPFOLDER="/tests/_data/"
-DUMPCOMBINE=$DUMPFOLDER$DUMPFILE
-FULLDUMPFOLDER=$WORKSPACE$DUMPFOLDER
-FULLDUMPFILE=$FULLDUMPFOLDER$DUMPFILE
-
-#
-#
-#if [ -f "$DUMPFILE" ];then
-#    echo "got it! old way"
-#    echo $PWD
-#    echo "Pushing db dump"
-#    chmod 744 dump.sql
-#    echo ${cwd}
-#    cd ${WORKSPACE}
-#    docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$DUMPCOMBINE";
-#else
-#    echo "still didnt get the file"
-#    echo "got it! old way"
-#    echo $PWD
-#    echo "Pushing db dump"
-#    chmod 744 dump.sql
-#    echo ${cwd}
-#    cd ${WORKSPACE}
-#    docker-compose exec -T db mysql -u "$DB_USERNAME" -p "$DB_PASSWORD" "$DB_DATABASE" < "$DUMPCOMBINE";
-#fi
-    cd ${WORKSPACE}
 docker-compose exec -T laravel npm cache clean
-
 
 echo "Running Composer"
 docker-compose exec -T laravel composer install >/dev/null 2>&1;
@@ -193,13 +165,6 @@ echo "Running Bower"
 docker-compose exec -T laravel bower install >/dev/null 2>&1
 echo "Running Gulp"
 docker-compose exec -T laravel gulp --production;
-#echo "docker will start running tests"
-#docker-compose exec -T laravel codecept run
-echo "--------------------------------------"
-echo "--------------------------------------"
-#docker-compose exec -T docker-compose down
-#echo "--------------------------------------"
-#echo "--------------------------------------"
 echo "#####################################################################"
 echo "#################/---------------------------------------------------\#################"
 echo "################|   Paul Bunyan Communications Rocks!!!   |################"
