@@ -73,8 +73,8 @@ docker-compose up -d;
 docker-compose exec -T laravel npm cache clean
 
 echo "Running Composer"
-docker-compose exec -T laravel composer install >/dev/null 2>&1;
-docker-compose exec -T laravel composer dump-autoload --optimize >/dev/null 2>&1;
+docker-compose exec -T laravel composer install;
+docker-compose exec -T laravel composer dump-autoload --optimize;
 echo "Running git_log.sh to get current commit hash"
 docker-compose exec -T laravel bash git_log.sh;
 echo "Latest commit hash: $(head -n 1 git_log.txt)"
