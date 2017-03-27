@@ -87,8 +87,14 @@ docker-compose exec -T laravel bower install >/dev/null 2>&1
 echo "Running Gulp"
 docker-compose exec -T laravel gulp --production;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+ls
 chmod -R 755 storage/framework
-chmod -R 777 tests;
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+ls
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+chmod -R 777 tests/
+docker-compose exec -T laravel chmod -R 777 /var/www/html/tests/_output/
+ls
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "#####################################################################"
 echo "#################/---------------------------------------------------\#################"
