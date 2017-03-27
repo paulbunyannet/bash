@@ -149,20 +149,12 @@ docker-compose up -d;
 
 echo $PWD
 
-echo "Pushing db dump :)"
 DUMPFILE="dump.sql"
 DUMPFOLDER="/tests/_data/"
 DUMPCOMBINE=$DUMPFOLDER$DUMPFILE
 FULLDUMPFOLDER=$WORKSPACE$DUMPFOLDER
 FULLDUMPFILE=$FULLDUMPFOLDER$DUMPFILE
 
-cd $FULLDUMPFOLDER
-
-echo $PWD
-
-echo "ls ->"
-ls
-echo "<- ls"
 #
 #
 #if [ -f "$DUMPFILE" ];then
