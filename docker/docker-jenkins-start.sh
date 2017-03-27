@@ -164,7 +164,7 @@ echo "Running Gulp"
 docker-compose exec -T laravel gulp --production;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 docker-compose exec -T laravel ls;
-docker-compose exec -T laravel chmod 777 tests/_output;
+docker-compose exec -T laravel chmod -R 0777 tests;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "#####################################################################"
 echo "#################/---------------------------------------------------\#################"
