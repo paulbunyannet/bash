@@ -5,5 +5,5 @@ curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/doc
 curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/Dockerfile.httpd > Dockerfile.httpd
 curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/docker-compose.yml > docker-compose.yml
 curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/docker-jenkins-start.sh > docker-jenkins-start.sh
-curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/docker-start.sh > docker-start.sh
+curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/dock.sh > dock.sh
 curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/php.ini > php.ini

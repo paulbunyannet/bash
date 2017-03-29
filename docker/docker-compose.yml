@@ -34,7 +34,7 @@ services:
     - backend
     - testend
 
-  laravel:
+  code:
     restart: always
     build: .
     env_file:
@@ -60,7 +60,7 @@ services:
       - db:/var/lib/mysql/
 #      - ./database/dump/:/docker-entrypoint-initdb.d
     volumes_from:
-      - laravel:rw
+      - code:rw
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}

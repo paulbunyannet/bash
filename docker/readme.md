@@ -6,7 +6,7 @@
 + Dockerfile has the basic configuration for the base layer of our whole app
 + docker-compose has the extra information and configuration of the rest of the app(PHP, mysql, selenium, etc)
 + install.sh and the start.sh are slightly modified from the original files but fitting the new docker config.
-+ docker-start.sh, last but not least, this file has many option and settings that depend of all previous files plus composer, gulp, bower, npm, and other which wont break the app, they would just not run
++ dock.sh, last but not least, this file has many option and settings that depend of all previous files plus composer, gulp, bower, npm, and other which wont break the app, they would just not run
 + options in your .env file
 
             + doc_npm="true" or "false"/do not write it in your env file
@@ -16,11 +16,11 @@
             + doc_bower="true" or "false"/do not write it in your env file
             + doc_gulp="true" or "false"/do not write it in your env file
 
-##What is so cool about the docker-start.sh file.
+##What is so cool about the dock.sh file.
 ###Well it is cool if you use a mac for development :)
 ##if you run:
 
-#./docker-start.sh 
+#./dock.sh 
 + you will start the whole docker application
 1. it will check if you have traefik running, if not, it will run it for you, but if no image is found, it will go and pull the version Nelson created and run it for you. 
 2. it will ask you if you want to build the images, it would be smart if you dont have the images and or you change something in the images to say yes :)
@@ -31,10 +31,10 @@
         2. it will run gulp
         3. it will leave open bash into the application container
 
-#./docker-start.sh -h or --help
+#./dock.sh -h or --help
 + it will show you all the following commands
 
-#./docker-start.sh open or -open or --open
+#./dock.sh open or -open or --open
 1. it will open the php container (call laravel now in docker-compose file)
 2. it will run all the other container if they aren't running
 3. it won't rebuild the images and it won't update dependencies
@@ -44,10 +44,10 @@
         2. it will run gulp
         3. it will leave open bash into the application container
 
-#./docker-start.sh down or -down or --down
+#./dock.sh down or -down or --down
 1. it will do a docker-compose down for all the docker container that where created from the docker-compose file (traefik is not on that file so it will be still available for other projects that are still open)
 
-#./docker-start.sh -v or --verbose
+#./dock.sh -v or --verbose
 1. it will do the same than the ./docker-start without any flags but it will give you detail information of what is going on at every turn.
 2. And:
         
@@ -55,7 +55,7 @@
         2. it will run gulp
         3. it will leave open bash into the application container
 
-#./docker-start.sh -i or --images
+#./dock.sh -i or --images
 1. it will rebuild the images of the container ( you need to have done ./docker-start down first or not have the containers running)
 2. it will run the docker-start file without prompting you if you want to build the images by auto answering YES
 3. it may asked you if you want to redownload dependencies unless you sent a second flag
@@ -65,7 +65,7 @@
         2. it will run gulp
         3. it will leave open bash into the application container
 
-#./docker-start.sh -ni or --notImages
+#./dock.sh -ni or --notImages
 1. it will run the docker-start file without prompting you if you want to build the images by auto answering NO
 2. it may asked you if you want to redownload dependencies unless you sent a second flag
 3. And:
@@ -74,7 +74,7 @@
         2. it will run gulp
         3. it will leave open bash into the application container
 
-#./docker-start.sh -D or --dependencies
+#./dock.sh -D or --dependencies
 1. it will reinstall all dependencies
 2. it will run the docker-start file without prompting you if you want to redownload the dependencies by auto answering YES
 3. it may asked you if you want to rebuild images unless you sent a second flag
@@ -84,7 +84,7 @@
         2. it will run gulp
         3. it will leave open bash into the application container
 
-#./docker-start.sh -nd or --notDependencies
+#./dock.sh -nd or --notDependencies
 1. it will run the docker-start file without prompting you if you want to redownload the dependencies by auto answering NO
 3. it may asked you if you want to rebuild images unless you sent a second flag
 4. And:
@@ -94,7 +94,7 @@
         3. it will leave open bash into the application container
 
 
-#./docker-start.sh -a or --all
+#./dock.sh -a or --all
 1. it will run the docker-start file without prompting you at anytime, it will rebuild images and redownload the dependencies (it will answer yes to both prompts)
 2. And:
 
@@ -102,7 +102,7 @@
         2. it will run gulp
         3. it will leave open bash into the application container
 
-#./docker-start.sh -n or --none
+#./dock.sh -n or --none
 1. it will run the docker-start file without prompting you at anytime, it will not rebuild images or redownload the dependencies (it will answer no to both prompts)
 2.  And:
 
@@ -161,3 +161,14 @@ this are a few of the possible combinations but have in mind:
         |       |       |       | **thought the installation**                                                      |
         _____________________________________________________________________________________________________________
 
+
+---
+#Common errors
+##Container names are not correct or not found. 
+
+> Check if you have all your variables in your .env file (at least the ones concerning your docker application.)
+> Check if you have quotations around your variables values
+> It may look pretty but Shell sometimes will give you errors if you leave spaces between the "=" and the variable
+name and/or the value 
+>> Correct way variable="value"
+>> Incorrect way variable = "value" or variable ="value" or variable= "value"
