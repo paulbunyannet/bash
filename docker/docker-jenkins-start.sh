@@ -70,22 +70,22 @@ fi
 docker-compose build;
 docker-compose up -d;
 
-docker-compose exec -T laravel npm cache clean
+docker-compose exec -T code npm cache clean
 
 echo "Running Composer"
-docker-compose exec -T laravel composer install;
-docker-compose exec -T laravel composer dump-autoload --optimize;
+docker-compose exec -T code composer install;
+docker-compose exec -T code composer dump-autoload --optimize;
 echo "Running git_log.sh to get current commit hash"
-docker-compose exec -T laravel bash git_log.sh;
+docker-compose exec -T code bash git_log.sh;
 echo "Latest commit hash: $(head -n 1 git_log.txt)"
 echo "Running Yarn"
-docker-compose exec -T laravel yarn >/dev/null 2>&1 | true
-docker-compose exec -T laravel yarn upgrade >/dev/null 2>&1 | true
-docker-compose exec -T laravel yarn run postinstall >/dev/null 2>&1 | true
+docker-compose exec -T code yarn >/dev/null 2>&1 | true
+docker-compose exec -T code yarn upgrade >/dev/null 2>&1 | true
+docker-compose exec -T code yarn run postinstall >/dev/null 2>&1 | true
 echo "Running Bower"
-docker-compose exec -T laravel bower install >/dev/null 2>&1
+docker-compose exec -T code bower install >/dev/null 2>&1
 echo "Running Gulp"
-docker-compose exec -T laravel gulp --production;
+docker-compose exec -T code gulp --production;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 chmod -R 755 storage/framework
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"

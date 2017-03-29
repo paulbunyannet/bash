@@ -89,7 +89,7 @@ case $ARG1 in
     echo "${CYAN}########################################################################################${NONE}"
     echo " "
     echo "${GREEN}   *${NONE} ${YELLOW}-h or --help${NONE}\n      ${RED} ->${NONE} to show this menu..... \n"
-    echo "${GREEN}   *${NONE} ${YELLOW}open or -open or --open${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose exec laravel bash..... just if you couldn't remember the command :P \n"
+    echo "${GREEN}   *${NONE} ${YELLOW}open or -open or --open${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose exec code bash..... just if you couldn't remember the command :P \n"
     echo "${GREEN}   *${NONE} ${YELLOW}down or -down or --down${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down..... just if you couldn't remember the command :P \n"
     echo "${GREEN}   *${NONE} ${YELLOW}-i or --images${NONE}\n      ${RED} ->${NONE} to tell the script that you want to build the images\n"
     echo "${GREEN}   *${NONE} ${YELLOW}-ni or --notimages${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to build the images\n"
@@ -107,16 +107,16 @@ case $ARG1 in
             exit;
     ;;
     [oO][pP][eE][nN]|[-][oO][pP][eE][nN]|[-][-][oO][pP][eE][nN])
-            CONT=laravel
-            LARAVELRUNNING="true"
-            LARAVELRUNNING=$(docker inspect --format="{{ .State.Running }}" $CONTAINER 2> /dev/null)
+            CONT=code
+            CODERUNNING="true"
+            CODERUNNING=$(docker inspect --format="{{ .State.Running }}" $CONTAINER 2> /dev/null)
             if [ $? -eq 1 ]; then
               echo "Warning - $CONT is not running."
-              LARAVELRUNNING="false"
+              CODERUNNING="false"
             fi
-            if  [ "$LARAVELRUNNING" != "false" ]; then
+            if  [ "$CODERUNNING" != "false" ]; then
 
-                docker-compose exec laravel bash
+                docker-compose exec code bash
                 exit;
             else
                 REDOIMAGES="false"
@@ -343,7 +343,7 @@ echo "##########################################################################
 echo "if you encounter errors, please check that the machines are not running before running this script";
 echo "##########################################################################################################"
 echo "##########################################################################################################${NONE}"
-ImageName="$(docker-compose ps -q laravel)"
+ImageName="$(docker-compose ps -q code)"
 
 if [ "$REMOVEDEPENDENCIES" == "$NOT" ]; then
 echo "${CYAN}#########################################################################"
@@ -368,28 +368,28 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "${YELLOW}#########################################################################"
     echo "removing dependencies folders"
     echo "#########################################################################"
-    docker-compose exec -T laravel rm -rf vendor;
-    docker-compose exec -T laravel rm -rf node_modules;
-    docker-compose exec -T laravel rm -rf /usr/local/share/.cache;
-    docker-compose exec -T laravel rm -rf ~/.npm;
+    docker-compose exec -T code rm -rf vendor;
+    docker-compose exec -T code rm -rf node_modules;
+    docker-compose exec -T code rm -rf /usr/local/share/.cache;
+    docker-compose exec -T code rm -rf ~/.npm;
     echo "${CYAN}#########################################################################"
     echo "Now installing dependencies"
     echo "#########################################################################"
-    echo "Opening laravel --> container ID: $ImageName"
+    echo "Opening code container --> container ID: $ImageName"
     echo "#########################################################################${YELLOW}"
     echo "#########################################################################"
     echo " npm cache clean"
     echo "#########################################################################"
-    docker-compose exec -T laravel npm cache clean
+    docker-compose exec -T code npm cache clean
 
     if [ "$doc_yarn" == "true" ]; then
         echo "#########################################################################${BLUE}"
         echo "#########################################################################"
         echo "yarn upgrade"
         if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T laravel yarn upgrade --silent
+            docker-compose exec -T code yarn upgrade --silent
         else
-            docker-compose exec -T laravel yarn upgrade
+            docker-compose exec -T code yarn upgrade
         fi
         echo "#########################################################################"
     fi
@@ -398,9 +398,9 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         echo "#########################################################################"
         echo "npm -g update"
         if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T laravel npm -g update --silent
+            docker-compose exec -T code npm -g update --silent
         else
-            docker-compose exec -T laravel npm -g update
+            docker-compose exec -T code npm -g update
         fi
     fi
     if [ "$doc_bower" == "true" ]; then
@@ -408,9 +408,9 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         echo "#########################################################################"
         echo "bower update --force"
         if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T laravel bower update --force  --allow-root --silent
+            docker-compose exec -T code bower update --force  --allow-root --silent
         else
-            docker-compose exec -T laravel bower update --force  --allow-root --quiet
+            docker-compose exec -T code bower update --force  --allow-root --quiet
         fi
     fi
     if [ "$doc_composer" == "true" ]; then
@@ -418,36 +418,36 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         echo "#########################################################################"
         echo "composer update"
         if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T laravel composer update --quiet
+            docker-compose exec -T code composer update --quiet
         else
-            docker-compose exec -T laravel composer update
+            docker-compose exec -T code composer update
         fi
     fi
     if [ "$doc_artisan_key" == "true" ]; then
         echo "#########################################################################${CYAN}"
         echo "#########################################################################"
         echo "php artisan key:generate"
-        docker-compose exec -T laravel php artisan key:generate
+        docker-compose exec -T code php artisan key:generate
     fi
     if [ "$doc_artisan_migrate" == "true" ]; then
         echo "#########################################################################${NONE}"
         echo "${CYAN}#########################################################################"
-        echo "Opening laravel --> container ID: $ImageName ${NONE}" ;
+        echo "Opening code container --> container ID: $ImageName ${NONE}" ;
         echo "#########################################################################"
         echo "php artisan migrate"
-        docker-compose exec -T laravel php artisan migrate
+        docker-compose exec -T code php artisan migrate
     fi
     if [ "$doc_gulp" == "true" ]; then
         echo "#########################################################################"
         echo "gulp"
-        docker-compose exec -T laravel gulp
+        docker-compose exec -T code gulp
         echo "#########################################################################"
     fi
     echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}"
 else
     echo "You chose to not build the assets so they were skip"
 fi
-docker-compose exec laravel bash
+docker-compose exec code bash
 echo "#########################################################################"
 echo "#################/-----------------------------------------------\#################"
 echo "################|     Paul Bunyan Communications Rocks!!!     |################"

@@ -35,7 +35,7 @@
 + it will show you all the following commands
 
 #./dock.sh open or -open or --open
-1. it will open the php container (call laravel now in docker-compose file)
+1. it will open the php container (call code container now in docker-compose file)
 2. it will run all the other container if they aren't running
 3. it won't rebuild the images and it won't update dependencies
 4. And:
