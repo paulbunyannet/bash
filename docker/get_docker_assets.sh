@@ -7,4 +7,5 @@ if [ ! -f docker-compose.yml ]; then curl --silent https://raw.githubusercontent
 curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/docker-jenkins-start.sh > docker-jenkins-start.sh
 curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/dock.sh > dock.sh
 curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/php.ini > php.ini
-chmod
+chmod +x dock.sh
+chmod +x docker-jenkins-start.sh
