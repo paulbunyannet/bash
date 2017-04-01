@@ -15,8 +15,16 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && echo "d
 #Update and Install Dependencies
 RUN apt-get update && apt-get install -y zip unzip curl mysql-client git nodejs yarn libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev
 
-#Install mysqli, mcrypt, pdo_mysql, php-intl
+#Install mysqli, mcrypt, pdo_mysql, php-intl, php-zip
 RUN docker-php-ext-install -j$(nproc) mysqli mcrypt pdo_mysql zip
+
+#install xdebug
+RUN apt-get update && apt-get upgrade -y && apt-get autoremove -y \
+    && apt-get install -y git curl \
+    && pecl install xdebug \
+    && rm -rf /tmp/pear \
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)\n"
+       >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # Get GD ready to install
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
