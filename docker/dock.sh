@@ -2,7 +2,7 @@
 
 #version 1.2
 #2017/02/27
-
+#
 REMOVEDEPENDENCIES="not";
 REDOIMAGES="not";
 ONECHECK="false";
@@ -293,9 +293,43 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
     rm -rf traefik-temp
 fi
 ##############################################################
-##############################################################
+###############################################################
+trim() {
+  local s2 s="$*"
+  # note: the brackets in each of the following two lines contain one space
+  # and one tab
+  until s2="${s#[ ]}"; [ "$s2" = "$s" ]; do s="$s2"; done
+  until s2="${s#[\r]}"; [ "$s2" = "$s" ]; do s="$s2"; done
+  until s2="${s%[ ]}"; [ "$s2" = "$s" ]; do s="$s2"; done
+  until s2="${s%[\r]}"; [ "$s2" = "$s" ]; do s="$s2"; done
+  echo "$s"
+}
+FILE="php.ini"
+chmod 777 "$FILE"
+# make sure php.ini has this line before going and executing it
+ if [ -f "$FILE" ]; then
+    STRING="xdebug"
+    ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2 >> machineIp;
+    if [ -z $(grep xdebug php.ini) ]; then exist="false"; else exist="true"; fi
+    echo "$exist";
+     if [ "$exist" = "true" ]; then
+        echo "xdebug was configured already."
+        echo "if you run into problems, please remove all xdebug extensions from your php.ini before dockering up"
+     else
+        machineIp= cat machineIp
+        echo "$machineIp"
+        line=1914
+        STR1="\r[xdebug]\rxdebug.remote_host="
+        STR2="\rxdebug.remote_autostart=1\rxdebug.idekey=PHPSTORM\rxdebug.default_enable=0\rxdebug.remote_enable=1\rxdebug.remote_connect_back=0\rxdebug.profiler_enable=1\r"
+        FULLSTRING=$STR1$machineIp$STR2
 
+        echo $FULLSTRING >> php.ini
+#        awk -v insert="$insert" "{print} NR==1914{print insert}" FILE
 
+     fi
+
+fi
+exit
 ##############################################################
 ##############################################################
 #now added this to the host file if it doesnt exist
