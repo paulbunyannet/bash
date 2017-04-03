@@ -310,7 +310,15 @@ chmod 777 "$FILE"
  if [ -f "$FILE" ]; then
     STRING="xdebug"
     ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2 >> machineIp;
-    if [ -z $(grep xdebug php.ini) ]; then exist="false"; else exist="true"; fi
+    ##################    ##################    ##################    ##################
+    ##################    ##################    ##################    ##################
+    ### I am working on it #################    ##################    ##################
+    ##################    ##################    ##################    ##################
+    ##################    ##################    ##################    ##################
+    exist="true"
+    ##################    ##################    ##################    ##################
+    ##################    ##################    ##################    ##################
+#    if [ -z $(grep xdebug php.ini) ]; then exist="false"; else exist="true"; fi
     echo "$exist";
      if [ "$exist" = "true" ]; then
         echo "xdebug was configured already."
@@ -327,7 +335,11 @@ chmod 777 "$FILE"
 #        awk -v insert="$insert" "{print} NR==1914{print insert}" FILE
 
      fi
-
+#     sed -i "/aaa=/c\aaa=xxx" php.ini
+#     sed 's/^xdebug.remote_host=.*/\xdebug.remote_host=xxx/' php.ini
+#     sed -i "/^xdebug.remote_host=.*/xdebug.remote_host=111" php.ini
+#    sed 's/^xdebug.remote_host=/c\xdebug.remote_host=111' php.ini
+#    sed -i "s/^aaa=/c\aaa=xxx" your_file_here
 fi
 exit
 ##############################################################
