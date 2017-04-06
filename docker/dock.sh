@@ -497,7 +497,7 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     gruntFile="grunt_exists_file"
     if [ -n Gruntfile.js ]; then echo 1 > ${gruntFile}; else echo 0 > ${gruntFile}; fi;
     gruntExists=$(cat grunt_exists_file);
-    if [ -n $doc_grunt ] && [ $doc_grunt == "true" ] && [ $(cat ${gruntFile}) -eq 1 ]; then
+    if [ -n $doc_grunt ] && [ $doc_grunt="true" ] && [ $(cat ${gruntFile}) -eq 1 ]; then
         echo "#########################################################################${NONE}"
         echo "${CYAN}#########################################################################"
         echo "Opening code container --> container ID: $ImageName ${NONE}" ;
