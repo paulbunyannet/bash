@@ -495,19 +495,17 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     # - $doc_grunt is set to "true"
     # - that there's a Gruntfile.js in the code container
     gruntFile="grunt_exists_file"
-    if [ -f Gruntfile.js ]; then echo 1 > ${gruntFile}; else echo 0 > ${gruntFile}; fi;
+    if [ -e Gruntfile.js ]; then echo 1 > ${gruntFile}; else echo 0 > ${gruntFile}; fi;
     gruntExists=$(cat grunt_exists_file);
     if [ -n ${doc_grunt} ] && [ "${doc_grunt}" = "true" ] && [ ${gruntExists} -eq 1 ]; then
         echo "#########################################################################${NONE}"
         echo "${CYAN}#########################################################################"
         echo "Opening code container --> container ID: $ImageName ${NONE}" ;
         echo "#########################################################################"
-        echo "gulp"
+        echo "grunt"
         # Install grunt-cli globally then run grunt
-        docker-compose exec -T code npm install -g grunt-cli
-        docker-compose exec -T code npm install grunt --save-dev
-        docker-compose exec -T code grunt
-    fi
+        docker-compose exec -T code yarn global add grunt-cli && yarn add grunt --dev && grunt
+    fi;
     rm -f ${gruntFile} || true
 
 
