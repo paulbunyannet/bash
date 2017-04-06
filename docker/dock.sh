@@ -341,7 +341,7 @@ chmod 777 "$FILE"
 #    sed 's/^xdebug.remote_host=/c\xdebug.remote_host=111' php.ini
 #    sed -i "s/^aaa=/c\aaa=xxx" your_file_here
 fi
-exit
+#exit
 ##############################################################
 ##############################################################
 #now added this to the host file if it doesnt exist
