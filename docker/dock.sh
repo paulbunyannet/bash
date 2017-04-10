@@ -379,21 +379,21 @@ echo "##########################################################################
 ImageName="$(docker-compose ps -q code)"
 
 if [ "$REMOVEDEPENDENCIES" == "$NOT" ]; then
-echo "${CYAN}#########################################################################"
-echo "#########################################################################"
-echo "Would you like to install dependencies?"
-echo "Intro y and press enter to accept, anything else to skip this option"
-echo "-------------------------------------------------------------------------${RED}"
-read -e -p "##### (y??)>>: " answer;
-echo "${NONE} ";
-case $answer in
-    [yY][eE][sS]|[yY])
-      REMOVEDEPENDENCIES="true"
-        ;;
-        *)
-      REMOVEDEPENDENCIES="false"
-      ;;
-esac
+    echo "${CYAN}#########################################################################"
+    echo "#########################################################################"
+    echo "Would you like to install dependencies?"
+    echo "Intro y and press enter to accept, anything else to skip this option"
+    echo "-------------------------------------------------------------------------${RED}"
+    read -e -p "##### (y??)>>: " answer;
+    echo "${NONE} ";
+    case $answer in
+        [yY][eE][sS]|[yY])
+          REMOVEDEPENDENCIES="true"
+            ;;
+            *)
+          REMOVEDEPENDENCIES="false"
+          ;;
+    esac
 fi
 
 
@@ -402,12 +402,12 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "removing dependencies folders"
     echo "#########################################################################"
     if [ "$doc_composer" == "true" ]; then
-    docker-compose exec -T code rm -rf vendor;
+        docker-compose exec -T code rm -rf vendor;
     fi
     if [ "$doc_npm" == "true" ]; then
-    docker-compose exec -T code rm -rf node_modules;
-    docker-compose exec -T code rm -rf /usr/local/share/.cache;
-    docker-compose exec -T code rm -rf ~/.npm;
+        docker-compose exec -T code rm -rf node_modules;
+        docker-compose exec -T code rm -rf /usr/local/share/.cache;
+        docker-compose exec -T code rm -rf ~/.npm;
     fi
     echo "${CYAN}#########################################################################"
     echo "Now installing dependencies"
@@ -420,7 +420,7 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     docker-compose exec -T code npm cache clean
 
     if [ "$doc_yarn" == "true" ]; then
-        YARNSTART=date +%s;
+        YARNSTART=date +%s
         echo "#########################################################################${BLUE}"
         echo "#########################################################################"
         echo "yarn upgrade"
@@ -429,11 +429,11 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         else
             docker-compose exec -T code yarn upgrade
         fi
-        YARNEND=date +%s - YARNSTART;
+        YARNEND=date +%s - YARNSTART
         echo "#########################################################################"
     fi
     if [ "$doc_npm" == "true" ]; then
-        NPMSTART=date +%s;
+        NPMSTART=date +%s
         echo "#########################################################################${RED}"
         echo "#########################################################################"
         echo "npm -g update"
@@ -441,11 +441,11 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
             docker-compose exec -T code npm -g update --silent
         else
             docker-compose exec -T code npm -g update
-        fiv
-        YARNEND=date +%s - NPMSTART;
+        fi
+        YARNEND=date +%s - NPMSTART
     fi
     if [ "$doc_bower" == "true" ]; then
-        BOWERSTART=date +%s;
+        BOWERSTART=date +%s
         echo "#########################################################################${GREEN}"
         echo "#########################################################################"
         echo "bower update --force"
@@ -454,10 +454,10 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         else
             docker-compose exec -T code bower update --force  --allow-root --quiet
         fi
-        BOWEREND=date +%s - BOWERSTART;
+        BOWEREND=date +%s - BOWERSTART
     fi
     if [ "$doc_composer" == "true" ]; then
-        COMPOSERSTART=date +%s;
+        COMPOSERSTART=date +%s
         echo "#########################################################################${PURPLE}"
         echo "#########################################################################"
         echo "composer update"
@@ -466,7 +466,7 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         else
             docker-compose exec -T code composer update
         fi
-        COMPOSEREND=date +%s - COMPOSERSTART;
+        COMPOSEREND=date +%s - COMPOSERSTART
     fi
     if [ "$doc_artisan_key" == "true" ]; then
         echo "#########################################################################${CYAN}"
@@ -475,22 +475,22 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         docker-compose exec -T code php artisan key:generate
     fi
     if [ "$doc_artisan_migrate" == "true" ]; then
-        MIGRATIONSTART=date +%s;
+        MIGRATIONSTART=date +%s
         echo "#########################################################################${NONE}"
         echo "${CYAN}#########################################################################"
         echo "Opening code container --> container ID: $ImageName ${NONE}" ;
         echo "#########################################################################"
         echo "php artisan migrate"
         docker-compose exec -T code php artisan migrate
-        MIGRATIONEND=date +%s - MIGRATIONSTART;
+        MIGRATIONEND=date +%s - MIGRATIONSTART
     fi
     if [ "$doc_gulp" == "true" ]; then
-        GULPSTART=date +%s;
+        GULPSTART=date +%s
         echo "#########################################################################"
         echo "gulp"
         docker-compose exec -T code gulp
         echo "#########################################################################"
-        GULPEND=date +%s - GULPSTART;
+        GULPEND=date +%s - GULPSTART
     fi
 
     # start install and run of grunt if
@@ -502,7 +502,7 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     if [ -e "$grFile" ]; then echo 1 > ${gruntFile}; else echo 0 > ${gruntFile}; fi;
     gruntExists=$(cat grunt_exists_file);
     if [ -n ${doc_grunt} ] && [ "${doc_grunt}" = "true" ] && [ ${gruntExists} -eq 1 ]; then
-        GRUNTSTART=date +%s;
+        GRUNTSTART=date +%s
         echo "#########################################################################${NONE}"
         echo "${CYAN}#########################################################################"
         echo "Opening code container --> container ID: $ImageName ${NONE}" ;
@@ -510,7 +510,7 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         echo "grunt"
         # Install grunt-cli globally then run grunt
         docker-compose exec -T code yarn global add grunt-cli && yarn add grunt --dev && grunt
-        GRUNTEND=date +%s - GRUNTSTART;
+        GRUNTEND=date +%s - GRUNTSTART
     fi;
     rm -f ${gruntFile} || true
 
