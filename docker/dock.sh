@@ -247,11 +247,11 @@ function loadenv() {
   echo Loading $env
   file=`mktemp -t tmp `
   if [ -f $env ]; then
-#    cat $env | while read line; do
-#      echo export $line >> $file;
-#    done
-#    source $file
-    source .env
+    cat $env | while read line; do
+      echo export $line >> $file;
+    done
+    source $file
+#    source .env
   else
     echo No file $env
   fi
@@ -515,10 +515,10 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     rm -f ${gruntFile} || true
 
 
-    echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}"
 else
     echo "You chose to not build the assets so they were skip"
 fi
+echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}"
 docker-compose exec code bash
 echo "#########################################################################"
 echo "#################/-----------------------------------------------\#################"
