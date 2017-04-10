@@ -44,8 +44,6 @@ services:
       ServerName: ${SERVER_NAME}
     volumes:
       - ./:/var/www/html/
-    depends_on:
-      - hub
     expose:
       - "9000"
     networks:
@@ -84,6 +82,8 @@ services:
     networks:
       - testend
       - backend
+    depends_on:
+      - code
 
   chrome:
     image: selenium/node-chrome-debug

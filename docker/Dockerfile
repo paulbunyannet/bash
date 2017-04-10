@@ -23,8 +23,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get autoremove -y \
     && apt-get install -y git curl \
     && pecl install xdebug \
     && rm -rf /tmp/pear \
-    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)\n"
-       >> /usr/local/etc/php/conf.d/xdebug.ini
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)\n" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # Get GD ready to install
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
