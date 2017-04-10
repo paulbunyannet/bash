@@ -56,9 +56,7 @@ services:
     - ./.env
     volumes:
       - db:/var/lib/mysql/
-#      - ./database/dump/:/docker-entrypoint-initdb.d
-    volumes_from:
-      - code:rw
+      - ./database/dump/:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
