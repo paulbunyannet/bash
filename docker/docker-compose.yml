@@ -42,6 +42,7 @@ services:
     image: pbc/laravel:latest
     environment:
       ServerName: ${SERVER_NAME}
+      XDEBUG_CONFIG: ${XDEBUG_CONFIG}
     volumes:
       - ./:/var/www/html/
     expose:

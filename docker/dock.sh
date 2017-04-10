@@ -296,23 +296,24 @@ chmod 777 "$FILE"
 # make sure php.ini has this line before going and executing it
 if [ -f "$FILE" ]; then
     STRING="xdebug"
-    ip="$(ipconfig getifaddr en0)"
-    if [ -z $(grep xdebug php.ini) ]; then exist="false"; else exist="true"; fi
-    echo "$exist";
-    if [ "$exist" = "true" ]; then
-        echo "xdebug was configured already."
-        echo "if you run into problems, please remove all xdebug extensions from your php.ini before dockering up"
-    else
-        echo "======================"
-                echo "internal ip for xdebug: $ip"
-        echo "======================"
-        STR1="\r[xdebug]\rxdebug.remote_host="
-        STR2="\rxdebug.remote_autostart=1\rxdebug.idekey=PHPSTORM\rxdebug.remote_port=9000\rxdebug.default_enable=0\rxdebug.remote_enable=1\rxdebug.remote_connect_back=0\rxdebug.profiler_enable=1\r"
-        FULLSTRING=$STR1$ip$STR2
-
-        echo $FULLSTRING >> php.ini
-
-    fi
+    XDEBUG_CONFIG="xdebug.remote_host=$(ipconfig getifaddr en0)"
+    export XDEBUG_CONFIG;
+#    if [ -z $(grep xdebug php.ini) ]; then exist="false"; else exist="true"; fi
+#    echo "$exist";
+#    if [ "$exist" = "true" ]; then
+#        echo "xdebug was configured already."
+#        echo "if you run into problems, please remove all xdebug extensions from your php.ini before dockering up"
+#    else
+#        echo "======================"
+#                echo "internal ip for xdebug: $ip"
+#        echo "======================"
+#        STR1="\r[xdebug]\rxdebug.remote_host="
+#        STR2="\rxdebug.remote_autostart=1\rxdebug.idekey=PHPSTORM\rxdebug.remote_port=9000\rxdebug.default_enable=0\rxdebug.remote_enable=1\rxdebug.remote_connect_back=0\rxdebug.profiler_enable=1\r"
+#        FULLSTRING=$STR1$ip$STR2
+#
+#        echo $FULLSTRING >> php.ini
+#
+#    fi
 fi
 #exit
 ##############################################################
@@ -327,7 +328,7 @@ STARTED=$(docker inspect --format="{{ .State.StartedAt }}" $CONTAINER)
 #NETWORK=$(docker-machine ip default)
 # Fallback to localhost if docker-machine not found or error occurs
 #if [ -z "$NETWORK" ]; then
-    NETWORK=127.0.0.1
+#    NETWORK=127.0.0.1
 #fi
 
 matches_in_hosts="$(grep -n ${SERVER_NAME} /etc/hosts | cut -f1 -d:)"
