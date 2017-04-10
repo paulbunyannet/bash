@@ -309,27 +309,20 @@ chmod 777 "$FILE"
 # make sure php.ini has this line before going and executing it
  if [ -f "$FILE" ]; then
     STRING="xdebug"
-    ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2 >> machineIp;
-    ##################    ##################    ##################    ##################
-    ##################    ##################    ##################    ##################
-    ### I am working on it #################    ##################    ##################
-    ##################    ##################    ##################    ##################
-    ##################    ##################    ##################    ##################
-    exist="true"
-    ##################    ##################    ##################    ##################
-    ##################    ##################    ##################    ##################
-#    if [ -z $(grep xdebug php.ini) ]; then exist="false"; else exist="true"; fi
+    ip="$(ipconfig getifaddr en0)"
+    if [ -z $(grep xdebug php.ini) ]; then exist="false"; else exist="true"; fi
     echo "$exist";
      if [ "$exist" = "true" ]; then
         echo "xdebug was configured already."
         echo "if you run into problems, please remove all xdebug extensions from your php.ini before dockering up"
      else
-        machineIp= cat machineIp
-        echo "$machineIp"
+echo "======================"
+        echo "internal ip for xdebug: $ip"
+echo "======================"
         line=1914
         STR1="\r[xdebug]\rxdebug.remote_host="
-        STR2="\rxdebug.remote_autostart=1\rxdebug.idekey=PHPSTORM\rxdebug.default_enable=0\rxdebug.remote_enable=1\rxdebug.remote_connect_back=0\rxdebug.profiler_enable=1\r"
-        FULLSTRING=$STR1$machineIp$STR2
+        STR2="\rxdebug.remote_autostart=1\rxdebug.idekey=PHPSTORM\rxdebug.remote_port=9000\rxdebug.default_enable=0\rxdebug.remote_enable=1\rxdebug.remote_connect_back=0\rxdebug.profiler_enable=1\r"
+        FULLSTRING=$STR1$ip$STR2
 
         echo $FULLSTRING >> php.ini
 #        awk -v insert="$insert" "{print} NR==1914{print insert}" FILE
@@ -341,7 +334,7 @@ chmod 777 "$FILE"
 #    sed 's/^xdebug.remote_host=/c\xdebug.remote_host=111' php.ini
 #    sed -i "s/^aaa=/c\aaa=xxx" your_file_here
 fi
-exit
+#exit
 ##############################################################
 ##############################################################
 #now added this to the host file if it doesnt exist
