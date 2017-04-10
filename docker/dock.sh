@@ -520,6 +520,8 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
 else
     echo "You chose to not build the assets so they were skip"
 fi
+DOCKEND=date +%s - DOCKSTART
+echo "${BLUE}The whole dock.sh took: $DOCKEND seconds\rGrunt: $GRUNTEND seconds\rGulp: $GULPEND seconds\Composer: $COMPOSEREND seconds\rMigrations: $MIGRATIONEND seconds\rBower: $BOWEREND seconds\rYarn: $YARNEND seconds\rNPM $NPMEND seconds\r"
 echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}"
 docker-compose exec code bash
 echo "#########################################################################"
