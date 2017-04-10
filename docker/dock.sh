@@ -520,7 +520,7 @@ else
     echo "You chose to not build the assets so they were skip"
 fi
 DOCKEND=$(date +%s);
-echo "${BLUE}The whole dock.sh took: $(expr $DOCKEND - $DOCKSTART) seconds"
+echo "${BLUE}The whole dock.sh command took: $(expr $DOCKEND - $DOCKSTART) seconds"
 echo "Grunt: $(expr $GRUNTEND - $GRUNTSTART) seconds"
 echo "Gulp: $(expr $GULPEND - $GULPSTART) seconds"
 echo "Composer: $(expr $COMPOSEREND - $COMPOSERSTART) seconds"
