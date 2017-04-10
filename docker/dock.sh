@@ -106,6 +106,7 @@ case $ARG1 in
     echo "${GREEN}   *${NONE} ${YELLOW}-h or --help${NONE}\n      ${RED} ->${NONE} to show this menu..... \n"
     echo "${GREEN}   *${NONE} ${YELLOW}open or -open or --open${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose exec code bash..... just if you couldn't remember the command :P \n"
     echo "${GREEN}   *${NONE} ${YELLOW}down or -down or --down${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down..... just if you couldn't remember the command :P \n"
+    echo "${GREEN}   *${NONE} ${YELLOW}forcedown or or fdown -forcedown or -fdown or --forcedown or --fdown${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down with a -v to remove volumes..... just if you couldn't remember the command :P \n"
     echo "${GREEN}   *${NONE} ${YELLOW}-i or --images${NONE}\n      ${RED} ->${NONE} to tell the script that you want to build the images\n"
     echo "${GREEN}   *${NONE} ${YELLOW}-ni or --notimages${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to build the images\n"
     echo "${GREEN}   *${NONE} ${YELLOW}-d or --dependencies${NONE}\n      ${RED} ->${NONE} to tell the script that you want to install dependencies\n"
@@ -119,6 +120,23 @@ case $ARG1 in
     [dD][oO][wW][nN]|[-][dD][oO][wW][nN]|[-][-][dD][oO][wW][nN])
 
             docker-compose down;
+            exit;
+    ;;
+    [fF][oO][rR][cC][eE][dD][oO][wW][nN]|[-][fF][oO][rR][cC][eE][dD][oO][wW][nN]|[-][-][fF][oO][rR][cC][eE][dD][oO][wW][nN]|[fF][dD][oO][wW][nN]|[-][fF][dD][oO][wW][nN]|[-][-][fF][dD][oO][wW][nN])
+
+            echo "{$RED}This command is going to remove every volume for this project"
+            echo "(that means you will lose all database changes made until now){$BLUE}"
+            echo "Do you wish to continue? type y or yes to continue"
+            read -e -p "##### >>: " build;
+            echo "${NONE} "
+            case $build in
+                [yY][eE][sS]|[yY])
+                echo "Removing project volumes"
+                docker-compose down -v;;
+                  *)
+                echo "Well then, executing a simple docker-compose down"
+                docker-compose down;;
+            esac
             exit;
     ;;
     [oO][pP][eE][nN]|[-][oO][pP][eE][nN]|[-][-][oO][pP][eE][nN])
@@ -313,22 +331,6 @@ if [ -f "$FILE" ]; then
     STRING="xdebug"
     export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)"
     echo "$XDEBUG_CONFIG"
-#    if [ -z $(grep xdebug php.ini) ]; then exist="false"; else exist="true"; fi
-#    echo "$exist";
-#    if [ "$exist" = "true" ]; then
-#        echo "xdebug was configured already."
-#        echo "if you run into problems, please remove all xdebug extensions from your php.ini before dockering up"
-#    else
-#        echo "======================"
-#                echo "internal ip for xdebug: $ip"
-#        echo "======================"
-#        STR1="\r[xdebug]\rxdebug.remote_host="
-#        STR2="\rxdebug.remote_autostart=1\rxdebug.idekey=PHPSTORM\rxdebug.remote_port=9000\rxdebug.default_enable=0\rxdebug.remote_enable=1\rxdebug.remote_connect_back=0\rxdebug.profiler_enable=1\r"
-#        FULLSTRING=$STR1$ip$STR2
-#
-#        echo $FULLSTRING >> php.ini
-#
-#    fi
 fi
 #exit
 ##############################################################

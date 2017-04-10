@@ -45,7 +45,10 @@
         3. it will leave open bash into the application container
 
 #./dock.sh down or -down or --down
-1. it will do a docker-compose down for all the docker container that where created from the docker-compose file (traefik is not on that file so it will be still available for other projects that are still open)
+1. it will do a docker-compose down for all the docker containers that were created from the docker-compose file (traefik is not on that file so it will be still available for other projects that are still open)
+
+#./dock.sh forcedown or fdown or -forcedown or -fdown or --forcedown or --fdown
+1. it will do a docker-compose down -v for all the docker containers that were created from the docker-compose file and it will remove their volumes (traefik is not on that file so it will be still available for other projects that are still open)
 
 #./dock.sh -v or --verbose
 1. it will do the same than the ./docker-start without any flags but it will give you detail information of what is going on at every turn.
