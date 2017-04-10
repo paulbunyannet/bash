@@ -520,7 +520,14 @@ else
     echo "You chose to not build the assets so they were skip"
 fi
 DOCKEND=$(date +%s);
-echo "${BLUE}The whole dock.sh took: $(expr $DOCKEND - $DOCKSTART) seconds\rGrunt: $(expr $GRUNTEND - $GRUNTSTART) seconds\rGulp: $(expr $GULPEND - $GULPSTART) seconds\Composer: $(expr $COMPOSEREND - $COMPOSERSTART) seconds\rMigrations: $(expr $MIGRATIONEND - $MIGRATIONSTART) seconds\rBower: $(expr $BOWEREND - $BOWERSTART) seconds\rYarn: $(expr $YARNEND - $YARNSTART) seconds\rNPM $(expr $NPMEND - $NPMSTART) seconds\r"
+echo "${BLUE}The whole dock.sh took: $(expr $DOCKEND - $DOCKSTART) seconds"
+echo "Grunt: $(expr $GRUNTEND - $GRUNTSTART) seconds"
+echo "Gulp: $(expr $GULPEND - $GULPSTART) seconds"
+echo "Composer: $(expr $COMPOSEREND - $COMPOSERSTART) seconds"
+echo "Migrations: $(expr $MIGRATIONEND - $MIGRATIONSTART) seconds"
+echo "Bower: $(expr $BOWEREND - $BOWERSTART) seconds"
+echo "Yarn: $(expr $YARNEND - $YARNSTART) seconds"
+echo "NPM $(expr $NPMEND - $NPMSTART) seconds"
 echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}"
 docker-compose exec code bash
 echo "#########################################################################"
