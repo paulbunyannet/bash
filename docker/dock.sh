@@ -266,7 +266,7 @@ function loadenv() {
   file=`mktemp -t tmp `
   if [ -f $env ]; then
     cat $env | while read line; do
-      $(echo export $line >> $file 2> /dev/null);
+      echo export $line >> $file;
     done
     source $file
   else
