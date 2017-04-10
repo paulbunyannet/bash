@@ -25,7 +25,7 @@ CYAN='\033[01;36m';
 WHITE='\033[01;37m';
 BOLD='\033[1m';
 UNDERLINE='\033[4m';
-DOCKSTART=date +%s;;
+DOCKSTART=date +%s;
 DOCKEND=0;
 GULPSTART=0;
 GULPEND=0;
@@ -266,7 +266,7 @@ function loadenv() {
   file=`mktemp -t tmp `
   if [ -f $env ]; then
     cat $env | while read line; do
-      echo export $line >> $file;
+      echo export $line >> $file > /dev/null 2>&1;
     done
     source $file
 #    source .env
