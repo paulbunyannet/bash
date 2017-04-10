@@ -274,8 +274,6 @@ fi
 
 if  [ "$FRONTENDRUNNING" == "false" ]; then
 
-
-
     mkdir traefik-temp
 
     cd traefik-temp
@@ -293,46 +291,28 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
     rm -rf traefik-temp
 fi
 ##############################################################
-###############################################################
-trim() {
-  local s2 s="$*"
-  # note: the brackets in each of the following two lines contain one space
-  # and one tab
-  until s2="${s#[ ]}"; [ "$s2" = "$s" ]; do s="$s2"; done
-  until s2="${s#[\r]}"; [ "$s2" = "$s" ]; do s="$s2"; done
-  until s2="${s%[ ]}"; [ "$s2" = "$s" ]; do s="$s2"; done
-  until s2="${s%[\r]}"; [ "$s2" = "$s" ]; do s="$s2"; done
-  echo "$s"
-}
 FILE="php.ini"
 chmod 777 "$FILE"
 # make sure php.ini has this line before going and executing it
- if [ -f "$FILE" ]; then
+if [ -f "$FILE" ]; then
     STRING="xdebug"
     ip="$(ipconfig getifaddr en0)"
     if [ -z $(grep xdebug php.ini) ]; then exist="false"; else exist="true"; fi
     echo "$exist";
-     if [ "$exist" = "true" ]; then
+    if [ "$exist" = "true" ]; then
         echo "xdebug was configured already."
         echo "if you run into problems, please remove all xdebug extensions from your php.ini before dockering up"
-     else
-echo "======================"
-        echo "internal ip for xdebug: $ip"
-echo "======================"
-        line=1914
+    else
+        echo "======================"
+                echo "internal ip for xdebug: $ip"
+        echo "======================"
         STR1="\r[xdebug]\rxdebug.remote_host="
         STR2="\rxdebug.remote_autostart=1\rxdebug.idekey=PHPSTORM\rxdebug.remote_port=9000\rxdebug.default_enable=0\rxdebug.remote_enable=1\rxdebug.remote_connect_back=0\rxdebug.profiler_enable=1\r"
         FULLSTRING=$STR1$ip$STR2
 
         echo $FULLSTRING >> php.ini
-#        awk -v insert="$insert" "{print} NR==1914{print insert}" FILE
 
-     fi
-#     sed -i "/aaa=/c\aaa=xxx" php.ini
-#     sed 's/^xdebug.remote_host=.*/\xdebug.remote_host=xxx/' php.ini
-#     sed -i "/^xdebug.remote_host=.*/xdebug.remote_host=111" php.ini
-#    sed 's/^xdebug.remote_host=/c\xdebug.remote_host=111' php.ini
-#    sed -i "s/^aaa=/c\aaa=xxx" your_file_here
+    fi
 fi
 #exit
 ##############################################################
@@ -371,8 +351,6 @@ if [ "$REDOIMAGES" == "$NOT" ]; then
 fi
 
 if [ "$REDOIMAGES" == "$TRUE" ]; then
-
-
     docker-compose build;
 fi
 
@@ -488,7 +466,8 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     # - $doc_grunt is set to "true"
     # - that there's a Gruntfile.js in the code container
     gruntFile="grunt_exists_file"
-    if [ -e Gruntfile.js ]; then echo 1 > ${gruntFile}; else echo 0 > ${gruntFile}; fi;
+    grFile="Gruntfile.js"
+    if [ -e "$grFile" ]; then echo 1 > ${gruntFile}; else echo 0 > ${gruntFile}; fi;
     gruntExists=$(cat grunt_exists_file);
     if [ -n ${doc_grunt} ] && [ "${doc_grunt}" = "true" ] && [ ${gruntExists} -eq 1 ]; then
         echo "#########################################################################${NONE}"
