@@ -232,10 +232,11 @@ function loadenv() {
   echo Loading $env
   file=`mktemp -t tmp `
   if [ -f $env ]; then
-    cat $env | while read line; do
-      echo export $line >> $file 2>dev/null;
-    done
-    source $file
+#    cat $env | while read line; do
+#      echo export $line >> $file;
+#    done
+#    source $file
+    source .env
   else
     echo No file $env
   fi
