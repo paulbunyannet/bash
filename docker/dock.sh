@@ -312,7 +312,7 @@ chmod 777 "$FILE"
 if [ -f "$FILE" ]; then
     STRING="xdebug"
     export XDEBUG_CONFIG="xdebug.remote_host=$(ipconfig getifaddr en0)"
-    echo XDEBUG_CONFIG
+    echo "$XDEBUG_CONFIG"
 #    if [ -z $(grep xdebug php.ini) ]; then exist="false"; else exist="true"; fi
 #    echo "$exist";
 #    if [ "$exist" = "true" ]; then
