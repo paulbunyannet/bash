@@ -106,7 +106,7 @@ case $ARG1 in
     echo "${GREEN}   *${NONE} ${YELLOW}-h or --help${NONE}\n      ${RED} ->${NONE} to show this menu..... \n"
     echo "${GREEN}   *${NONE} ${YELLOW}open or -open or --open${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose exec code bash..... just if you couldn't remember the command :P \n"
     echo "${GREEN}   *${NONE} ${YELLOW}down or -down or --down${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down..... just if you couldn't remember the command :P \n"
-    echo "${GREEN}   *${NONE} ${YELLOW}forcedown or or fdown -forcedown or -fdown or --forcedown or --fdown${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down with a -v to remove volumes..... just if you couldn't remember the command :P \n"
+    echo "${GREEN}   *${NONE} ${YELLOW}forcedown or fdown -forcedown or -fdown or --forcedown or --fdown${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down with a -v to remove volumes..... just if you couldn't remember the command :P \n"
     echo "${GREEN}   *${NONE} ${YELLOW}-i or --images${NONE}\n      ${RED} ->${NONE} to tell the script that you want to build the images\n"
     echo "${GREEN}   *${NONE} ${YELLOW}-ni or --notimages${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to build the images\n"
     echo "${GREEN}   *${NONE} ${YELLOW}-d or --dependencies${NONE}\n      ${RED} ->${NONE} to tell the script that you want to install dependencies\n"
@@ -520,7 +520,7 @@ else
     echo "You chose to not build the assets so they were skip"
 fi
 DOCKEND=$(date +%s);
-echo "${BLUE}The whole dock.sh took: $DOCKEND seconds\rGrunt: $GRUNTEND seconds\rGulp: $GULPEND seconds\Composer: $COMPOSEREND seconds\rMigrations: $MIGRATIONEND seconds\rBower: $BOWEREND seconds\rYarn: $YARNEND seconds\rNPM $NPMEND seconds\r"
+echo "${BLUE}The whole dock.sh took: $(expr $DOCKEND - $DOCKSTART) seconds\rGrunt: $(expr $GRUNTEND - $GRUNTSTART) seconds\rGulp: $(expr $GULPEND - $GULPSTART) seconds\Composer: $(expr $COMPOSEREND - $COMPOSERSTART) seconds\rMigrations: $(expr $MIGRATIONEND - $MIGRATIONSTART) seconds\rBower: $(expr $BOWEREND - $BOWERSTART) seconds\rYarn: $(expr $YARNEND - $YARNSTART) seconds\rNPM $(expr $NPMEND - $NPMSTART) seconds\r"
 echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}"
 docker-compose exec code bash
 echo "#########################################################################"
