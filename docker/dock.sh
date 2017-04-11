@@ -528,14 +528,13 @@ else
     echo "You chose to not build the assets so they were skipped";
 fi
 DOCKEND=$(date +%s);
-echo "${BLUE}The whole dock.sh command took: $(expr $(expr $DOCKEND - $DOCKSTART ) / 60 ) minutes <-|==|-> $(expr $DOCKEND - $DOCKSTART ) seconds";
-echo "Grunt: $(expr $(expr $GRUNTEND - $GRUNTSTART ) / 60 ) minutes <-|==|-> $(expr $GRUNTEND - $GRUNTSTART ) seconds";
-echo "Gulp: $(expr $(expr $GULPEND - $GULPSTART ) / 60 ) minutes <-|==|-> $(expr $GULPEND - $GULPSTART ) seconds";
-echo "Composer: $(expr $(expr $COMPOSEREND - $COMPOSERSTART ) / 60 ) minutes <-|==|-> $(expr $COMPOSEREND - $COMPOSERSTART ) seconds";
-echo "Migrations: $(expr $(expr $MIGRATIONEND - $MIGRATIONSTART ) / 60 ) minutes <-|==|-> $(expr $MIGRATIONEND - $MIGRATIONSTART ) seconds";
-echo "Bower: $(expr $(expr $BOWEREND - $BOWERSTART ) / 60 ) minutes <-|==|-> $(expr $BOWEREND - $BOWERSTART ) seconds";
-echo "Yarn: $(expr $(expr $YARNEND - $YARNSTART ) / 60 ) minutes <-|==|-> $(expr $YARNEND - $YARNSTART ) seconds";
-echo "NPM $(expr $(expr $NPMEND - $NPMSTART ) / 60 ) minutes <-|==|-> $(expr $NPMEND - $NPMSTART ) / 60 ) seconds";
+echo "${BLUE}The whole dock.sh command took: $(expr $(expr $DOCKEND - $DOCKSTART ) / 60 ) minutes $(expr $(expr $DOCKEND - $DOCKSTART ) - $(expr $(expr $(expr $DOCKEND - $DOCKSTART ) / 60 ) * 60)) seconds";
+echo "Grunt: $(expr $(expr $GRUNTEND - $GRUNTSTART ) / 60 ) minutes $(expr $(expr $GRUNTEND - $GRUNTSTART ) - $(expr $(expr $(expr $GRUNTEND - $GRUNTSTART ) / 60 ) * 60) )seconds";
+echo "Gulp: $(expr $(expr $GULPEND - $GULPSTART ) / 60 ) minutes $(expr $(expr $GULPEND - $GULPSTART ) - $(expr $(expr $(expr $GULPEND - $GULPSTART ) / 60 ) * 60) )seconds";
+echo "Composer: $(expr $(expr $COMPOSEREND - $COMPOSERSTART ) / 60 ) minutes $(expr $(expr $COMPOSEREND - $COMPOSERSTART ) - $(expr $(expr $(expr $COMPOSEREND - $COMPOSERSTART ) / 60 ) * 60) )seconds";
+echo "Migrations: $(expr $(expr $MIGRATIONEND - $MIGRATIONSTART ) / 60 ) minutes $(expr $(expr $MIGRATIONEND - $MIGRATIONSTART ) - $(expr $(expr $(expr $MIGRATIONEND - $MIGRATIONSTART ) / 60 ) * 60) )seconds";
+echo "Yarn: $(expr $(expr $YARNEND - $YARNSTART ) / 60 ) minutes $(expr $(expr $YARNEND - $YARNSTART ) - $(expr $(expr $(expr $YARNEND - $YARNSTART ) / 60 ) * 60) )seconds";
+echo "NPM $(expr $(expr $NPMEND - $NPMSTART ) / 60 ) minutes $(expr $(expr $NPMEND - $NPMSTART ) - $(expr $(expr $(expr $NPMEND - $NPMSTART ) / 60 ) * 60) )seconds";
 echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}";
 docker-compose exec code bash
 echo "#########################################################################"
