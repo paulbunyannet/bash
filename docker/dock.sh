@@ -137,9 +137,9 @@ case $ARG1 in
             echo "{$RED}This command is going to remove every volume for this project"
             echo "(that means you will lose all database changes made until now){$BLUE}"
             echo "Do you wish to continue? type y or yes to continue"
-            read -e -p "##### >>: " build;
+            read -e -p "##### >>: " buildme;
             echo "${NONE} "
-            case $build in
+            case $buildme in
                 [yY][eE][sS]|[yY])
                 echo "Removing project volumes"
                 docker-compose down -v;;
@@ -524,13 +524,41 @@ else
     echo "You chose to not build the assets so they were skipped";
 fi
 DOCKEND=$(date +%s);
-echo "${BLUE}The whole dock.sh command took: $(expr $(expr $DOCKEND - $DOCKSTART ) / 60 ) minutes $(expr $(expr $DOCKEND - $DOCKSTART ) - $(expr $(expr $(expr $DOCKEND - $DOCKSTART ) / 60 ) * 60)) seconds";
-echo "Grunt: $(expr $(expr $GRUNTEND - $GRUNTSTART ) / 60 ) minutes $(expr $(expr $GRUNTEND - $GRUNTSTART ) - $(expr $(expr $(expr $GRUNTEND - $GRUNTSTART ) / 60 ) * 60) )seconds";
-echo "Gulp: $(expr $(expr $GULPEND - $GULPSTART ) / 60 ) minutes $(expr $(expr $GULPEND - $GULPSTART ) - $(expr $(expr $(expr $GULPEND - $GULPSTART ) / 60 ) * 60) )seconds";
-echo "Composer: $(expr $(expr $COMPOSEREND - $COMPOSERSTART ) / 60 ) minutes $(expr $(expr $COMPOSEREND - $COMPOSERSTART ) - $(expr $(expr $(expr $COMPOSEREND - $COMPOSERSTART ) / 60 ) * 60) )seconds";
-echo "Migrations: $(expr $(expr $MIGRATIONEND - $MIGRATIONSTART ) / 60 ) minutes $(expr $(expr $MIGRATIONEND - $MIGRATIONSTART ) - $(expr $(expr $(expr $MIGRATIONEND - $MIGRATIONSTART ) / 60 ) * 60) )seconds";
-echo "Yarn: $(expr $(expr $YARNEND - $YARNSTART ) / 60 ) minutes $(expr $(expr $YARNEND - $YARNSTART ) - $(expr $(expr $(expr $YARNEND - $YARNSTART ) / 60 ) * 60) )seconds";
-echo "NPM $(expr $(expr $NPMEND - $NPMSTART ) / 60 ) minutes $(expr $(expr $NPMEND - $NPMSTART ) - $(expr $(expr $(expr $NPMEND - $NPMSTART ) / 60 ) * 60) )seconds";
+DOCKTOTAL=$(expr $DOCKEND - $DOCKSTART );
+DOCKTOTALMIN=$(expr $DOCKTOTAL / 60 );
+DOCKTOTALREST=$(expr $DOCKTOTALMIN * 60 );
+DOCKTOTALSEC=$(expr $DOCKTOTAL - $DOCKTOTALREST );
+GRUNTTOTAL=$(expr $GRUNTEND - $GRUNTSTART );
+GRUNTTOTALMIN=$(expr $GRUNTTOTAL / 60 );
+GRUNTTOTALREST=$(expr $GRUNTTOTALMIN * 60 );
+GRUNTTOTALSEC=$(expr $GRUNTTOTAL - $GRUNTTOTALREST );
+GULPTOTAL=$(expr $GULPEND - $GULPSTART );
+GULPTOTALMIN=$(expr $GULPTOTAL / 60 );
+GULPTOTALREST=$(expr $GULPTOTALMIN * 60 );
+GULPTOTALSEC=$(expr $GULPTOTAL - $GULPTOTALREST );
+COMPOSERTOTAL=$(expr $COMPOSEREND - $COMPOSERSTART );
+COMPOSERTOTALMIN=$(expr $COMPOSERTOTAL / 60 );
+COMPOSERTOTALREST=$(expr $COMPOSERTOTALMIN * 60 );
+COMPOSERTOTALSEC=$(expr $COMPOSERTOTAL - $COMPOSERTOTALREST );
+MIGRATIONTOTAL=$(expr $MIGRATIONEND - $MIGRATIONSTART );
+MIGRATIONTOTALMIN=$(expr $MIGRATIONTOTAL / 60 );
+MIGRATIONTOTALREST=$(expr $MIGRATIONTOTALMIN * 60 );
+MIGRATIONTOTALSEC=$(expr $MIGRATIONTOTAL - $MIGRATIONTOTALREST );
+YARNTOTAL=$(expr $YARNEND - $YARNSTART );
+YARNTOTALMIN=$(expr $YARNTOTAL / 60 );
+YARNTOTALREST=$(expr $YARNTOTALMIN * 60 );
+YARNTOTALSEC=$(expr $YARNTOTAL - $YARNTOTALREST );
+NPMTOTAL=$(expr $NPMEND - $NPMSTART );
+NPMTOTALMIN=$(expr $NPMTOTAL / 60 );
+NPMTOTALREST=$(expr $NPMTOTALMIN * 60 );
+NPMTOTALSEC=$(expr $NPMTOTAL - $NPMTOTALREST );
+echo "${BLUE}The whole dock.sh command took: $DOCKTOTALMIN minutes $DOCKTOTALSEC seconds";
+echo "Grunt: $GRUNTTOTALMIN minutes $GRUNTTOTALSEC seconds";
+echo "Gulp: $GULPTOTALMIN minutes $GULPTOTALSEC seconds";
+echo "Composer: $COMPOSERTOTALMIN minutes $COMPOSERTOTALSEC seconds";
+echo "Migrations: $MIGRATIONTOTALMIN minutes $MIGRATIONTOTALSEC seconds";
+echo "Yarn: $YARNTOTALMIN minutes $YARNTOTALSEC seconds";
+echo "NPM $NPMTOTALMIN minutes $NPMTOTALSEC seconds";
 echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}";
 docker-compose exec code bash
 echo "#########################################################################"
