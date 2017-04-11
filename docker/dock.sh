@@ -127,11 +127,15 @@ case $ARG1 in
     ;;
     [dD][oO][wW][nN]|[-][dD][oO][wW][nN]|[-][-][dD][oO][wW][nN])
 
+    export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)"
+    echo "$XDEBUG_CONFIG"
             docker-compose down;
             exit;
     ;;
     [fF][oO][rR][cC][eE][dD][oO][wW][nN]|[-][fF][oO][rR][cC][eE][dD][oO][wW][nN]|[-][-][fF][oO][rR][cC][eE][dD][oO][wW][nN]|[fF][dD][oO][wW][nN]|[-][fF][dD][oO][wW][nN]|[-][-][fF][dD][oO][wW][nN])
 
+    export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)"
+    echo "$XDEBUG_CONFIG"
             echo "{$RED}This command is going to remove every volume for this project"
             echo "(that means you will lose all database changes made until now){$BLUE}"
             echo "Do you wish to continue? type y or yes to continue"
@@ -282,6 +286,9 @@ function loadenv() {
     echo No file $env
   fi
   echo Loaded $env
+
+export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)"
+echo "$XDEBUG_CONFIG"
 }
 
 ##############################################################
@@ -332,15 +339,6 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
     cd ..
 
     rm -rf traefik-temp
-fi
-##############################################################
-FILE="php.ini"
-chmod 777 "$FILE"
-# make sure php.ini has this line before going and executing it
-if [ -f "$FILE" ]; then
-    STRING="xdebug"
-    export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)"
-    echo "$XDEBUG_CONFIG"
 fi
 #exit
 ##############################################################
