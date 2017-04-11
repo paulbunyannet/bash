@@ -266,7 +266,7 @@ function loadenv() {
   file=`mktemp -t tmp `
   if [ -f $env ]; then
     cat $env | while read line; do
-      echo export $line >> $file;
+      export $line >> $file;
     done
     source $file
   else
@@ -443,7 +443,7 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         else
             docker-compose exec -T code npm -g update
         fi
-        YARNEND=$(date +%s);
+        NPMEND=$(date +%s);
     fi
     if [ "$doc_bower" == "true" ]; then
         BOWERSTART=$(date +%s);
