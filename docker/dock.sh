@@ -270,17 +270,19 @@ fi
 ##############################################################
 function loadenv() {
   env=${1:-.env}
-  echo Loading $env
-  file=`mktemp -t tmp `
-  if [ -f $env ]; then
-    cat $env | while read line; do
-      export $line >> $file;
-    done
-    source $file
-  else
-    echo No file $env
-  fi
+#  echo Loading $env
+#  file=`mktemp -t tmp `
+#  if [ -f $env ]; then
+#    cat $env | while read line; do
+#      echo export $line >> $file;
+#    done
+#    source $file
+#  else
+#    echo No file $env
+#  fi
+    . ./.env
 }
+
 ##############################################################
 #load the variables!! -->
 loadenv
