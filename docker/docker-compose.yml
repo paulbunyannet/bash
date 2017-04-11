@@ -43,6 +43,8 @@ services:
     environment:
       ServerName: ${SERVER_NAME}
       XDEBUG_CONFIG: ${XDEBUG_CONFIG}
+      DOCKER: "TRUE"
+      DOCKER_HOST: "web"
     volumes:
       - ./:/var/www/html/
     expose:
@@ -126,7 +128,6 @@ services:
       - '6379'
     networks:
       - backend
-      
     #TODO: redis conf file for security
 
 
