@@ -504,7 +504,6 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         echo "#########################################################################"
         GULPEND=$(date +%s);
     fi
-
     # start install and run of grunt if
     # - set $doc_grunt exists
     # - $doc_grunt is set to "true"
@@ -525,10 +524,8 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         GRUNTEND=$(date +%s);
     fi;
     rm -f ${gruntFile} || true
-
-
 else
-    echo "You chose to not build the assets so they were skip"
+    echo "You chose to not build the assets so they were skipped";
 fi
 DOCKEND=$(date +%s);
 echo "${BLUE}The whole dock.sh command took: $(expr $DOCKEND - $DOCKSTART) seconds"
