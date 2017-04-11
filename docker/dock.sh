@@ -281,6 +281,7 @@ function loadenv() {
   else
     echo No file $env
   fi
+  echo Loaded $env
 }
 
 ##############################################################
