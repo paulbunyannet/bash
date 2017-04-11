@@ -73,7 +73,7 @@ fi
 #//// Docker start doesnt need any other file now //////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-chmod -R 755 public_html
+#chmod -R 755 public_html
 chmod -R 755 storage/framework
 
 
@@ -111,7 +111,7 @@ case $ARG1 in
     echo "${GREEN}   *${NONE} ${YELLOW}-ni or --notimages${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to build the images\n"
     echo "${GREEN}   *${NONE} ${YELLOW}-d or --dependencies${NONE}\n      ${RED} ->${NONE} to tell the script that you want to install dependencies\n"
     echo "${GREEN}   *${NONE} ${YELLOW}-nd or --notdependencies${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to install dependencies\n"
-    echo "${GREEN}   *${NONE} ${YELLOW}-a or --all${NONE}\n      ${RED} ->${NONE} to tell the script that you want to rebuild the images and to install dependencies\n"
+    echo "${GREEN}   *${NONE} ${YELLOW} up or -up or --up or -a or --all${NONE}\n      ${RED} ->${NONE} to tell the script that you want to rebuild the images and to install dependencies\n"
     echo "${GREEN}   *${NONE} ${YELLOW}-n or --none${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to rebuild the images or to install dependencies\n"
     echo " "
     echo "########################################################################################"
@@ -178,7 +178,7 @@ case $ARG1 in
           REMOVEDEPENDENCIES="false"
             echo "REMOVEDEPENDENCIES is false"
     ;;
-    [-][aA]|[-][-][aA][lL][lL])
+    [uU][pP]|[-][uU][pP]|[-][-][uU][pP]|[-][aA]|[-][-][aA][lL][lL])
           REMOVEDEPENDENCIES="true"
           REDOIMAGES="true"
           ONECHECK="true"
