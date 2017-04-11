@@ -43,6 +43,7 @@ services:
     environment:
       ServerName: ${SERVER_NAME}
       XDEBUG_CONFIG: ${XDEBUG_CONFIG}
+      DOCKER: "TRUE"
     volumes:
       - ./:/var/www/html/
     expose:
