@@ -127,15 +127,13 @@ case $ARG1 in
     ;;
     [dD][oO][wW][nN]|[-][dD][oO][wW][nN]|[-][-][dD][oO][wW][nN])
 
-    export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)"
-    echo "$XDEBUG_CONFIG"
+            export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)";
             docker-compose down;
             exit;
     ;;
     [fF][oO][rR][cC][eE][dD][oO][wW][nN]|[-][fF][oO][rR][cC][eE][dD][oO][wW][nN]|[-][-][fF][oO][rR][cC][eE][dD][oO][wW][nN]|[fF][dD][oO][wW][nN]|[-][fF][dD][oO][wW][nN]|[-][-][fF][dD][oO][wW][nN])
 
-    export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)"
-    echo "$XDEBUG_CONFIG"
+            export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)";
             echo "{$RED}This command is going to remove every volume for this project"
             echo "(that means you will lose all database changes made until now){$BLUE}"
             echo "Do you wish to continue? type y or yes to continue"
