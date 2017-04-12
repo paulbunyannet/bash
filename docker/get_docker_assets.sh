@@ -5,7 +5,7 @@ latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | a
 for fileName in "docker-compose.yml" "Dockerfile" "Dockerfile.httpd" "php.ini" "docker-jenkins-start.sh" "dock.sh" "httpd.conf"
 do
 	# if the file isn't part of the current project then get it from the repo
-    if ( [ $(grep -c "${fileName}" .gitignore) -ge 1 ] && [ ! $(grep -c "!${fileName}" .gitignore) -ge 1 ] ) || [ ! -n ${fileName} ];
+    if [ ! -n ${fileName} ] || ( [ $(grep -c "${fileName}" .gitignore) -ge 1 ] && [ ! $(grep -c "!${fileName}" .gitignore) -ge 1 ] ) ;
     then
         echo "Downloading ${fileName} $(if [ -n ${fileName} ]; then echo "and replacing existing"; fi).";
         curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/${fileName} > ${fileName};
