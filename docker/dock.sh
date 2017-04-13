@@ -277,9 +277,13 @@ function loadenv() {
     file=`mktemp`
     if [ -f $env ]; then
             cat $env | while read line; do
-                    if [[ $line =~ ^[a-zA-Z\ ]+ ]]; then
-                            echo export $line >> $file;
-                    fi
+            case $line in
+                [a-zA-Z]* )
+                    echo export $line >> $file;
+                 ;;
+                *)
+                ;;
+                esac
             done
             source $file
     else
