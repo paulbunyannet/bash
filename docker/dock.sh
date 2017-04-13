@@ -272,21 +272,20 @@ fi
 #load variables of env file
 ##############################################################
 function loadenv() {
-  env=${1:-.env}
-  echo Loading $env
-  file=`mktemp -t tmp `
-  if [ -f $env ]; then
-    cat $env | while read line; do
-      echo export $line >> $file;
-    done
-    source $file
-  else
-    echo No file $env
-  fi
-  echo Loaded $env
-
-export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)"
-echo "$XDEBUG_CONFIG"
+    env=${1:-.env}
+    echo Loading $env
+    file=`mktemp`
+    if [ -f $env ]; then
+            cat $env | while read line; do
+                    if [[ $line =~ ^[a-zA-Z\ ]+ ]]; then
+                            echo export $line >> $file;
+                    fi
+            done
+            source $file
+    else
+            echo No file $env
+    fi
+    echo Loaded $env
 }
 
 ##############################################################
