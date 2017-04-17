@@ -10,6 +10,11 @@
 chmod -R 755 public_html
 chmod -R 755 storage/framework
 
+export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)";
+
+latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | awk '{ print $1}');
+curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/get_docker_assets.sh > get_docker_assets.sh;
+sh get_docker_assets.sh;
 
 # make .env if not already created
  if [ ! -f ".env" ]; then
