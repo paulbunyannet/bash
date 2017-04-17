@@ -125,7 +125,7 @@ docker-compose exec -T code gulp production >/dev/null 2>&1;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 chmod -R 755 storage/framework
 echo "Running Tests"
-docker-compose exec -T code codecept run -vvv >/dev/null 2>&1;
+docker-compose exec -T code codecept run -vvv;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "#####################################################################"
