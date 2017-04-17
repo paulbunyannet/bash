@@ -436,7 +436,7 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         echo "#########################################################################"
         echo "yarn upgrade"
         if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T code yarn upgrade --silent
+            docker-compose exec -T code yarn upgrade --silent  >/dev/null 2>&1;
         else
             docker-compose exec -T code yarn upgrade
         fi
@@ -449,7 +449,7 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         echo "#########################################################################"
         echo "npm -g update"
         if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T code npm -g update --silent
+            docker-compose exec -T code npm -g update --silent  >/dev/null 2>&1;
         else
             docker-compose exec -T code npm -g update
         fi
@@ -461,7 +461,7 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         echo "#########################################################################"
         echo "bower update --force"
         if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T code bower update --force  --allow-root --silent
+            docker-compose exec -T code bower update --force  --allow-root --silent  >/dev/null 2>&1;
         else
             docker-compose exec -T code bower update --force  --allow-root --quiet
         fi
@@ -499,7 +499,11 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         GULPSTART=$(date +%s);
         echo "#########################################################################"
         echo "gulp"
-        docker-compose exec -T code gulp
+        if [ "$VERBOSE" == "false" ]; then
+            docker-compose exec -T code gulp >/dev/null 2>&1;
+        else
+            docker-compose exec -T code gulp
+        fi
         echo "#########################################################################"
         GULPEND=$(date +%s);
     fi
