@@ -92,7 +92,7 @@ docker-compose exec -T code yarn run postinstall >/dev/null 2>&1 | true
 echo "Running Bower"
 docker-compose exec -T code bower install >/dev/null 2>&1
 echo "Running Gulp"
-docker-compose exec -T code gulp --production;
+docker-compose exec -T code gulp production;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 chmod -R 755 storage/framework
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
