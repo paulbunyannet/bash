@@ -2,7 +2,6 @@ FROM httpd:alpine
 
 MAINTAINER Garrett
 MAINTAINER Nelson
-MAINTAINER Steven
 
 RUN echo "Include conf/extra/httpd.conf" >> /usr/local/apache2/conf/httpd.conf
 

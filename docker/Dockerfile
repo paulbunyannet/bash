@@ -2,7 +2,6 @@ FROM php:7-fpm
 
 MAINTAINER Garrett
 MAINTAINER Nelson
-MAINTAINER Steven
 
 COPY php.ini /usr/local/etc/php/
 
