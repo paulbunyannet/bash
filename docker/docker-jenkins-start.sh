@@ -20,7 +20,7 @@ sh get_docker_assets.sh;
     echo ".env was created from example file"
  fi
 
-echo $'XDEBUG_CONFIG="remote_host=172.17.0.1"' >> .env
+echo $'\nXDEBUG_CONFIG="remote_host=172.17.0.1"\n' >> .env
 # cleanup wordpress install
 if [ -d "public_html/wp/wp-content" ];then
     rm -rf public_html/wp/wp-content
