@@ -73,9 +73,12 @@ fi
 ##############################################################
 ##############################################################
 
+echo "Running docker-compose build"
 docker-compose build;
+echo "Running docker-compose up -d"
 docker-compose up -d;
 
+echo "Running docker-compose exec -T code npm cache clean"
 docker-compose exec -T code npm cache clean
 
 echo "Running Composer"
