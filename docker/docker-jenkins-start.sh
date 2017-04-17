@@ -10,7 +10,7 @@
 chmod -R 755 public_html
 chmod -R 755 storage/framework
 
-export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)";
+export XDEBUG_CONFIG="remote_host=172.17.0.1";
 
 latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | awk '{ print $1}');
 curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/get_docker_assets.sh > get_docker_assets.sh;
@@ -21,6 +21,7 @@ sh get_docker_assets.sh;
     cp .env.example .env
     echo ".env was created from example file"
  fi
+echo "XDEBUG_CONFIG="remote_host=172.17.0.1" >> .env
 
 # cleanup wordpress install
 if [ -d "public_html/wp/wp-content" ];then
