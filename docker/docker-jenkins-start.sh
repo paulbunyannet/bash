@@ -71,17 +71,17 @@ fi
 ##############################################################
 ##############################################################
 
-echo "Running docker-compose build"
+echo "Running docker-compose build >/dev/null 2>&1"
 docker-compose build;
-echo "Running docker-compose up -d"
+echo "Running docker-compose up -d >/dev/null 2>&1"
 docker-compose up -d;
 
 echo "Running docker-compose exec -T code npm cache clean"
 docker-compose exec -T code npm cache clean
 
 echo "Running Composer"
-docker-compose exec -T code composer install;
-docker-compose exec -T code composer dump-autoload --optimize;
+docker-compose exec -T code composer install  >/dev/null 2>&1;
+docker-compose exec -T code composer dump-autoload --optimize  >/dev/null 2>&1;
 echo "Running git_log.sh to get current commit hash"
 docker-compose exec -T code bash git_log.sh;
 echo "Latest commit hash: $(head -n 1 git_log.txt)"
@@ -92,9 +92,11 @@ docker-compose exec -T code yarn run postinstall >/dev/null 2>&1 | true
 echo "Running Bower"
 docker-compose exec -T code bower install >/dev/null 2>&1
 echo "Running Gulp"
-docker-compose exec -T code gulp production;
+docker-compose exec -T code gulp production >/dev/null 2>&1;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 chmod -R 755 storage/framework
+echo "Running Tests"
+docker-compose exec -T code codecept run -vvv >/dev/null 2>&1;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "#####################################################################"
