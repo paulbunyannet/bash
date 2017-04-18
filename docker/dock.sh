@@ -82,10 +82,10 @@ if [ ! -f ".env" ]; then
     cp .env.example .env
     echo ".env was created from example file"
 fi
-if [ -z ${windows+x} ] || [ ${windows} != "true" ]; then
-export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)";
+if [ ${windows} == "true" ]; then
+    export XDEBUG_CONFIG="$(ifconfig | grep -A 1 'eth1' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)";
 else
-export XDEBUG_CONFIG="$(ifconfig | grep -A 1 'eth1' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)";
+    export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)";
 fi
 
 
