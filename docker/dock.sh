@@ -352,15 +352,13 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
         rm -rf traefik-temp
     else
 
-        rename init.sh init.bat
-
-        init.bat
+        init.sh
 
         cd ..
 
         cd ..
 
-        RMDIR traefik-temp /S /Q
+        RMDIR traefik-temp
 
     fi
 
