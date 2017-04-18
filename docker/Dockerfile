@@ -3,8 +3,6 @@ FROM php:7-fpm
 MAINTAINER Garrett
 MAINTAINER Nelson
 
-COPY php.ini /usr/local/etc/php/
-
 #Download NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
 
