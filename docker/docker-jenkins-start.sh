@@ -123,7 +123,7 @@ docker-compose exec -T code bower install >/dev/null 2>&1
 echo "Running Gulp"
 docker-compose exec -T code gulp production >/dev/null 2>&1;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-chmod -R 755 storage/framework
+chmod -R 755 storage
 #echo "Running Tests"
 #docker-compose exec -T code codecept run -vvv;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
