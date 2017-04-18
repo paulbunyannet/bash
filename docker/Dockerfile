@@ -17,10 +17,10 @@ RUN apt-get update && apt-get install -y zip unzip curl mysql-client git nodejs 
 #Install INTL
 RUN apt-get update \
   && apt-get install -y zlib1g-dev libicu-dev g++ \
-  && apt-get install php7.1-intl \
-  && apt-get install php7.1-xsl \
   && docker-php-ext-configure intl \
   && docker-php-ext-install intl
+  && docker-php-ext-configure xsl \
+  && docker-php-ext-install xsl
 
 # Get GD ready to install
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
