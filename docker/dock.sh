@@ -83,7 +83,7 @@ if [ ! -f ".env" ]; then
     echo ".env was created from example file"
 fi
 if [ "$windows" == "true" ]; then
-    export XDEBUG_CONFIG="$(ifconfig | grep -A 1 'eth1' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)";
+    export XDEBUG_CONFIG="$(hostname -I | cut -d ' ' -f 1)";
 else
     export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)";
 fi
