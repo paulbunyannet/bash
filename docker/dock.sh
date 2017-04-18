@@ -329,10 +329,10 @@ fi
 
 if  [ "$FRONTENDRUNNING" == "false" ]; then
 
-    if [ -z ${windows+x} ] || [ ${windows} != "true" ]; then
-    mkdir traefik-temp
+    if [ ${windows} == "true" ]; then
+        md traefik-temp
     else
-    md traefik-temp
+        mkdir traefik-temp
     fi
 
     cd traefik-temp
