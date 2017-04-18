@@ -329,38 +329,23 @@ fi
 
 if  [ "$FRONTENDRUNNING" == "false" ]; then
 
-    if [ ${windows} == "true" ]; then
-        md traefik-temp
-    else
-        mkdir traefik-temp
-    fi
+    mkdir traefik-temp
 
     cd traefik-temp
+
 
     git clone https://github.com/castillo-n/traefik-image
 
     cd traefik-image
 
-    if [ -z ${windows+x} ] || [ ${windows} != "true" ]; then
+    sh init.sh
 
-        sh init.sh
+    cd ..
 
-        cd ..
+    cd ..
 
-        cd ..
+    rm -rf traefik-temp
 
-        rm -rf traefik-temp
-    else
-
-        init.sh
-
-        cd ..
-
-        cd ..
-
-        RMDIR traefik-temp
-
-    fi
 
 
 fi
