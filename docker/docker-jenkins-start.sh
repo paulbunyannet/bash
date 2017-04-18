@@ -122,9 +122,11 @@ docker-compose exec -T code yarn run postinstall >/dev/null 2>&1 | true
 echo "Running Bower"
 docker-compose exec -T code bower install >/dev/null 2>&1
 echo "Running Gulp"
-docker-compose exec -T code gulp production >/dev/null 2>&1;
+docker-compose exec -T code gulp production
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-chmod -R 755 storage
+touch c3_error.log
+chmod -fR 777 storage
+chmod -f 777 c3_error.log
 #echo "Running Tests"
 #docker-compose exec -T code codecept run -vvv;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
