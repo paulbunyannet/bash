@@ -347,8 +347,6 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
 
     rm -rf traefik-temp
 
-
-
 fi
 #exit
 ##############################################################

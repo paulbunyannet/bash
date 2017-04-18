@@ -21,6 +21,7 @@ RUN docker-php-ext-install -j$(nproc) mysqli mcrypt pdo_mysql zip
 RUN pecl install xdebug \
     && rm -rf /tmp/pear \
     && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)\n" >> /usr/local/etc/php/conf.d/xdebug.ini \
+        && docker-php-ext-enable xdebug \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl
 
@@ -42,3 +43,5 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 
 #Install Prestissimo
 RUN composer global require "hirak/prestissimo:^0.3"
+
+COPY php-override.ini /usr/local/etc/php/conf.d/php-override.ini
