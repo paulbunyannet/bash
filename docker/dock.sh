@@ -333,7 +333,6 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
 
     cd traefik-temp
 
-
     git clone https://github.com/castillo-n/traefik-image
 
     cd traefik-image
@@ -344,7 +343,7 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
 
     cd ..
 
-    rm -rf traefik-temp
+#    rm -rf traefik-temp
 
 
 
