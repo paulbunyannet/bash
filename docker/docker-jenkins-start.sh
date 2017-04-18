@@ -101,30 +101,30 @@ fi
 ##############################################################
 ##############################################################
 
-echo "Running docker-compose build >/dev/null 2>&1"
+echo "Running docker-compose build "
 docker-compose build;
-echo "Running docker-compose up -d >/dev/null 2>&1"
+echo "Running docker-compose up -d "
 docker-compose up -d;
 
 echo "Running docker-compose exec -T code npm cache clean"
 docker-compose exec -T code npm cache clean
 
 echo "Running Composer"
-docker-compose exec -T code composer install >/dev/null 2>&1;
-docker-compose exec -T code composer update >/dev/null 2>&1;
-docker-compose exec -T code composer dump-autoload --optimize >/dev/null 2>&1;
+docker-compose exec -T code composer install
+docker-compose exec -T code composer update
+docker-compose exec -T code composer dump-autoload --optimize
 docker-compose exec -T code php artisan key:generate
 docker-compose exec -T code php artisan migrate
 echo "Running git_log.sh to get current commit hash"
 docker-compose exec -T code bash git_log.sh;
 echo "Latest commit hash: $(head -n 1 git_log.txt)"
 echo "Running Yarn"
-docker-compose exec -T code yarn >/dev/null 2>&1 | true
-docker-compose exec -T code yarn upgrade >/dev/null 2>&1 | true
-docker-compose exec -T code yarn run postinstall >/dev/null 2>&1 | true
+docker-compose exec -T code yarn
+docker-compose exec -T code yarn upgrade
+docker-compose exec -T code yarn run postinstall
 echo "Running Bower"
-docker-compose exec -T code bower install >/dev/null 2>&1
-docker-compose exec -T code bower update --force  --allow-root --quiet >/dev/null 2>&1
+docker-compose exec -T code bower install 
+docker-compose exec -T code bower update --force  --allow-root --quiet 
 echo "Running Gulp"
 docker-compose exec -T code gulp
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
