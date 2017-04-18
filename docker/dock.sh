@@ -338,7 +338,7 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
 
     cd traefik-image
 
-    sh init.sh
+    bash init.sh
 
     cd ..
 
