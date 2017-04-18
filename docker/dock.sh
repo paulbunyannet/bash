@@ -329,6 +329,8 @@ fi
 
 if  [ "$FRONTENDRUNNING" == "false" ]; then
 
+    rm -rf traefik-temp
+
     mkdir traefik-temp
 
     cd traefik-temp
@@ -343,7 +345,7 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
 
     cd ..
 
-#    rm -rf traefik-temp
+    rm -rf traefik-temp
 
 
 
