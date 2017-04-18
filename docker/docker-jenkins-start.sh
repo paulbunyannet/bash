@@ -110,8 +110,11 @@ echo "Running docker-compose exec -T code npm cache clean"
 docker-compose exec -T code npm cache clean
 
 echo "Running Composer"
-docker-compose exec -T code composer install  >/dev/null 2>&1;
-docker-compose exec -T code composer dump-autoload --optimize  >/dev/null 2>&1;
+docker-compose exec -T code composer install >/dev/null 2>&1;
+docker-compose exec -T code composer update >/dev/null 2>&1;
+docker-compose exec -T code composer dump-autoload --optimize >/dev/null 2>&1;
+docker-compose exec -T code php artisan key:generate
+docker-compose exec -T code php artisan migrate
 echo "Running git_log.sh to get current commit hash"
 docker-compose exec -T code bash git_log.sh;
 echo "Latest commit hash: $(head -n 1 git_log.txt)"
@@ -121,8 +124,9 @@ docker-compose exec -T code yarn upgrade >/dev/null 2>&1 | true
 docker-compose exec -T code yarn run postinstall >/dev/null 2>&1 | true
 echo "Running Bower"
 docker-compose exec -T code bower install >/dev/null 2>&1
+docker-compose exec -T code bower update --force  --allow-root --quiet >/dev/null 2>&1
 echo "Running Gulp"
-docker-compose exec -T code gulp production
+docker-compose exec -T code gulp
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 touch c3_error.log
 chmod -fR 777 storage
