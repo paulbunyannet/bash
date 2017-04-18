@@ -342,18 +342,29 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
     cd traefik-image
 
     if [ -z ${windows+x} ] || [ ${windows} != "true" ]; then
+
         sh init.sh
+
+        cd ..
+
+        cd ..
+
+        rm -rf traefik-temp
     else
-        init.sh > init.bat
+
+        rename init.sh init.bat
+
         init.bat
+
+        cd ..
+
+        cd ..
+
+        RMDIR traefik-temp /S /Q
+
     fi
 
 
-    cd ..
-
-    cd ..
-
-    rm -rf traefik-temp
 fi
 #exit
 ##############################################################
