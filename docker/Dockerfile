@@ -20,9 +20,9 @@ RUN docker-php-ext-install -j$(nproc) mysqli mcrypt pdo_mysql zip
 #install xdebug
 RUN pecl install xdebug \
     && rm -rf /tmp/pear \
-    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)\n" >> /usr/local/etc/php/conf.d/xdebug.ini
-  && docker-php-ext-configure intl \
-  && docker-php-ext-install intl
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)\n" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl
 
 # Get GD ready to install
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
