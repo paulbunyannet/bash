@@ -74,7 +74,7 @@ fi
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #chmod -R 755 public_html
-chmod -fR 644 storage
+chmod -fR 755 storage
 
 
 # make .env if not already created
@@ -299,7 +299,7 @@ loadenv
 ##############################################################
 ##############################################################
 
-echo "$REMOVEDEPENDENCIES" == "not"
+#echo "$REMOVEDEPENDENCIES" == "not"
 ##############################################################
 ##############################################################
 #if you have problems loading the docker machine, remove the # symbol from the beginning of the next two lines
@@ -311,7 +311,7 @@ FRONTENDRUNNING="true"
 ##set docker default image to default used one
 #eval "$(docker-machine env default)"
 #check if the front end is running. if not run it from scratch
-RUNNING=$(docker inspect --format="{{ .State.Running }}" $CONTAINER 2> /dev/null)
+RUNNING=$(docker inspect --format="{{ .State.Running }}" $CONTAINER 2> /dev/null);
 
 if [ $? -eq 1 ]; then
   echo "UNKNOWN - $CONTAINER does not exist."

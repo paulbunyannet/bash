@@ -6,7 +6,7 @@
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 #//// Docker start doesnt need any other file now //////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+echo "chmoding storage 744"
 chmod -fR 777 storage
 
 
@@ -15,10 +15,10 @@ curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/doc
 sh get_docker_assets.sh;
 
 # make .env if not already created
- if [ ! -f ".env" ]; then
+if [ ! -f ".env" ]; then
     cp .env.example .env
     echo ".env was created from example file"
- fi
+fi
 
 echo $'\nXDEBUG_CONFIG="remote_host=172.17.0.1"\n' >> .env
 # cleanup wordpress install
