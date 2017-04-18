@@ -329,7 +329,11 @@ fi
 
 if  [ "$FRONTENDRUNNING" == "false" ]; then
 
+    if [ -z ${windows+x} ] || [ ${windows} != "true" ]; then
     mkdir traefik-temp
+    else
+    md traefik-temp
+    fi
 
     cd traefik-temp
 
@@ -337,7 +341,13 @@ if  [ "$FRONTENDRUNNING" == "false" ]; then
 
     cd traefik-image
 
-    sh init.sh
+    if [ -z ${windows+x} ] || [ ${windows} != "true" ]; then
+        sh init.sh
+    else
+        init.sh > init.bat
+        init.bat
+    fi
+
 
     cd ..
 
