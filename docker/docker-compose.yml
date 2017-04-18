@@ -21,7 +21,7 @@ services:
       context: .
       dockerfile: Dockerfile.httpd
     volumes:
-    - ./:/var/www/html
+    - ${PWD}:/var/www/html
     env_file:
     - ./.env
     expose:
@@ -46,7 +46,7 @@ services:
       DOCKER: "TRUE"
       DOCKER_HOST: "web"
     volumes:
-      - ./:/var/www/html/
+      - ${PWD}:/var/www/html/
     expose:
       - "9000"
     networks:
@@ -59,7 +59,7 @@ services:
     - ./.env
     volumes:
       - db:/var/lib/mysql/
-      - ./database/dump/:/docker-entrypoint-initdb.d
+      - ${PWD}/database/dump/:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
