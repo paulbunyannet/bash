@@ -126,7 +126,10 @@ echo "Running Bower"
 docker-compose exec -T code bower install 
 docker-compose exec -T code bower update --force  --allow-root --quiet 
 echo "Running Gulp"
-docker-compose exec -T code gulp
+cd /var/www/html/resources/wp-content/themes/pbc2017/sass
+ls -la
+cd /var/www/html/
+docker-compose exec -T code gulp production
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 touch c3_error.log
 chmod -fR 777 storage
