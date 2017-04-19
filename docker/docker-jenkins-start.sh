@@ -157,7 +157,7 @@ ls -la
 echo "------ "
 echo "------ "
 
-docker-compose exec -T code gulp jenkins
+docker-compose exec -T code gulp production
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 touch c3_error.log
 chmod -fR 777 storage
