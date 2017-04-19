@@ -126,17 +126,28 @@ echo "Running Bower"
 docker-compose exec -T code bower install 
 docker-compose exec -T code bower update --force  --allow-root --quiet 
 echo "Running Gulp"
+echo "------ resources"
 cd resources
 ls -la
+echo "------ wp-content"
 cd wp-content
 ls -la
+echo "------ themes"
 cd themes
 ls -la
+echo "------ pbc2017"
 cd pbc2017
 ls -la
+echo "------ sass"
 cd sass
 ls -la
-cd /var/www/html/
+cd ..
+cd ..
+cd ..
+cd ..
+cd ..
+ls -la
+
 docker-compose exec -T code gulp production
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 touch c3_error.log
