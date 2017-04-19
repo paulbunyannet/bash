@@ -126,7 +126,15 @@ echo "Running Bower"
 docker-compose exec -T code bower install 
 docker-compose exec -T code bower update --force  --allow-root --quiet 
 echo "Running Gulp"
-cd /var/www/html/resources/wp-content/themes/pbc2017/sass
+cd resources
+ls -la
+cd wp-content
+ls -la
+cd themes
+ls -la
+cd pbc2017
+ls -la
+cd sass
 ls -la
 cd /var/www/html/
 docker-compose exec -T code gulp production
