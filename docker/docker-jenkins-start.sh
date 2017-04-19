@@ -141,12 +141,21 @@ ls -la
 echo "------ sass"
 cd sass
 ls -la
-cd ..
-cd ..
-cd ..
-cd ..
-cd ..
+echo "------ vendor"
+cd vendor
 ls -la
+echo "------ "
+cd ..
+cd ..
+cd ..
+cd ..
+cd ..
+cd ..
+echo "------ "
+echo "------ "
+ls -la
+echo "------ "
+echo "------ "
 
 docker-compose exec -T code gulp jenkins
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
