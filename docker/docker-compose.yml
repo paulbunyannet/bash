@@ -9,6 +9,8 @@ networks:
     external: true
   backend:
     driver: bridge
+  testend:
+    driver: bridge
 
 
 services:
@@ -30,6 +32,7 @@ services:
     networks:
     - frontend
     - backend
+    - testend
 
   code:
     restart: always
@@ -69,14 +72,42 @@ services:
     networks:
       - backend
 
-  firefox:
-    image: travix/selenium-node-firefox:latest
+  hub:
+    image: selenium/hub
     privileged: true
     ports:
       - "4444:4444"
     environment:
       - GRID_TIMEOUT=120000
       - GRID_BROWSER_TIMEOUT=120000
+    networks:
+      - testend
+      - backend
+    depends_on:
+      - code
+
+  chrome:
+    image: selenium/node-chrome-debug
+#    image: selenium/standalone-chrome-debug
+    environment:
+      - no_proxy=localhost
+      - TZ=America/Chicago
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+    expose:
+      - '4444'
+      - '5900'
+    depends_on:
+      - hub
+    links:
+      - hub
+    networks:
+      - testend
+
+  firefox:
+    image: travix/selenium-node-firefox
+#    image: selenium/standalone-firefox-debug
+    environment:
       - no_proxy=localhost
       - TZ=America/Chicago
       - HUB_PORT_4444_TCP_ADDR=hub
@@ -84,9 +115,11 @@ services:
     expose:
       - '4444'
     depends_on:
-      - code
+      - hub
+    links:
+      - hub
     networks:
-      - backend
+      - testend
 
   redis:
     image: redis:3
