@@ -9,8 +9,6 @@ networks:
     external: true
   backend:
     driver: bridge
-  testend:
-    driver: bridge
 
 
 services:
@@ -32,7 +30,6 @@ services:
     networks:
     - frontend
     - backend
-    - testend
 
   code:
     restart: always
@@ -72,47 +69,14 @@ services:
     networks:
       - backend
 
-#  hub:
-#    image: selenium/hub
-#    privileged: true
-#    ports:
-#      - "4444:4444"
-#    environment:
-#      - GRID_TIMEOUT=120000
-#      - GRID_BROWSER_TIMEOUT=120000
-#    networks:
-#      - testend
-#      - backend
-#    depends_on:
-#      - code
-
-#  chrome:
-#    image: selenium/node-chrome-debug
-##    image: selenium/standalone-chrome-debug
-#    environment:
-#      - no_proxy=localhost
-#      - TZ=America/Chicago
-#      - HUB_PORT_4444_TCP_ADDR=hub
-#      - HUB_PORT_4444_TCP_PORT=4444
-#    expose:
-#      - '4444'
-#      - '5900'
-#    depends_on:
-#      - hub
-#    links:
-#      - hub
-#    networks:
-#      - testend
-
   firefox:
-#    image: selenium/node-firefox-debug #to uncomment out with hub
-    image: selenium/standalone-firefox-debug #to comment out with hub
-    privileged: true #to comment out with hub
-    ports: #to comment out with hub
-      - "4444:4444" #to comment out with hub
+    image: travix/selenium-node-firefox:latest
+    privileged: true
+    ports:
+      - "4444:4444"
     environment:
-      - GRID_TIMEOUT=120000 #to comment out
-      - GRID_BROWSER_TIMEOUT=120000 #to comment out with hub
+      - GRID_TIMEOUT=120000
+      - GRID_BROWSER_TIMEOUT=120000
       - no_proxy=localhost
       - TZ=America/Chicago
       - HUB_PORT_4444_TCP_ADDR=hub
@@ -120,13 +84,9 @@ services:
     expose:
       - '4444'
     depends_on:
-#      - hub #to uncomment out with hub
-      - code #to comment out with hub
-#    links: #to uncomment out with hub
-#      - hub #to uncomment out with hub
+      - code
     networks:
-      - testend
-      - backend #to comment out with hub
+      - backend
 
   redis:
     image: redis:3
