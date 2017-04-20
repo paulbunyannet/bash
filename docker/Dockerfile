@@ -8,7 +8,6 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
 
 #Download Yarn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
-RUN echo deb http://http.debian.net/debian jessie-backports main >> /etc/apt/sources.list
 #Update and Install Dependencies
 RUN apt-get update && RUN apt-get install -y zip unzip curl mysql-client git nodejs yarn libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev zlib1g-dev libicu-dev g++ git curl
 
