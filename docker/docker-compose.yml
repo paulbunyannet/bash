@@ -104,7 +104,7 @@ services:
     networks:
       - testend
 
-  chrome:
+  phantomjs:
     image: selenium/node-phantomjs
     environment:
       - no_proxy=localhost
