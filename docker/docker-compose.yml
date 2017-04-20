@@ -87,7 +87,7 @@ services:
       - code
 
   chrome:
-    image: selenium/node-chrome-debug
+    image: selenium/node-chrome
 #    image: selenium/standalone-chrome-debug
     environment:
       - no_proxy=localhost
@@ -104,8 +104,25 @@ services:
     networks:
       - testend
 
+  chrome:
+    image: selenium/node-phantomjs
+    environment:
+      - no_proxy=localhost
+      - TZ=America/Chicago
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+    expose:
+      - '4444'
+      - '5900'
+    depends_on:
+      - hub
+    links:
+      - hub
+    networks:
+      - testend
+
   firefox:
-    image: travix/selenium-node-firefox
+    image: selenium/node-firefox
 #    image: selenium/standalone-firefox-debug
     environment:
       - no_proxy=localhost
@@ -114,6 +131,7 @@ services:
       - HUB_PORT_4444_TCP_PORT=4444
     expose:
       - '4444'
+      - '5900'
     depends_on:
       - hub
     links:
