@@ -122,8 +122,7 @@ services:
 #      - testend
 
   firefox:
-    image: travix/selenium-node-firefox
-#    image: selenium/node-firefox
+    image: selenium/node-firefox
 #    image: selenium/standalone-firefox-debug
     environment:
       - no_proxy=localhost
