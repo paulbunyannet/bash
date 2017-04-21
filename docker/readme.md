@@ -34,17 +34,25 @@
 #./dock.sh -h or --help
 + it will show you all the following commands
 
-#./dock.sh open or -open or --open
-1. it will open the php container (call code container now in docker-compose file)
-2. it will run all the other container if they aren't running
-3. it won't rebuild the images and it won't update dependencies
-4. And:
-        
-        1. it will run php artisan migrate
-        2. it will run gulp
-        3. it will leave open bash into the application container
+#./dock.sh up
+1. it will run the docker-start file without prompting you at anytime, it wont rebuild images and redownload the dependencies (it will answer no to both prompts)
+2. And:
 
-#./dock.sh down or -down or --down
+        1. it will run composer
+        2. it will run php artisan migrate
+        3. it will run gulp or grunt
+        4. it will leave open bash into the application container
+        
+#./dock.sh fup
+1. it will run the docker-start file without prompting you at anytime, it will rebuild images and redownload the dependencies (it will answer yes to both prompts)
+2. And:
+
+        1. it will run composer
+        2. it will run php artisan migrate
+        3. it will run gulp or grunt
+        4. it will leave open bash into the application container
+
+#./dock.sh down
 1. it will do a docker-compose down for all the docker containers that were created from the docker-compose file (traefik is not on that file so it will be still available for other projects that are still open)
 
 #./dock.sh forcedown or fdown or -forcedown or -fdown or --forcedown or --fdown
@@ -96,22 +104,6 @@
         2. it will run gulp
         3. it will leave open bash into the application container
 
-
-#./dock.sh -a or --all
-1. it will run the docker-start file without prompting you at anytime, it will rebuild images and redownload the dependencies (it will answer yes to both prompts)
-2. And:
-
-        1. it will run php artisan migrate
-        2. it will run gulp
-        3. it will leave open bash into the application container
-
-#./dock.sh -n or --none
-1. it will run the docker-start file without prompting you at anytime, it will not rebuild images or redownload the dependencies (it will answer no to both prompts)
-2.  And:
-
-        1. it will run php artisan migrate
-        2. it will run gulp
-        3. it will leave open bash into the application container
 
 ---
 > for the flags, you can use up to three flags lets say.

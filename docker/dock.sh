@@ -114,25 +114,24 @@ case $ARG1 in
     echo "${CYAN}########################################################################################${NONE}"
     echo " "
     echo "${GREEN}   *${NONE} ${YELLOW}-h or --help${NONE}\n      ${RED} ->${NONE} to show this menu..... \n"
-    echo "${GREEN}   *${NONE} ${YELLOW}open or -open or --open${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose exec code bash..... just if you couldn't remember the command :P \n"
-    echo "${GREEN}   *${NONE} ${YELLOW}down or -down or --down${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down..... just if you couldn't remember the command :P \n"
-    echo "${GREEN}   *${NONE} ${YELLOW}forcedown or fdown -forcedown or -fdown or --forcedown or --fdown${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down with a -v to remove volumes..... just if you couldn't remember the command :P \n"
+    echo "${GREEN}   *${NONE} ${YELLOW}up ${NONE}\n      ${RED} ->${NONE} to tell the script that you dont want to rebuild the images and to reinstall dependencies\n"
+    echo "${GREEN}   *${NONE} ${YELLOW}fup ${NONE}\n      ${RED} ->${NONE} to tell the script that you want to rebuild the images and to install dependencies\n"
+    echo "${GREEN}   *${NONE} ${YELLOW}down${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down..... just if you couldn't remember the command :P \n"
+    echo "${GREEN}   *${NONE} ${YELLOW}fdown${NONE}\n      ${RED} ->${NONE} to do a normal docker-compose down with a -v to remove volumes..... just if you couldn't remember the command :P \n"
     echo "${GREEN}   *${NONE} ${YELLOW}-i or --images${NONE}\n      ${RED} ->${NONE} to tell the script that you want to build the images\n"
     echo "${GREEN}   *${NONE} ${YELLOW}-ni or --notimages${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to build the images\n"
     echo "${GREEN}   *${NONE} ${YELLOW}-d or --dependencies${NONE}\n      ${RED} ->${NONE} to tell the script that you want to install dependencies\n"
     echo "${GREEN}   *${NONE} ${YELLOW}-nd or --notdependencies${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to install dependencies\n"
-    echo "${GREEN}   *${NONE} ${YELLOW} up or -up or --up or -a or --all${NONE}\n      ${RED} ->${NONE} to tell the script that you want to rebuild the images and to install dependencies\n"
-    echo "${GREEN}   *${NONE} ${YELLOW}-n or --none${NONE}\n      ${RED} ->${NONE} to tell the script that you don't want to rebuild the images or to install dependencies\n"
     echo " "
     echo "########################################################################################"
             exit;
     ;;
-    [dD][oO][wW][nN]|[-][dD][oO][wW][nN]|[-][-][dD][oO][wW][nN])
+    [dD][oO][wW][nN])
 
             docker-compose down;
             exit;
     ;;
-    [fF][oO][rR][cC][eE][dD][oO][wW][nN]|[-][fF][oO][rR][cC][eE][dD][oO][wW][nN]|[-][-][fF][oO][rR][cC][eE][dD][oO][wW][nN]|[fF][dD][oO][wW][nN]|[-][fF][dD][oO][wW][nN]|[-][-][fF][dD][oO][wW][nN])
+    [fF][dD][oO][wW][nN])
 
             echo "{$RED}This command is going to remove every volume for this project"
             echo "(that means you will lose all database changes made until now){$BLUE}"
@@ -148,25 +147,6 @@ case $ARG1 in
                 docker-compose down;;
             esac
             exit;
-    ;;
-    [oO][pP][eE][nN]|[-][oO][pP][eE][nN]|[-][-][oO][pP][eE][nN])
-            CONT=code
-            CODERUNNING="true"
-            CODERUNNING=$(docker inspect --format="{{ .State.Running }}" $CONTAINER 2> /dev/null)
-            if [ $? -eq 1 ]; then
-              echo "Warning - $CONT is not running."
-              CODERUNNING="false"
-            fi
-            if  [ "$CODERUNNING" != "false" ]; then
-
-                docker-compose exec code bash
-                exit;
-            else
-                REDOIMAGES="false"
-                REMOVEDEPENDENCIES="false"
-                ONECHECK="true"
-            fi
-
     ;;
     [-][vV]|[-][-][vV][eE][rR][bB][oO][sS][eE])
           VERBOSE="true"
@@ -188,20 +168,21 @@ case $ARG1 in
           REMOVEDEPENDENCIES="false"
             echo "REMOVEDEPENDENCIES is false"
     ;;
-    [uU][pP]|[-][uU][pP]|[-][-][uU][pP]|[-][aA]|[-][-][aA][lL][lL])
+    [uU][pP])
+          REMOVEDEPENDENCIES="false"
+          REDOIMAGES="false"
+          ONECHECK="true"
+            sh get_docker_assets.sh
+            echo "REDOIMAGES is true"
+            echo "REMOVEDEPENDENCIES is true"
+    ;;
+    [fF][uU][pP])
           REMOVEDEPENDENCIES="true"
           REDOIMAGES="true"
           ONECHECK="true"
             sh get_docker_assets.sh
             echo "REDOIMAGES is true"
             echo "REMOVEDEPENDENCIES is true"
-    ;;
-    [-][nN]|[-][-][nN][oO][nN][eE])
-          REMOVEDEPENDENCIES="false"
-          REDOIMAGES="false"
-          ONECHECK="true"
-            echo "REDOIMAGES is false"
-            echo "REMOVEDEPENDENCIES is false"
     ;;
     *)
     ;;
@@ -458,81 +439,84 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         fi
         NPMEND=$(date +%s);
     fi
-    if [ "$doc_bower" == "true" ]; then
-        BOWERSTART=$(date +%s);
-        echo "#########################################################################${GREEN}"
-        echo "#########################################################################"
-        echo "bower update --force"
-        if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T code bower update --force  --allow-root --silent  >/dev/null 2>&1;
-        else
-            docker-compose exec -T code bower update --force  --allow-root --quiet
-        fi
-        BOWEREND=$(date +%s);
-    fi
-    if [ "$doc_composer" == "true" ]; then
-        COMPOSERSTART=$(date +%s);
-        echo "#########################################################################${PURPLE}"
-        echo "#########################################################################"
-        echo "composer update"
-        if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T code composer update --quiet
-        else
-            docker-compose exec -T code composer update
-        fi
-        COMPOSEREND=$(date +%s);
-    fi
     if [ "$doc_artisan_key" == "true" ]; then
         echo "#########################################################################${CYAN}"
         echo "#########################################################################"
         echo "php artisan key:generate"
         docker-compose exec -T code php artisan key:generate
     fi
-    if [ "$doc_artisan_migrate" == "true" ]; then
-        MIGRATIONSTART=$(date +%s);
-        echo "#########################################################################${NONE}"
-        echo "${CYAN}#########################################################################"
-        echo "Opening code container --> container ID: $ImageName ${NONE}" ;
-        echo "#########################################################################"
-        echo "php artisan migrate"
-        docker-compose exec -T code php artisan migrate
-        MIGRATIONEND=$(date +%s);
-    fi
-    if [ "$doc_gulp" == "true" ]; then
-        GULPSTART=$(date +%s);
-        echo "#########################################################################"
-        echo "gulp"
-        if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T code gulp >/dev/null 2>&1;
-        else
-            docker-compose exec -T code gulp
-        fi
-        echo "#########################################################################"
-        GULPEND=$(date +%s);
-    fi
-    # start install and run of grunt if
-    # - set $doc_grunt exists
-    # - $doc_grunt is set to "true"
-    # - that there's a Gruntfile.js in the code container
-    gruntFile="grunt_exists_file"
-    grFile="Gruntfile.js"
-    if [ -e "$grFile" ]; then echo 1 > ${gruntFile}; else echo 0 > ${gruntFile}; fi;
-    gruntExists=$(cat grunt_exists_file);
-    if [ -n ${doc_grunt} ] && [ "${doc_grunt}" = "true" ] && [ ${gruntExists} -eq 1 ]; then
-        GRUNTSTART=$(date +%s);
-        echo "#########################################################################${NONE}"
-        echo "${CYAN}#########################################################################"
-        echo "Opening code container --> container ID: $ImageName ${NONE}" ;
-        echo "#########################################################################"
-        echo "grunt"
-        # Install grunt-cli globally then run grunt
-        docker-compose exec -T code yarn global add grunt-cli && yarn add grunt --dev && grunt
-        GRUNTEND=$(date +%s);
-    fi;
-    rm -f ${gruntFile} || true
 else
     echo "You chose to not build the assets so they were skipped";
 fi
+
+if [ "$doc_bower" == "true" ]; then
+    BOWERSTART=$(date +%s);
+    echo "#########################################################################${GREEN}"
+    echo "#########################################################################"
+    echo "bower update --force"
+    if [ "$VERBOSE" == "false" ]; then
+        docker-compose exec -T code bower update --force  --allow-root --silent  >/dev/null 2>&1;
+    else
+        docker-compose exec -T code bower update --force  --allow-root --quiet
+    fi
+    BOWEREND=$(date +%s);
+fi
+if [ "$doc_composer" == "true" ]; then
+    COMPOSERSTART=$(date +%s);
+    echo "#########################################################################${PURPLE}"
+    echo "#########################################################################"
+    echo "composer update"
+    if [ "$VERBOSE" == "false" ]; then
+        docker-compose exec -T code composer update --quiet
+    else
+        docker-compose exec -T code composer update
+    fi
+    COMPOSEREND=$(date +%s);
+fi
+if [ "$doc_artisan_migrate" == "true" ]; then
+    MIGRATIONSTART=$(date +%s);
+    echo "#########################################################################${NONE}"
+    echo "${CYAN}#########################################################################"
+    echo "Opening code container --> container ID: $ImageName ${NONE}" ;
+    echo "#########################################################################"
+    echo "php artisan migrate"
+    docker-compose exec -T code php artisan migrate
+    MIGRATIONEND=$(date +%s);
+fi
+if [ "$doc_gulp" == "true" ]; then
+    GULPSTART=$(date +%s);
+    echo "#########################################################################"
+    echo "gulp"
+    if [ "$VERBOSE" == "false" ]; then
+        docker-compose exec -T code gulp >/dev/null 2>&1;
+    else
+        docker-compose exec -T code gulp
+    fi
+    echo "#########################################################################"
+    GULPEND=$(date +%s);
+fi
+# start install and run of grunt if
+# - set $doc_grunt exists
+# - $doc_grunt is set to "true"
+# - that there's a Gruntfile.js in the code container
+gruntFile="grunt_exists_file"
+grFile="Gruntfile.js"
+if [ -e "$grFile" ]; then echo 1 > ${gruntFile}; else echo 0 > ${gruntFile}; fi;
+gruntExists=$(cat grunt_exists_file);
+if [ -n ${doc_grunt} ] && [ "${doc_grunt}" = "true" ] && [ ${gruntExists} -eq 1 ]; then
+    GRUNTSTART=$(date +%s);
+    echo "#########################################################################${NONE}"
+    echo "${CYAN}#########################################################################"
+    echo "Opening code container --> container ID: $ImageName ${NONE}" ;
+    echo "#########################################################################"
+    echo "grunt"
+    # Install grunt-cli globally then run grunt
+    docker-compose exec -T code yarn global add grunt-cli && yarn add grunt --dev && grunt
+    GRUNTEND=$(date +%s);
+fi;
+rm -f ${gruntFile} || true
+
+
 DOCKEND=$(date +%s);
 SIXTY=60;
 DOCKTOTAL=$(($DOCKEND - $DOCKSTART));
