@@ -26,6 +26,7 @@ services:
     - ./.env
     expose:
     - "80"
+    - "443"
     labels:
     - "traefik.frontend.rule=Host:${SERVER_NAME}"
     - "traefik.docker.network=frontend"
