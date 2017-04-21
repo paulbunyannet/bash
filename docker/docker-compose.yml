@@ -76,8 +76,6 @@ services:
   hub:
     image: selenium/hub
     privileged: true
-    ports:
-      - "4444:4444"
     environment:
       - GRID_TIMEOUT=120000
       - GRID_BROWSER_TIMEOUT=120000
