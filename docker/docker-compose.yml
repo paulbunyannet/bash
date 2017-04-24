@@ -29,6 +29,8 @@ services:
     labels:
     - "traefik.frontend.rule=Host:${SERVER_NAME}"
     - "traefik.docker.network=frontend"
+    - "traefik.port=443"
+    - "traefik.protocol=https"
     networks:
     - frontend
     - backend
