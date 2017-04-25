@@ -15,6 +15,10 @@
             + doc_migrate="true" or "false"/do not write it in your env file
             + doc_bower="true" or "false"/do not write it in your env file
             + doc_gulp="true" or "false"/do not write it in your env file
+##If you have windows, so every folder is mounted correctly, you will have to run this command. This is only a one time deal byut if you not run it, you will get a ton of errors
+## a requirement is that you install bash ubuntu on windows or windows subsystem for linux (WSL)
+## after that go to your bash terminal and run:
+ls -s /mnt/c /c
 
 ##What is so cool about the dock.sh file.
 ###Well it is cool if you use a mac for development :)
