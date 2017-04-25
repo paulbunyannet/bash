@@ -1,7 +1,8 @@
 FROM php:7-fpm
 
-MAINTAINER Garrett
-MAINTAINER Nelson
+MAINTAINER Garrett Johnson <garrettj@paulbunyan.net>
+MAINTAINER Nelson Castillo <castillo@paulbunyan.net>
+MAINTAINER Nate Nolting <naten@paulbunyan.net>
 
 #Download NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
