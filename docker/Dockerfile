@@ -21,6 +21,18 @@ RUN pecl install xdebug \
         && docker-php-ext-enable xdebug \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl
+    
+# Install ast extension for Phan static code analsys https://github.com/nikic/php-ast https://github.com/etsy/phan
+RUN cd /tmp \
+    && git clone https://github.com/nikic/php-ast.git \
+    && cd php-ast \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && echo "extension=$(find /usr/local/lib/php/extensions/ -name ast.so)\n" >> /usr/local/etc/php/conf.d/php-ast.ini \
+    && cd /tmp \
+    && rm -rf /tmp/php-ast;    
 
 # Get GD ready to install
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
