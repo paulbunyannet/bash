@@ -407,6 +407,19 @@ if [ "$REMOVEDEPENDENCIES" == "$NOT" ]; then
     esac
 fi
 
+# Install Ruby and Bundler in the code container if there's a Gemfile in this project
+if [ -f Gemfile ];
+    then
+        divider "#" ${PURPLE}
+        printf "${PURPLE}Installing Ruby Gem dependencies${NL}"
+        divider "-" ${PURPLE}
+        docker-compose exec -T code apt-get install ruby-full -y;
+        docker-compose exec -T code gem install bundler;
+        docker-compose exec -T code bundler install;
+        printf "${PURPLE}Installing Ruby Gem dependencies complete!${NL}"
+        divider "#" ${PURPLE}
+fi;
+
 
 if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
     echo "${YELLOW}#########################################################################"
