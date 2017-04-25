@@ -133,8 +133,8 @@ case $ARG1 in
     ;;
     [fF][dD][oO][wW][nN])
 
-            echo "{$RED}This command is going to remove every volume for this project"
-            echo "(that means you will lose all database changes made until now){$BLUE}"
+            echo "$RED This command is going to remove every volume for this project"
+            echo "(that means you will lose all database changes made until now) $BLUE"
             echo "Do you wish to continue? type y or yes to continue"
             read -e -p "##### >>: " buildme;
             echo "${NONE} "
