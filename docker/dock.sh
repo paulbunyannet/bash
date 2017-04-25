@@ -13,6 +13,7 @@ ARG2="false";
 ARG1="false"
 NOT="not";
 TRUE="true";
+NL="\n"
 NONE='\033[00m';
 BLINK='\033[5m';
 BLACK='\033[01;30m';
@@ -252,6 +253,17 @@ if [ "$TWOCHECKS" == "false" ]; then
     ;;
     esac
 fi
+
+################################################################################
+################################################################################
+# Output divider to end of screen
+# http://stackoverflow.com/questions/24367088/print-a-character-till-end-of-line
+################################################################################
+function divider() {
+    div=$(for ((i=0; i<$(tput cols); i++));do printf "${2}${1}${NONE}"; done; echo);
+    echo ${div};
+}
+
 ##############################################################
 ##############################################################
 #load variables of env file
