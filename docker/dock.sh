@@ -44,6 +44,8 @@ NPMSTART=0;
 NPMEND=0;
 POSTDOCKERSTART=0;
 POSTDOCKEREND=0;
+RUBYSTART=0;
+RUBYEND=0;
 if [ -z $1 ]
 then
   ARG1="false"
@@ -412,6 +414,7 @@ fi
 # Install Ruby and Bundler in the code container if there's a Gemfile in this project
 if [ -f Gemfile ];
     then
+        RUBYSTART=$(date +%s);
         divider "#" ${PURPLE}
         printf "${PURPLE}Installing Ruby Gem dependencies${NL}"
         divider "-" ${PURPLE}
@@ -420,6 +423,7 @@ if [ -f Gemfile ];
         docker-compose exec -T code bundler install;
         printf "${PURPLE}Installing Ruby Gem dependencies complete!${NL}"
         divider "#" ${PURPLE}
+        RUBYEND=$(date +%s);
 fi;
 
 
@@ -596,7 +600,13 @@ POSTDOCKERTOTALMIN=$(($POSTDOCKERTOTAL / $SIXTY));
 POSTDOCKERTOTALREST=$(($POSTDOCKERTOTALMIN * $SIXTY));
 POSTDOCKERTOTALSEC=$(($POSTDOCKERTOTAL - $POSTDOCKERTOTALREST));
 
+POSTDOCKERTOTAL=$(($POSTDOCKERSTART - $POSTDOCKEREND));
+POSTDOCKERTOTALMIN=$(($POSTDOCKERTOTAL / $SIXTY));
+POSTDOCKERTOTALREST=$(($POSTDOCKERTOTALMIN * $SIXTY));
+POSTDOCKERTOTALSEC=$(($POSTDOCKERTOTAL - $POSTDOCKERTOTALREST));
+
 echo "${BLUE}The whole dock.sh command took: $DOCKTOTALMIN minutes $DOCKTOTALSEC seconds";
+echo "Ruby Gem Dependencies: $RUBYTOTALMIN minutes $RUBYTOTALSEC seconds";
 echo "Grunt: $GRUNTTOTALMIN minutes $GRUNTTOTALSEC seconds";
 echo "Gulp: $GULPTOTALMIN minutes $GULPTOTALSEC seconds";
 echo "Composer: $COMPOSERTOTALMIN minutes $COMPOSERTOTALSEC seconds";
