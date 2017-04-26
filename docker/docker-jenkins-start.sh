@@ -137,6 +137,9 @@ cd wp-content
 cd plugins
 chmod -fR 755 map-manager
 chmod -fR 755 speed-manager
+cd ..
+cd ..
+cd ..
 #echo "Running Tests"
 #docker-compose exec -T code codecept run -vvv;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
