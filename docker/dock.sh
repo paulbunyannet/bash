@@ -42,6 +42,8 @@ YARNSTART=0;
 YARNEND=0;
 NPMSTART=0;
 NPMEND=0;
+POSTDOCKERSTART=0;
+POSTDOCKEREND=0;
 if [ -z $1 ]
 then
   ARG1="false"
@@ -545,6 +547,18 @@ if [ -n ${doc_grunt} ] && [ "${doc_grunt}" = "true" ] && [ ${gruntExists} -eq 1 
 fi;
 rm -f ${gruntFile} || true
 
+# Run post docker script from composer if there is one
+if [ "$doc_composer" == "true" ] && [ $(grep -q 'post-docker' 'composer.json' && echo $?) -eq 0 ]; then
+    POSTDOCKERSTART=$(date +%s);
+    divider "#" ${YELLOW};
+    printf "${YELLOW}Running composer post-docker scripts${NL}";
+    divider "-" ${YELLOW};
+    docker-compose exec -T code composer run-script post-docker || true;
+    printf "${YELLOW}Running composer post-docker scripts complete${NL}";
+    divider "#" ${YELLOW};
+    POSTDOCKEREND=$(date +%s);
+fi;
+
 
 DOCKEND=$(date +%s);
 SIXTY=60;
@@ -576,6 +590,12 @@ NPMTOTAL=$(($NPMEND - $NPMSTART));
 NPMTOTALMIN=$(($NPMTOTAL / $SIXTY));
 NPMTOTALREST=$(($NPMTOTALMIN * $SIXTY));
 NPMTOTALSEC=$(($NPMTOTAL - $NPMTOTALREST));
+
+POSTDOCKERTOTAL=$(($POSTDOCKERSTART - $POSTDOCKEREND));
+POSTDOCKERTOTALMIN=$(($POSTDOCKERTOTAL / $SIXTY));
+POSTDOCKERTOTALREST=$(($POSTDOCKERTOTALMIN * $SIXTY));
+POSTDOCKERTOTALSEC=$(($POSTDOCKERTOTAL - $POSTDOCKERTOTALREST));
+
 echo "${BLUE}The whole dock.sh command took: $DOCKTOTALMIN minutes $DOCKTOTALSEC seconds";
 echo "Grunt: $GRUNTTOTALMIN minutes $GRUNTTOTALSEC seconds";
 echo "Gulp: $GULPTOTALMIN minutes $GULPTOTALSEC seconds";
@@ -583,6 +603,7 @@ echo "Composer: $COMPOSERTOTALMIN minutes $COMPOSERTOTALSEC seconds";
 echo "Migrations: $MIGRATIONTOTALMIN minutes $MIGRATIONTOTALSEC seconds";
 echo "Yarn: $YARNTOTALMIN minutes $YARNTOTALSEC seconds";
 echo "NPM $NPMTOTALMIN minutes $NPMTOTALSEC seconds";
+echo "Post Docker scripts: ${POSTDOCKERTOTALMIN} minutes ${POSTDOCKERTOTALSEC} seconds";
 echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}";
 docker-compose exec code bash
 echo "#########################################################################"
