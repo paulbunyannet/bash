@@ -552,7 +552,8 @@ fi;
 rm -f ${gruntFile} || true
 
 # Run post docker script from composer if there is one
-if [ "$doc_composer" == "true" ] && [ $(grep -q 'post-docker' 'composer.json' && echo $?) -eq 0 ]; then
+postDocker=$(grep -c "post-docker" composer.json)
+if [[ ${doc_composer} == "true" && ${postDocker} > 0 ]]; then
     POSTDOCKERSTART=$(date +%s);
     divider "#" ${YELLOW};
     printf "${YELLOW}Running composer post-docker scripts${NL}";
