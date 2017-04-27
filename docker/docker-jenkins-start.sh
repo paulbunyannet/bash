@@ -135,8 +135,9 @@ chmod -f 777 c3_error.log
 cd public_html
 cd wp-content
 cd plugins
-chmod -fR 777 map-manager
-chmod -fR 777 speed-manager
+cd map-manager
+chmod -fR 777 js
+cd ..
 cd ..
 cd ..
 cd ..
