@@ -101,35 +101,57 @@ fi
 ##############################################################
 ##############################################################
 
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running docker-compose build "
-docker-compose build >/dev/null 2>&1;
+docker-compose build --quiet
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running docker-compose up -d "
-docker-compose up -d >/dev/null 2>&1;
+docker-compose up -d --quiet
 
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running docker-compose exec -T code npm cache clean"
-docker-compose exec -T code npm cache clean >/dev/null 2>&1;
+docker-compose exec -T code npm cache clean
 
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running Composer"
-docker-compose exec -T code composer install >/dev/null 2>&1;
-docker-compose exec -T code composer update >/dev/null 2>&1;
-docker-compose exec -T code composer dump-autoload --optimize >/dev/null 2>&1;
+docker-compose exec -T code composer install --quiet
+docker-compose exec -T code composer update --quiet
+docker-compose exec -T code composer dump-autoload --optimize --quiet
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Generating Key"
-docker-compose exec -T code php artisan key:generate >/dev/null 2>&1;
+docker-compose exec -T code php artisan key:generate
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running Migrations"
-docker-compose exec -T code php artisan migrate >/dev/null 2>&1;
+docker-compose exec -T code php artisan migrate
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running git_log.sh to get current commit hash"
 docker-compose exec -T code bash git_log.sh;
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Latest commit hash: $(head -n 1 git_log.txt)"
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running Yarn"
-docker-compose exec -T code yarn >/dev/null 2>&1;
-docker-compose exec -T code yarn upgrade >/dev/null 2>&1;
-docker-compose exec -T code yarn run postinstall >/dev/null 2>&1;
+docker-compose exec -T code yarn --silent
+docker-compose exec -T code yarn upgrade --silent
+docker-compose exec -T code yarn run postinstall --silent
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running Bower"
-docker-compose exec -T code bower install  >/dev/null 2>&1;
-docker-compose exec -T code bower update --force  --allow-root --quiet  >/dev/null 2>&1;
+docker-compose exec -T code bower install --silent
+docker-compose exec -T code bower update --force  --allow-root --silent
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running Gulp"
 
-docker-compose exec -T code gulp production >/dev/null 2>&1;
+docker-compose exec -T code gulp production --silent
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 touch c3_error.log
 chmod -fR 777 storage
