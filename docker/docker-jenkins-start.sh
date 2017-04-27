@@ -132,15 +132,6 @@ echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 touch c3_error.log
 chmod -fR 777 storage
 chmod -f 777 c3_error.log
-cd public_html
-cd wp-content
-cd plugins
-cd map-manager
-chmod -fR 777 js
-cd ..
-cd ..
-cd ..
-cd ..
 #echo "Running Tests"
 #docker-compose exec -T code codecept run -vvv;
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
