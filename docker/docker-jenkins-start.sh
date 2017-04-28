@@ -11,8 +11,12 @@ chmod -fR 777 storage
 chmod -f 777 c3_error.log
 
 
+# make .env if not already created
 latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | awk '{ print $1}');
-curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/get_docker_assets.sh > get_docker_assets.sh;
+curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/update_docker_assets_file.sh > update_docker_assets_file.sh;
+chmod +x update_docker_assets_file.sh;
+sh update_docker_assets_file.sh;
+chmod +x get_docker_assets.sh;
 sh get_docker_assets.sh;
 
 # make .env if not already created
