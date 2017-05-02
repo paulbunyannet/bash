@@ -25,7 +25,6 @@ if [ ! -f ".env" ]; then
     echo ".env was created from example file"
 fi
 
-echo $'\nXDEBUG_CONFIG="remote_host=172.17.0.1"\n' >> .env
 # cleanup wordpress install
 
 ##############################################################
