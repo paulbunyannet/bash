@@ -14,10 +14,10 @@ do
     fi;
 done
 
-chmod +x dock-helpers.sh
-chmod +x dock.sh
-chmod +x update_docker_assets_file.sh
-chmod +x docker-jenkins-start.sh
+chmod a+x dock-helpers.sh
+chmod a+x dock.sh
+chmod a+x update_docker_assets_file.sh
+chmod a+x docker-jenkins-start.sh
 sh dock-helpers.sh
 ##############################################################
 #load the variables!! -->
