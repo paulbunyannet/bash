@@ -4,7 +4,7 @@ latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | a
 ##############################################################
 # Load in Helper file
 ##############################################################
-curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/dock-helpers.sh > dock_helpers.sh;
+curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/dock-helpers.sh > dock-helpers.sh;
 . dock-helpers.sh
 
 ##############################################################
