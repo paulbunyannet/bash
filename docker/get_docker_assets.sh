@@ -18,7 +18,7 @@ chmod +x dock-helpers.sh
 chmod +x dock.sh
 chmod +x update_docker_assets_file.sh
 chmod +x docker-jenkins-start.sh
-
+sh dock-helpers.sh
 ##############################################################
 #load the variables!! -->
 loadenv
