@@ -14,18 +14,23 @@ do
     fi;
 done
 
-chmod +x dock-helpers.sh
-chmod +x dock.sh
-chmod +x update_docker_assets_file.sh
-chmod +x docker-jenkins-start.sh
-
+chmod a+x dock-helpers.sh
+chmod a+x dock.sh
+chmod a+x update_docker_assets_file.sh
+chmod a+x docker-jenkins-start.sh
+sh dock-helpers.sh
 ##############################################################
 #load the variables!! -->
 loadenv
 
+if [ -z ${jenkins+x} ]; then jenkins=false; else jenkins=true; fi;
+if [ ${jenkins} == "true" ] && [ ${jenkins} == "true" ]; then
+    echo $'\nXDEBUG_CONFIG="remote_host=172.17.0.1"\n' >> .env
+fi
+
 # Some sites are not ready to make the jump to PHP 7 and require PHP 5.6 instead
 if [ -z ${php56+x} ]; then getPhp65=false; else getPhp65=true; fi;
-if ${getPhp65} == "true" && ${php56} == "true" ; then
+if [ ${getPhp65} == "true" ] && [ ${php56} == "true" ]; then
 	echo "Downloading PHP 5.6 version of Dockerfile"
 	curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/DockerfilePhp56 > Dockerfile;
 fi

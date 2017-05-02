@@ -75,7 +75,7 @@ services:
       - backend
 
   hub:
-    image: selenium/hub
+    image: selenium/hub:3.3.1
     privileged: true
     environment:
       - GRID_TIMEOUT=120000
@@ -126,7 +126,7 @@ services:
 #      - testend
 
   firefox:
-    image: selenium/node-firefox
+    image: selenium/node-firefox:3.3.1
 #    image: selenium/standalone-firefox-debug
     environment:
       - no_proxy=localhost
