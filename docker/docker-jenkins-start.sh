@@ -32,11 +32,9 @@ echo $'\nXDEBUG_CONFIG="remote_host=172.17.0.1"\n' >> .env
 ##############################################################
 # Load in Helper file
 ##############################################################
-. dock-helpers.sh
-
+sh dock-helpers.sh
 ##############################################################
 #load the variables!! -->
-loadenv
 if [ -d "public_html/wp/wp-content" ];then
     rm -rf public_html/wp/wp-content
 fi
