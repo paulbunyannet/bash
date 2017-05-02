@@ -1,32 +1,16 @@
 #!/usr/bin/env bash
 latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | awk '{ print $1}');
 ##############################################################
-#load variables of env file
 ##############################################################
-function loadenv() {
-    env=${1:-.env}
-    echo Loading $env
-    file=`mktemp`
-    if [ -f $env ]; then
-            cat $env | while read line; do
-            case $line in
-                [a-zA-Z]* )
-                    echo export $line >> $file;
-                 ;;
-                *)
-                ;;
-                esac
-            done
-            source $file
-    else
-            echo No file $env
-    fi
-    echo Loaded $env
-}
+# Load in Helper file
+##############################################################
+curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/dock-helpers.sh > dock_helpers.sh;
+. ./dock-helpers.sh
 
 ##############################################################
 #load the variables!! -->
 loadenv
+
 # for each of the customizable local files get them from the repo if they are not ignored and don't exist
 for fileName in "update_docker_assets_file.sh" "docker-compose.yml" "Dockerfile" "Dockerfile.httpd" "php-override.ini" "docker-jenkins-start.sh" "dock.sh" "httpd.conf" "server.crt" "server.key"
 do

@@ -30,28 +30,9 @@ echo $'\nXDEBUG_CONFIG="remote_host=172.17.0.1"\n' >> .env
 
 ##############################################################
 ##############################################################
-#load variables of env file
+# Load in Helper file
 ##############################################################
-function loadenv() {
-    env=${1:-.env}
-    echo Loading $env
-    file=`mktemp`
-    if [ -f $env ]; then
-            cat $env | while read line; do
-            case $line in
-                [a-zA-Z]* )
-                    echo export $line >> $file;
-                 ;;
-                *)
-                ;;
-                esac
-            done
-            source $file
-    else
-            echo No file $env
-    fi
-    echo Loaded $env
-}
+. ./dock-helpers.sh
 
 ##############################################################
 #load the variables!! -->
