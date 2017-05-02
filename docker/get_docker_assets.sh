@@ -39,8 +39,12 @@ do
         echo "${fileName} is part of this project."
     fi;
 done
-if [ -z ${php56+x} ] && ${php56} == "true" ; then
-        curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/DockerfilePhp56 > Dockerfile;
+
+# Some sites are not ready to make the jump to PHP 7 and require PHP 5.6 instead
+if [ -z ${php56+x} ]; then getPhp65=false; else getPhp65=true; fi;
+if ${getPhp65} == "true" && ${php56} == "true" ; then
+	echo "Downloading PHP 5.6 version of Dockerfile"
+	curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/DockerfilePhp56 > Dockerfile;
 fi
 
 chmod +x dock.sh
