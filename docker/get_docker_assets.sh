@@ -1,6 +1,32 @@
 #!/usr/bin/env bash
 latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | awk '{ print $1}');
+##############################################################
+#load variables of env file
+##############################################################
+function loadenv() {
+    env=${1:-.env}
+    echo Loading $env
+    file=`mktemp`
+    if [ -f $env ]; then
+            cat $env | while read line; do
+            case $line in
+                [a-zA-Z]* )
+                    echo export $line >> $file;
+                 ;;
+                *)
+                ;;
+                esac
+            done
+            source $file
+    else
+            echo No file $env
+    fi
+    echo Loaded $env
+}
 
+##############################################################
+#load the variables!! -->
+loadenv
 # for each of the customizable local files get them from the repo if they are not ignored and don't exist
 for fileName in "update_docker_assets_file.sh" "docker-compose.yml" "Dockerfile" "Dockerfile.httpd" "php-override.ini" "docker-jenkins-start.sh" "dock.sh" "httpd.conf" "server.crt" "server.key"
 do
@@ -13,6 +39,10 @@ do
         echo "${fileName} is part of this project."
     fi;
 done
+if [ -z ${php56+x} ] && ${php56} == "true" ; then
+        curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/DockerfilePhp56 > Dockerfile;
+fi
+
 chmod +x dock.sh
 chmod +x update_docker_assets_file.sh
 chmod +x docker-jenkins-start.sh
