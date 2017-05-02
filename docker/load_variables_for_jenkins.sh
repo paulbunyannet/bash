@@ -3,7 +3,7 @@
 ##############################################################
 # Load in Helper file
 ##############################################################
-. dock-helpers.sh
+sh dock-helpers.sh
 
 if [ ! -f ".env" ]; then
     cp .env.example .env
