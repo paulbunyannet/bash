@@ -36,3 +36,4 @@ function loadenv() {
     fi
     echo Loaded $env
 }
+loadenv
