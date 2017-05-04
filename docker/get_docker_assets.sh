@@ -19,9 +19,6 @@ chmod a+x dock.sh
 chmod a+x update_docker_assets_file.sh
 chmod a+x docker-jenkins-start.sh
 sh dock-helpers.sh
-##############################################################
-#load the variables!! -->
-loadenv
 
 if [ -z ${jenkins+x} ]; then jenkins=false; else jenkins=true; fi;
 if [ ${jenkins} == "true" ] && [ ${jenkins} == "true" ]; then
