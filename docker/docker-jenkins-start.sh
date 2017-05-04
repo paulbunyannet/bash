@@ -64,21 +64,12 @@ fi
 
 if  [ "$FRONTENDRUNNING" == "false" ]; then
 
-    mkdir traefik-temp
+    docker run -d -p 8080:8080 -p 80:80 -p 443:443 --name=frontend  --restart=always -v /var/run/docker.sock:/var/run/docker.sock jenkins.paulbunyan.net:5000/traefik:latest
 
-    cd traefik-temp
+    docker network create frontend
 
-    git clone https://github.com/castillo-n/traefik-image
+    docker network connect frontend frontend
 
-    cd traefik-image
-
-    sh init.sh
-
-    cd ..
-
-    cd ..
-
-    rm -rf traefik-temp
 fi
 ##############################################################
 ##############################################################
