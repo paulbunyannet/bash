@@ -421,11 +421,11 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         YARNSTART=$(date +%s);
         echo "#########################################################################${BLUE}"
         echo "#########################################################################"
-        echo "yarn upgrade"
+        echo "yarn install"
         if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T code yarn upgrade --silent  >/dev/null 2>&1;
+            docker-compose exec -T code yarn install --force >/dev/null 2>&1;
         else
-            docker-compose exec -T code yarn upgrade
+            docker-compose exec -T code yarn install --force
         fi
         YARNEND=$(date +%s);
         echo "#########################################################################"
