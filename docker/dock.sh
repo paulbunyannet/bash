@@ -329,8 +329,8 @@ STARTED=$(docker inspect --format="{{ .State.StartedAt }}" $CONTAINER)
 #    NETWORK=127.0.0.1
 #fi
 
-matches_in_hosts="$(grep -n ${SERVER_NAME} /etc/hosts | cut -f1 -d:)"
-host_entry="${NETWORK} ${SERVER_NAME}"
+#matches_in_hosts="$(grep -n ${SERVER_NAME} /etc/hosts | cut -f1 -d:)"
+#host_entry="${NETWORK} ${SERVER_NAME}"
 
 if [ "$REDOIMAGES" == "$NOT" ]; then
     echo "${CYAN}#########################################################################"

@@ -6,17 +6,17 @@
 # Usage: divider [delimiter] [color]
 # http://stackoverflow.com/questions/24367088/print-a-character-till-end-of-line
 ################################################################################
-function divider() {
+function divider {
     reset='\033[00m';
     div=$(for ((i=0; i<$(tput cols); i++));do printf "${2}${1}${reset}"; done; echo);
     echo ${div};
 }
-
+divider
 ################################################################################
 ################################################################################
 #load variables of env file
 ################################################################################
-function loadenv() {
+function loadenv {
     env=${1:-.env}
     echo Loading $env
     file=`mktemp`
