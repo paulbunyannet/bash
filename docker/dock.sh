@@ -192,7 +192,8 @@ case $ARG1 in
     [uU][pP])
           REMOVEDEPENDENCIES="false"
           REDOIMAGES="false"
-          ONECHECK="true"
+          ONECHECK="false"
+          TWOCHECKS="true"
             sh get_docker_assets.sh
             echo "REDOIMAGES is true"
             echo "REMOVEDEPENDENCIES is true"
@@ -200,7 +201,8 @@ case $ARG1 in
     [fF][uU][pP])
           REMOVEDEPENDENCIES="true"
           REDOIMAGES="true"
-          ONECHECK="true"
+          ONECHECK="false"
+          TWOCHECKS="true"
             sh get_docker_assets.sh
             echo "REDOIMAGES is true"
             echo "REMOVEDEPENDENCIES is true"
