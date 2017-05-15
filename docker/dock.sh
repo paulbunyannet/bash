@@ -584,6 +584,7 @@ echo "Migrations: $MIGRATIONTOTALMIN minutes $MIGRATIONTOTALSEC seconds";
 echo "Yarn: $YARNTOTALMIN minutes $YARNTOTALSEC seconds";
 echo "NPM $NPMTOTALMIN minutes $NPMTOTALSEC seconds";
 echo "Post Docker scripts: ${POSTDOCKERTOTALMIN} minutes ${POSTDOCKERTOTALSEC} seconds";
+echo "${NONE}"
 divider "-" ${RED}
 divider "-" ${RED}
 echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}";
