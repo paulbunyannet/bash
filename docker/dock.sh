@@ -335,10 +335,10 @@ if [ "$REDOIMAGES" == "$NOT" ]; then
     divider "#" ${CYAN}
     divider "#" ${CYAN}
     divider "#" ${CYAN}
-    echo "Would you like to build the docker images?"
-    echo "Intro y and press enter to accept, anything else to skip this option"
-    echo "-------------------------------------------------------------------------${RED}"
-    read -e -p "##### (y??)>>: " build;
+    echo "${CYAN}Would you like to build the docker images?"
+    echo "${CYAN}Intro y and press enter to accept, anything else to skip this option"
+    divider "-" ${RED}
+    read -e -p "${RED}##### (y??)>>: " build;
     echo "${NONE} "
     case $build in
         [yY][eE][sS]|[yY])
@@ -355,7 +355,7 @@ fi
 docker-compose up -d;
 divider "#" ${RED}
 divider "#" ${RED}
-echo "if you encounter errors, please check that the machines are not running before running this script";
+echo "${RED}if you encounter errors, please check that the machines are not running before running this script";
 divider "#" ${RED}
 divider "#" ${RED}
 ImageName="$(docker-compose ps -q code)"
@@ -363,10 +363,10 @@ ImageName="$(docker-compose ps -q code)"
 if [ "$REMOVEDEPENDENCIES" == "$NOT" ]; then
     divider "#" ${CYAN}
     divider "#" ${CYAN}
-    echo "Would you like to install dependencies?"
+    echo "${CYAN}Would you like to install dependencies?"
     echo "Intro y and press enter to accept, anything else to skip this option"
-    echo "-------------------------------------------------------------------------${RED}"
-    read -e -p "##### (y??)>>: " answer;
+    divider "-" ${RED}
+    read -e -p "${RED}##### (y??)>>: " answer;
     echo "${NONE} ";
     case $answer in
         [yY][eE][sS]|[yY])
@@ -573,6 +573,8 @@ POSTDOCKERTOTALMIN=$(($POSTDOCKERTOTAL / $SIXTY));
 POSTDOCKERTOTALREST=$(($POSTDOCKERTOTALMIN * $SIXTY));
 POSTDOCKERTOTALSEC=$(($POSTDOCKERTOTAL - $POSTDOCKERTOTALREST));
 
+divider "-" ${RED}
+divider "-" ${RED}
 echo "${BLUE}The whole dock.sh command took: $DOCKTOTALMIN minutes $DOCKTOTALSEC seconds";
 echo "Ruby Gem Dependencies: $RUBYTOTALMIN minutes $RUBYTOTALSEC seconds";
 echo "Grunt: $GRUNTTOTALMIN minutes $GRUNTTOTALSEC seconds";
@@ -582,7 +584,12 @@ echo "Migrations: $MIGRATIONTOTALMIN minutes $MIGRATIONTOTALSEC seconds";
 echo "Yarn: $YARNTOTALMIN minutes $YARNTOTALSEC seconds";
 echo "NPM $NPMTOTALMIN minutes $NPMTOTALSEC seconds";
 echo "Post Docker scripts: ${POSTDOCKERTOTALMIN} minutes ${POSTDOCKERTOTALSEC} seconds";
+divider "-" ${RED}
+divider "-" ${RED}
 echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}";
+divider "-" ${RED}
+divider "-" ${RED}
+echo "${NONE}"
 docker-compose exec code bash
 sh stacks.sh
 divider "#" ${BLUE}
