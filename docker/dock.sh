@@ -18,7 +18,7 @@ REMOVEDEPENDENCIES="not";
 REDOIMAGES="not";
 ONECHECK="false";
 TWOCHECKS="false";
-VERBOSE="true";
+VERBOSE="false";
 ARG1="false";
 ARG2="false";
 ARG1="false"
@@ -95,21 +95,21 @@ fi
 chmod -fR 755 storage
 
 
-# make .env if not already created
+## make .env if not already created
 latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | awk '{ print $1}');
 curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/update_docker_assets_file.sh > update_docker_assets_file.sh;
 chmod +x update_docker_assets_file.sh;
 sh update_docker_assets_file.sh;
 rm update_docker_assets_file.sh;
 sh get_docker_assets.sh;
-
+#
 
 # make .env if not already created
 if [ ! -f ".env" ]; then
     cp .env.example .env
     echo ".env was created from example file"
 fi
-sh dock-helpers.sh;
+source dock-helpers.sh;
 if [ "$windows" == "true" ]; then
     export XDEBUG_CONFIG="$(hostname -I | cut -d ' ' -f 1)";
 else
@@ -132,9 +132,9 @@ fi
 case $ARG1 in
     [-][hH]|[-][-][hH][eE][lL][pP])
 
-    echo "${CYAN}########################################################################################${NONE}"
+    divider "#" ${CYAN}
     echo "${CYAN}##############################${NONE} ${RED}parameters available${NONE} ${CYAN}####################################${NONE}"
-    echo "${CYAN}########################################################################################${NONE}"
+    divider "#" ${CYAN}
     echo " "
     echo "${GREEN}   *${NONE} ${YELLOW}-h or --help${NONE}\n      ${RED} ->${NONE} to show this menu..... \n"
     echo "${GREEN}   *${NONE} ${YELLOW}up ${NONE}\n      ${RED} ->${NONE} to tell the script that you dont want to rebuild the images and to reinstall dependencies\n"
@@ -196,7 +196,7 @@ case $ARG1 in
           REDOIMAGES="false"
           ONECHECK="false"
           TWOCHECKS="true"
-            sh get_docker_assets.sh
+#            sh get_docker_assets.sh
             echo "REDOIMAGES is true"
             echo "REMOVEDEPENDENCIES is true"
     ;;
@@ -205,7 +205,7 @@ case $ARG1 in
           REDOIMAGES="true"
           ONECHECK="false"
           TWOCHECKS="true"
-            sh get_docker_assets.sh
+#            sh get_docker_assets.sh
             echo "REDOIMAGES is true"
             echo "REMOVEDEPENDENCIES is true"
     ;;
@@ -332,9 +332,9 @@ STARTED=$(docker inspect --format="{{ .State.StartedAt }}" $CONTAINER)
 #host_entry="${NETWORK} ${SERVER_NAME}"
 
 if [ "$REDOIMAGES" == "$NOT" ]; then
-    echo "${CYAN}#########################################################################"
-    echo "#########################################################################"
-    echo "#########################################################################"
+    divider "#" ${CYAN}
+    divider "#" ${CYAN}
+    divider "#" ${CYAN}
     echo "Would you like to build the docker images?"
     echo "Intro y and press enter to accept, anything else to skip this option"
     echo "-------------------------------------------------------------------------${RED}"
@@ -353,16 +353,16 @@ if [ "$REDOIMAGES" == "$TRUE" ]; then
 fi
 
 docker-compose up -d;
-echo "${RED}##########################################################################################################"
-echo "##########################################################################################################"
+divider "#" ${RED}
+divider "#" ${RED}
 echo "if you encounter errors, please check that the machines are not running before running this script";
-echo "##########################################################################################################"
-echo "##########################################################################################################${NONE}"
+divider "#" ${RED}
+divider "#" ${RED}
 ImageName="$(docker-compose ps -q code)"
 
 if [ "$REMOVEDEPENDENCIES" == "$NOT" ]; then
-    echo "${CYAN}#########################################################################"
-    echo "#########################################################################"
+    divider "#" ${CYAN}
+    divider "#" ${CYAN}
     echo "Would you like to install dependencies?"
     echo "Intro y and press enter to accept, anything else to skip this option"
     echo "-------------------------------------------------------------------------${RED}"
@@ -395,9 +395,9 @@ fi;
 
 
 if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
-    echo "${YELLOW}#########################################################################"
+    divider "#" ${YELLOW}
     echo "removing dependencies folders"
-    echo "#########################################################################"
+    divider "#" ${YELLOW}
     if [ "$doc_composer" == "true" ]; then
         docker-compose exec -T code rm -rf vendor;
     fi
@@ -406,20 +406,20 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         docker-compose exec -T code rm -rf /usr/local/share/.cache;
         docker-compose exec -T code rm -rf ~/.npm;
     fi
-    echo "${CYAN}#########################################################################"
+    divider "#" ${CYAN}
     echo "Now installing dependencies"
-    echo "#########################################################################"
+    divider "#" ${CYAN}
     echo "Opening code container --> container ID: $ImageName"
-    echo "#########################################################################${YELLOW}"
-    echo "#########################################################################"
+    divider "#" ${YELLOW}
+    divider "#" ${YELLOW}
     echo " npm cache clean"
-    echo "#########################################################################"
+    divider "#" ${YELLOW}
     docker-compose exec -T code npm cache clean
 
     if [ "$doc_yarn" == "true" ]; then
         YARNSTART=$(date +%s);
-        echo "#########################################################################${BLUE}"
-        echo "#########################################################################"
+        divider "#" ${BLUE}
+        divider "#" ${BLUE}
         echo "yarn install"
         if [ "$VERBOSE" == "false" ]; then
             docker-compose exec -T code yarn install --force >/dev/null 2>&1;
@@ -427,12 +427,12 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
             docker-compose exec -T code yarn install --force
         fi
         YARNEND=$(date +%s);
-        echo "#########################################################################"
+        divider "#" ${BLUE}
     fi
     if [ "$doc_npm" == "true" ] && [ "$doc_yarn" != "true" ]; then
         NPMSTART=$(date +%s);
-        echo "#########################################################################${RED}"
-        echo "#########################################################################"
+        divider "#" ${RED}
+        divider "#" ${RED}
         echo "npm -g update"
         if [ "$VERBOSE" == "false" ]; then
             docker-compose exec -T code npm -g update --silent  >/dev/null 2>&1;
@@ -442,8 +442,8 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         NPMEND=$(date +%s);
     fi
     if [ "$doc_artisan_key" == "true" ]; then
-        echo "#########################################################################${CYAN}"
-        echo "#########################################################################"
+        divider "#" ${CYAN}
+        divider "#" ${CYAN}
         echo "php artisan key:generate"
         docker-compose exec -T code php artisan key:generate
     fi
@@ -453,8 +453,8 @@ fi
 
 if [ "$doc_bower" == "true" ]; then
     BOWERSTART=$(date +%s);
-    echo "#########################################################################${GREEN}"
-    echo "#########################################################################"
+    divider "#" ${GREEN}
+    divider "#" ${GREEN}
     echo "bower update --force"
     if [ "$VERBOSE" == "false" ]; then
         docker-compose exec -T code bower update --force  --allow-root --silent  >/dev/null 2>&1;
@@ -465,8 +465,8 @@ if [ "$doc_bower" == "true" ]; then
 fi
 if [ "$doc_composer" == "true" ]; then
     COMPOSERSTART=$(date +%s);
-    echo "#########################################################################${PURPLE}"
-    echo "#########################################################################"
+    divider "#" ${PURPLE}
+    divider "#" ${PURPLE}
     echo "composer update"
     if [ "$VERBOSE" == "false" ]; then
         docker-compose exec -T code composer update --quiet
@@ -477,24 +477,24 @@ if [ "$doc_composer" == "true" ]; then
 fi
 if [ "$doc_artisan_migrate" == "true" ]; then
     MIGRATIONSTART=$(date +%s);
-    echo "#########################################################################${NONE}"
-    echo "${CYAN}#########################################################################"
+    divider "#" ${CYAN}
     echo "Opening code container --> container ID: $ImageName ${NONE}" ;
-    echo "#########################################################################"
+    divider "#" ${CYAN}
     echo "php artisan migrate"
     docker-compose exec -T code php artisan migrate
     MIGRATIONEND=$(date +%s);
 fi
 if [ "$doc_gulp" == "true" ]; then
     GULPSTART=$(date +%s);
-    echo "#########################################################################"
+    divider "#" ${YELLOW}
+    divider "#" ${YELLOW}
     echo "gulp"
     if [ "$VERBOSE" == "false" ]; then
         docker-compose exec -T code gulp >/dev/null 2>&1;
     else
         docker-compose exec -T code gulp
     fi
-    echo "#########################################################################"
+    divider "#" ${YELLOW}
     GULPEND=$(date +%s);
 fi
 # start install and run of grunt if
@@ -507,10 +507,10 @@ if [ -e "$grFile" ]; then echo 1 > ${gruntFile}; else echo 0 > ${gruntFile}; fi;
 gruntExists=$(cat grunt_exists_file);
 if [ -n ${doc_grunt} ] && [ "${doc_grunt}" = "true" ] && [ ${gruntExists} -eq 1 ]; then
     GRUNTSTART=$(date +%s);
-    echo "#########################################################################${NONE}"
-    echo "${CYAN}#########################################################################"
+    divider "#" ${CYAN}
+    divider "#" ${CYAN}
     echo "Opening code container --> container ID: $ImageName ${NONE}" ;
-    echo "#########################################################################"
+    divider "#" ${CYAN}
     echo "grunt"
     # Install grunt-cli globally then run grunt
     docker-compose exec -T code yarn global add grunt-cli && yarn add grunt --dev && grunt
@@ -585,8 +585,8 @@ echo "Post Docker scripts: ${POSTDOCKERTOTALMIN} minutes ${POSTDOCKERTOTALSEC} s
 echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}";
 docker-compose exec code bash
 sh stacks.sh
-echo "#########################################################################"
+divider "#" ${BLUE}
 echo "#################/-------------------------------------\#################"
 echo "################|  Paul Bunyan Communications Rocks!!!  |################"
 echo "#################\-------------------------------------/#################"
-echo "#########################################################################"
+divider "#" ${BLUE}
