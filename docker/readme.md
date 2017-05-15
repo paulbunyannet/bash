@@ -1,6 +1,6 @@
-##Docker and components
+## Docker and components
 
-###What is in it?
+### What is in it?
 + .env.example that you may need to change to .env (without the .env file the docker-compose up wont work correctly.)
 + Dockerfile.httpd and php.ini makes the docker-compose up change locations and other info to what we are used to.
 + Dockerfile has the basic configuration for the base layer of our whole app
@@ -15,16 +15,16 @@
             + doc_migrate="true" or "false"/do not write it in your env file
             + doc_bower="true" or "false"/do not write it in your env file
             + doc_gulp="true" or "false"/do not write it in your env file
-##If you have windows, so every folder is mounted correctly, you will have to run this command. This is only a one time deal byut if you not run it, you will get a ton of errors
+## If you have windows, so every folder is mounted correctly, you will have to run this command. This is only a one time deal byut if you not run it, you will get a ton of errors
 ## a requirement is that you install bash ubuntu on windows or windows subsystem for linux (WSL)
 ## after that go to your bash terminal and run:
 ls -s /mnt/c /c
 
-##What is so cool about the dock.sh file.
-###Well it is cool if you use a mac for development :)
-##if you run:
+## What is so cool about the dock.sh file.
+### Well it is cool if you use a mac for development :)
+## if you run:
 
-#./dock.sh 
+# ./dock.sh 
 + you will start the whole docker application
 1. it will check if you have traefik running, if not, it will run it for you, but if no image is found, it will go and pull the version Nelson created and run it for you. 
 2. it will ask you if you want to build the images, it would be smart if you dont have the images and or you change something in the images to say yes :)
@@ -35,10 +35,10 @@ ls -s /mnt/c /c
         2. it will run gulp
         3. it will leave open bash into the application container
 
-#./dock.sh -h or --help
+# ./dock.sh -h or --help
 + it will show you all the following commands
 
-#./dock.sh up
+# ./dock.sh up
 1. it will run the docker-start file without prompting you at anytime, it wont rebuild images and redownload the dependencies (it will answer no to both prompts)
 2. And:
 
@@ -47,7 +47,7 @@ ls -s /mnt/c /c
         3. it will run gulp or grunt
         4. it will leave open bash into the application container
         
-#./dock.sh fup
+# ./dock.sh fup
 1. it will run the docker-start file without prompting you at anytime, it will rebuild images and redownload the dependencies (it will answer yes to both prompts)
 2. And:
 
@@ -56,13 +56,13 @@ ls -s /mnt/c /c
         3. it will run gulp or grunt
         4. it will leave open bash into the application container
 
-#./dock.sh down
+# ./dock.sh down
 1. it will do a docker-compose down for all the docker containers that were created from the docker-compose file (traefik is not on that file so it will be still available for other projects that are still open)
 
-#./dock.sh forcedown or fdown or -forcedown or -fdown or --forcedown or --fdown
+# ./dock.sh forcedown or fdown or -forcedown or -fdown or --forcedown or --fdown
 1. it will do a docker-compose down -v for all the docker containers that were created from the docker-compose file and it will remove their volumes (traefik is not on that file so it will be still available for other projects that are still open)
 
-#./dock.sh -v or --verbose
+# ./dock.sh -v or --verbose
 1. it will do the same than the ./docker-start without any flags but it will give you detail information of what is going on at every turn.
 2. And:
         
@@ -70,7 +70,7 @@ ls -s /mnt/c /c
         2. it will run gulp
         3. it will leave open bash into the application container
 
-#./dock.sh -i or --images
+# ./dock.sh -i or --images
 1. it will rebuild the images of the container ( you need to have done ./docker-start down first or not have the containers running)
 2. it will run the docker-start file without prompting you if you want to build the images by auto answering YES
 3. it may asked you if you want to redownload dependencies unless you sent a second flag
@@ -80,7 +80,7 @@ ls -s /mnt/c /c
         2. it will run gulp
         3. it will leave open bash into the application container
 
-#./dock.sh -ni or --notImages
+# ./dock.sh -ni or --notImages
 1. it will run the docker-start file without prompting you if you want to build the images by auto answering NO
 2. it may asked you if you want to redownload dependencies unless you sent a second flag
 3. And:
@@ -89,7 +89,7 @@ ls -s /mnt/c /c
         2. it will run gulp
         3. it will leave open bash into the application container
 
-#./dock.sh -D or --dependencies
+# ./dock.sh -D or --dependencies
 1. it will reinstall all dependencies
 2. it will run the docker-start file without prompting you if you want to redownload the dependencies by auto answering YES
 3. it may asked you if you want to rebuild images unless you sent a second flag
@@ -99,7 +99,7 @@ ls -s /mnt/c /c
         2. it will run gulp
         3. it will leave open bash into the application container
 
-#./dock.sh -nd or --notDependencies
+# ./dock.sh -nd or --notDependencies
 1. it will run the docker-start file without prompting you if you want to redownload the dependencies by auto answering NO
 3. it may asked you if you want to rebuild images unless you sent a second flag
 4. And:
@@ -162,12 +162,14 @@ this are a few of the possible combinations but have in mind:
 
 
 ---
-#Common errors
-##Container names are not correct or not found. 
+# Common errors
+## Container names are not correct or not found. 
 
-> Check if you have all your variables in your .env file (at least the ones concerning your docker application.)
-> Check if you have quotations around your variables values
-> It may look pretty but Shell sometimes will give you errors if you leave spaces between the "=" and the variable
-name and/or the value 
->> Correct way variable="value"
->> Incorrect way variable = "value" or variable ="value" or variable= "value"
+Check if you have all your variables in your .env file (at least the ones concerning your docker application.)
+
+Check if you have quotations around your variables values
+
+It may look pretty but Shell sometimes will give you errors if you leave spaces between the "=" and the variable name and/or the value 
+
+> Correct way variable="value"
+> Incorrect way variable = "value" or variable ="value" or variable= "value"

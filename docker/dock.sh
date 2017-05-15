@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 #version 1.2
 #2017/02/27
@@ -110,7 +110,7 @@ if [ ! -f ".env" ]; then
     echo ".env was created from example file"
 fi
 source dock-helpers.sh;
-if [ "$windows" == "true" ]; then
+if [ "$(uname)" == "Linux" ]; then
     export XDEBUG_CONFIG="$(hostname -I | cut -d ' ' -f 1)";
 else
     export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)";
