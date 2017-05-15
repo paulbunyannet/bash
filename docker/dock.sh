@@ -355,7 +355,7 @@ fi
 docker-compose up -d;
 divider "#" ${RED}
 divider "#" ${RED}
-echo "${RED}if you encounter errors, please check that the machines are not running before running this script";
+echo "${RED} if you encounter errors, please check that the machines are not running before running this script";
 divider "#" ${RED}
 divider "#" ${RED}
 ImageName="$(docker-compose ps -q code)"
@@ -363,10 +363,10 @@ ImageName="$(docker-compose ps -q code)"
 if [ "$REMOVEDEPENDENCIES" == "$NOT" ]; then
     divider "#" ${CYAN}
     divider "#" ${CYAN}
-    echo "${CYAN}Would you like to install dependencies?"
+    echo "${CYAN} Would you like to install dependencies?"
     echo "Intro y and press enter to accept, anything else to skip this option"
     divider "-" ${RED}
-    read -e -p "${RED}##### (y??)>>: " answer;
+    read -e -p "${RED} ##### (y??)>>: " answer;
     echo "${NONE} ";
     case $answer in
         [yY][eE][sS]|[yY])
@@ -383,12 +383,12 @@ if [ -f Gemfile ];
     then
         RUBYSTART=$(date +%s);
         divider "#" ${PURPLE}
-        printf "${PURPLE}Installing Ruby Gem dependencies${NL}"
+        printf "${PURPLE} Installing Ruby Gem dependencies${NL}"
         divider "-" ${PURPLE}
         docker-compose exec -T code apt-get install ruby-full -y;
         docker-compose exec -T code gem install bundler;
         docker-compose exec -T code bundler install;
-        printf "${PURPLE}Installing Ruby Gem dependencies complete!${NL}"
+        printf "${PURPLE} Installing Ruby Gem dependencies complete!${NL}"
         divider "#" ${PURPLE}
         RUBYEND=$(date +%s);
 fi;
@@ -523,10 +523,10 @@ postDocker=$(grep -c "post-docker" composer.json)
 if [[ ${doc_composer} == "true" && ${postDocker} > 0 ]]; then
     POSTDOCKERSTART=$(date +%s);
     divider "#" ${YELLOW};
-    printf "${YELLOW}Running composer post-docker scripts${NL}";
+    printf "${YELLOW} Running composer post-docker scripts${NL}";
     divider "-" ${YELLOW};
     docker-compose exec -T code composer run-script post-docker || true;
-    printf "${YELLOW}Running composer post-docker scripts complete${NL}";
+    printf "${YELLOW} Running composer post-docker scripts complete${NL}";
     divider "#" ${YELLOW};
     POSTDOCKEREND=$(date +%s);
 fi;
@@ -575,7 +575,7 @@ POSTDOCKERTOTALSEC=$(($POSTDOCKERTOTAL - $POSTDOCKERTOTALREST));
 
 divider "-" ${RED}
 divider "-" ${RED}
-echo "${BLUE}The whole dock.sh command took: $DOCKTOTALMIN minutes $DOCKTOTALSEC seconds";
+echo "${BLUE} The whole dock.sh command took: $DOCKTOTALMIN minutes $DOCKTOTALSEC seconds";
 echo "Ruby Gem Dependencies: $RUBYTOTALMIN minutes $RUBYTOTALSEC seconds";
 echo "Grunt: $GRUNTTOTALMIN minutes $GRUNTTOTALSEC seconds";
 echo "Gulp: $GULPTOTALMIN minutes $GULPTOTALSEC seconds";
@@ -587,7 +587,7 @@ echo "Post Docker scripts: ${POSTDOCKERTOTALMIN} minutes ${POSTDOCKERTOTALSEC} s
 echo "${NONE}"
 divider "-" ${RED}
 divider "-" ${RED}
-echo "${YELLOW}Going into command line -type ${RED}exit ${YELLOW}and press enter to leave the container-${NONE}";
+echo "${YELLOW} Going into command line -type ${RED} exit ${YELLOW} and press enter to leave the container-${NONE}";
 divider "-" ${RED}
 divider "-" ${RED}
 echo "${NONE}"
