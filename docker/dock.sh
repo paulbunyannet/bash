@@ -96,24 +96,26 @@ chmod -fR 755 storage
 
 
 # make .env if not already created
-if [ ! -f ".env" ]; then
-    cp .env.example .env
-    echo ".env was created from example file"
-fi
-if [ "$windows" == "true" ]; then
-    export XDEBUG_CONFIG="$(hostname -I | cut -d ' ' -f 1)";
-else
-    export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)";
-fi
-
-
-# make .env if not already created
 latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | awk '{ print $1}');
 curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/update_docker_assets_file.sh > update_docker_assets_file.sh;
 chmod +x update_docker_assets_file.sh;
 sh update_docker_assets_file.sh;
 rm update_docker_assets_file.sh;
 sh get_docker_assets.sh;
+
+
+# make .env if not already created
+if [ ! -f ".env" ]; then
+    cp .env.example .env
+    echo ".env was created from example file"
+fi
+sh dock-helpers.sh;
+if [ "$windows" == "true" ]; then
+    export XDEBUG_CONFIG="$(hostname -I | cut -d ' ' -f 1)";
+else
+    export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)";
+fi
+
 # cleanup wordpress install
 if [ -d "public_html/wp/wp-content" ];then
     rm -rf public_html/wp/wp-content
@@ -276,7 +278,6 @@ fi
 ##############################################################
 ##############################################################
 
-sh dock-helpers.sh;
 
 #echo "$REMOVEDEPENDENCIES" == "not"
 ##############################################################
@@ -303,7 +304,6 @@ elif [ "$RUNNING" == "false" ]; then
 fi
 
 if  [ "$FRONTENDRUNNING" == "false" ]; then
-
 
     docker run -d -p 8080:8080 -p 80:80 -p 443:443 --name=frontend  --restart=always -v /var/run/docker.sock:/var/run/docker.sock jenkins.paulbunyan.net:5000/traefik:latest
 
