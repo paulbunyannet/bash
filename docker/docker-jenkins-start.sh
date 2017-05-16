@@ -31,7 +31,7 @@ fi
 ##############################################################
 # Load in Helper file
 ##############################################################
-source dock-helpers.sh
+source ${env.WORKSPACE}/dock-helpers.sh
 ##############################################################
 #load the variables!! -->
 if [ -d "public_html/wp/wp-content" ];then
