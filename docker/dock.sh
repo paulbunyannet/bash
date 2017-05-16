@@ -422,9 +422,9 @@ if [ "$REMOVEDEPENDENCIES" == "$TRUE" ]; then
         divider "#" ${BLUE}
         printf "yarn install ${NL}"
         if [ "$VERBOSE" == "false" ]; then
-            docker-compose exec -T code yarn install --force >/dev/null 2>&1;
+            docker-compose exec -T code yarn install --force --no-bin-links >/dev/null 2>&1;
         else
-            docker-compose exec -T code yarn install --force
+            docker-compose exec -T code yarn install --force --no-bin-links
         fi
         YARNEND=$(date +%s);
         divider "#" ${BLUE}
