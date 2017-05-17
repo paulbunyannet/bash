@@ -31,7 +31,7 @@ fi
 ##############################################################
 # Load in Helper file
 ##############################################################
-sh dock-helpers.sh
+source dock-helpers.sh
 ##############################################################
 #load the variables!! -->
 if [ -d "public_html/wp/wp-content" ];then
@@ -74,17 +74,17 @@ fi
 ##############################################################
 ##############################################################
 
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+divider "X" ""
+divider "X" ""
 echo "Running docker-compose build "
 docker-compose build
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+divider "X" ""
+divider "X" ""
 echo "Running docker-compose up -d "
 docker-compose up -d
 
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+divider "X" ""
+divider "X" ""
 echo "Running Composer"
 docker-compose exec -T code composer install
 docker-compose exec -T code composer dump-autoload --optimize
@@ -93,17 +93,17 @@ if grep -Fxq "post-docker" composer.json; then
     docker-compose exec -T code composer post-docker
 fi;
 if [ -f "artisan" ]; then
-  echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-  echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    divider "X" ""
+    divider "X" ""
   echo "Generating Key"
   docker-compose exec -T code php artisan key:generate
-  echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-  echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    divider "X" ""
+    divider "X" ""
   echo "Running Migrations"
   docker-compose exec -T code php artisan migrate
 fi
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+divider "X" ""
+divider "X" ""
 echo "Running git_log.sh to get current commit hash"
 # get git_log.sh file if it doesn't exist
 if [ ! -f "git_log.sh" ]; then
@@ -111,30 +111,38 @@ if [ ! -f "git_log.sh" ]; then
     echo "git_log.sh" >> .gitignore
 fi
 docker-compose exec -T code bash git_log.sh;
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+divider "X" ""
+divider "X" ""
+
 echo "Latest commit hash: $(head -n 1 git_log.txt)"
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+divider "X" ""
+divider "X" ""
 echo "Running Yarn"
 docker-compose exec -T code yarn install
-docker-compose exec -T code yarn run postinstall
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-echo "Running Bower"
+if grep -Fxq "postinstall" package.json; then
+    docker-compose exec -T code yarn run postinstall
+fi;
+if [ -f "bower.json" ]; then
+    divider "X" ""
+    divider "X" ""
+    echo "Running Bower"
+fi;
 docker-compose exec -T code bower install--allow-root --force
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-echo "Running Gulp"
-docker-compose exec -T code gulp production
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+if [ -f "gulpfile.js" ]; then
+    divider "X" ""
+    divider "X" ""
+    echo "Running Gulp"
+    docker-compose exec -T code gulp production
+fi;
+divider "X" ""
+divider "X" ""
 touch c3_error.log
 chmod -fR 777 storage
 chmod -f 777 c3_error.log
 #echo "Running Tests"
 #docker-compose exec -T code codecept run -vvv;
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+divider "X" ""
+divider "X" ""
 echo "#####################################################################"
 echo "#################/---------------------------------------------------\#################"
 echo "################|   Paul Bunyan Communications Rocks!!!   |################"
