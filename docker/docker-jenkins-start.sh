@@ -25,13 +25,12 @@ if [ ! -f ".env" ]; then
     echo ".env was created from example file"
 fi
 
-# cleanup wordpress install
 
 ##############################################################
 ##############################################################
 # Load in Helper file
 ##############################################################
-source dock-helpers.sh
+source ${env.WORKSPACE}/dock-helpers.sh
 ##############################################################
 #load the variables!! -->
 if [ -d "public_html/wp/wp-content" ];then
