@@ -94,11 +94,11 @@ fi;
 if [ -f "artisan" ]; then
     divider "X" ""
     divider "X" ""
-  echo "Generating Key"
+  echo "Generating Laravel auth key"
   docker-compose exec -T code php artisan key:generate
     divider "X" ""
     divider "X" ""
-  echo "Running Migrations"
+  echo "Running Eloquent Migrations"
   docker-compose exec -T code php artisan migrate
 fi
 divider "X" ""
