@@ -86,14 +86,14 @@ docker-compose up -d
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running docker-compose exec -T code npm cache clean"
-docker-compose exec -T code ls -la && npm cache clean
+docker-compose exec -T code npm cache clean
 
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running Composer"
-docker-compose exec -T code composer install --quiet
-docker-compose exec -T code composer update --quiet
-docker-compose exec -T code composer dump-autoload --optimize --quiet
+docker-compose exec -T code composer install
+docker-compose exec -T code composer update
+docker-compose exec -T code composer dump-autoload --optimize
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Generating Key"
@@ -112,19 +112,19 @@ echo "Latest commit hash: $(head -n 1 git_log.txt)"
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running Yarn"
-docker-compose exec -T code yarn --silent
-docker-compose exec -T code yarn upgrade --silent
-docker-compose exec -T code yarn run postinstall --silent
+docker-compose exec -T code yarn
+docker-compose exec -T code yarn upgrade
+docker-compose exec -T code yarn run postinstall
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running Bower"
-docker-compose exec -T code bower install --silent
-docker-compose exec -T code bower update --force  --allow-root --silent
+docker-compose exec -T code bower install
+docker-compose exec -T code bower update --force  --allow-root
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 echo "Running Gulp"
 
-docker-compose exec -T code gulp production --silent
+docker-compose exec -T code gulp production
 echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 touch c3_error.log
 chmod -fR 777 storage
