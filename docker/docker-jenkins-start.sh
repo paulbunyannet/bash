@@ -89,7 +89,7 @@ echo "Running Composer"
 docker-compose exec -T code composer install
 docker-compose exec -T code composer dump-autoload --optimize
 
-if grep -Fxq "composer.json" post-docker; then
+if grep -Fxq "post-docker" composer.json; then
     docker-compose exec -T code composer post-docker
 fi;
 if [ -f "artisan" ]; then
