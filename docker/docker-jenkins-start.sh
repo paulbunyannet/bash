@@ -7,7 +7,17 @@
 #//// Docker start doesnt need any other file now //////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 echo "chmoding storage 777"
-chmod -fR 777 storage
+caches=('storage' 'cache');
+for ((i=0; i<${#caches[@]}; i++))
+do
+    if [ ! -d "${caches[i]}" ]; then
+        mkdir ${caches[i]};
+    fi;
+    chmod -R 777 ${caches[i]}
+    touch ${caches[i]}/.gitignore;
+    echo "*.*" > ${caches[i]}/.gitignore;
+    echo "!.gitignore" >> ${caches[i]}/.gitignore;
+done
 chmod -f 777 c3_error.log
 
 
