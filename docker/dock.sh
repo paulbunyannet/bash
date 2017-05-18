@@ -471,9 +471,9 @@ if [ "$doc_bower" == "true" ]; then
     divider "#" ${GREEN}
     printf "bower update --force ${NL}"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T code bower update --force  --allow-root --silent  >/dev/null 2>&1;
+        docker-compose exec -T code bower install --force  --allow-root --silent  >/dev/null 2>&1;
     else
-        docker-compose exec -T code bower update --force  --allow-root --quiet
+        docker-compose exec -T code bower install --force  --allow-root --quiet
     fi
     BOWEREND=$(date +%s);
 fi
@@ -483,9 +483,9 @@ if [ "$doc_composer" == "true" ]; then
     divider "#" ${PURPLE}
     printf "composer update ${NL}"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T code composer update --quiet
+        docker-compose exec -T code composer install --quiet
     else
-        docker-compose exec -T code composer update
+        docker-compose exec -T code composer install
     fi
     COMPOSEREND=$(date +%s);
 fi
