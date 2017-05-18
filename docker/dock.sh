@@ -91,8 +91,22 @@ fi
 #//// Docker start doesn't need any other file now //////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#chmod -R 755 public_html
-chmod -fR 755 storage
+caches=('storage' 'cache');
+for ((i=0; i<${#caches[@]}; i++))
+do
+    if [ ! -d "${caches[i]}" ]; then
+        echo "Making the ${caches[i]} folder."
+        mkdir ${caches[i]}
+    fi;
+    echo "Making the ${caches[i]} folder writable."
+    chmod -R 777 ${caches[i]}
+    touch ${caches[i]}/.gitignore;
+    echo "*.*" > ${caches[i]}/.gitignore;
+    echo "!.gitignore" >> ${caches[i]}/.gitignore;
+done
+if [ -f "c3_error.log" ]; then
+    chmod -f 777 c3_error.log
+fi;
 
 
 ## make .env if not already created
