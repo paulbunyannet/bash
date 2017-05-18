@@ -44,7 +44,7 @@ services:
       DOCKER: "TRUE"
       DOCKER_HOST: "web"
     volumes:
-      - ${PWD}:/var/www/html/
+      - ${PWD}:/var/www/html/:Z
     expose:
       - "9000"
     networks:
