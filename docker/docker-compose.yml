@@ -43,6 +43,7 @@ services:
       XDEBUG_CONFIG: ${XDEBUG_CONFIG}
       DOCKER: "TRUE"
       DOCKER_HOST: "web"
+      USER_ID: ${UID}
     volumes:
       - ${PWD}:/var/www/html/:Z
     expose:
