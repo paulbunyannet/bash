@@ -23,6 +23,7 @@ if [ -f "c3_error.log" ]; then
     chmod -f 777 c3_error.log
 fi;
 
+UID=$(id -u)
 
 # make .env if not already created
 latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | awk '{ print $1}');
