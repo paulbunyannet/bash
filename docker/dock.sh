@@ -108,7 +108,7 @@ if [ -f "c3_error.log" ]; then
     chmod -f 777 c3_error.log
 fi;
 
-UID=$(id -u)
+export USER_ID=$(id -u)
 
 
 ## make .env if not already created
