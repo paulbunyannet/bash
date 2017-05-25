@@ -483,7 +483,7 @@ if [ "$doc_composer" == "true" ]; then
     COMPOSERSTART=$(date +%s);
     divider "#" ${PURPLE}
     divider "#" ${PURPLE}
-    printf "composer update ${NL}"
+    printf "Composer Install ${NL}"
     if [ "$VERBOSE" == "false" ]; then
         docker-compose exec -T code composer install --quiet
     else
