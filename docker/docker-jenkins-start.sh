@@ -47,17 +47,6 @@ fi
 
 ################################################################################
 ################################################################################
-# Output divider to end of screen
-# Usage: divider [delimiter] [color]
-# http://stackoverflow.com/questions/24367088/print-a-character-till-end-of-line
-################################################################################
-function divider {
-    reset='\033[00m';
-    div=$(for ((i=0; i<$(tput cols); i++));do printf "${2}${1}${reset}"; done; echo);
-    echo ${div};
-}
-################################################################################
-################################################################################
 #load variables of env file
 ################################################################################
 function loadenv {
@@ -123,17 +112,17 @@ fi
 ##############################################################
 ##############################################################
 
-divider "X" ""
-divider "X" ""
+echo "------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------------------------"
 echo "Running docker-compose build "
 docker-compose build
-divider "X" ""
-divider "X" ""
+echo "------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------------------------"
 echo "Running docker-compose up -d "
 docker-compose up -d
 
-divider "X" ""
-divider "X" ""
+echo "------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------------------------"
 echo "Running Composer"
 docker-compose exec -T code composer install
 docker-compose exec -T code composer dump-autoload --optimize
@@ -142,17 +131,17 @@ if grep -Fxq "post-docker" composer.json; then
     docker-compose exec -T code composer post-docker
 fi;
 if [ -f "artisan" ]; then
-    divider "X" ""
-    divider "X" ""
+    echo "------------------------------------------------------------------------------------"
+    echo "------------------------------------------------------------------------------------"
   echo "Generating Laravel auth key"
   docker-compose exec -T code php artisan key:generate
-    divider "X" ""
-    divider "X" ""
+    echo "------------------------------------------------------------------------------------"
+    echo "------------------------------------------------------------------------------------"
   echo "Running Eloquent Migrations"
   docker-compose exec -T code php artisan migrate
 fi
-divider "X" ""
-divider "X" ""
+echo "------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------------------------"
 echo "Running git_log.sh to get current commit hash"
 # get git_log.sh file if it doesn't exist
 if [ ! -f "git_log.sh" ]; then
@@ -160,38 +149,38 @@ if [ ! -f "git_log.sh" ]; then
     echo "git_log.sh" >> .gitignore
 fi
 docker-compose exec -T code bash git_log.sh;
-divider "X" ""
-divider "X" ""
+echo "------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------------------------"
 
 echo "Latest commit hash: $(head -n 1 git_log.txt)"
-divider "X" ""
-divider "X" ""
+echo "------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------------------------"
 echo "Running Yarn"
 docker-compose exec -T code yarn install
 if grep -Fxq "postinstall" package.json; then
     docker-compose exec -T code yarn run postinstall
 fi;
 if [ -f "bower.json" ]; then
-    divider "X" ""
-    divider "X" ""
+    echo "------------------------------------------------------------------------------------"
+    echo "------------------------------------------------------------------------------------"
     echo "Running Bower"
 fi;
 docker-compose exec -T code bower install--allow-root --force
 if [ -f "gulpfile.js" ]; then
-    divider "X" ""
-    divider "X" ""
+    echo "------------------------------------------------------------------------------------"
+    echo "------------------------------------------------------------------------------------"
     echo "Running Gulp"
     docker-compose exec -T code gulp production
 fi;
-divider "X" ""
-divider "X" ""
+echo "------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------------------------"
 touch c3_error.log
 chmod -fR 777 storage
 chmod -f 777 c3_error.log
 #echo "Running Tests"
 #docker-compose exec -T code codecept run -vvv;
-divider "X" ""
-divider "X" ""
+echo "------------------------------------------------------------------------------------"
+echo "------------------------------------------------------------------------------------"
 echo "#####################################################################"
 echo "#################/---------------------------------------------------\#################"
 echo "################|   Paul Bunyan Communications Rocks!!!   |################"
