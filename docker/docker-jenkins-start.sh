@@ -29,9 +29,9 @@ USER_ID=$(id -u)
 latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | awk '{ print $1}');
 curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/update_docker_assets_file.sh > update_docker_assets_file.sh;
 chmod +x update_docker_assets_file.sh;
-sh update_docker_assets_file.sh;
+sh ./update_docker_assets_file.sh;
 chmod +x get_docker_assets.sh;
-sh get_docker_assets.sh;
+sh ./get_docker_assets.sh;
 
 # make .env if not already created
 if [ ! -f ".env" ]; then
