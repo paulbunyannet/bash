@@ -44,7 +44,7 @@ fi
 ##############################################################
 # Load in Helper file
 ##############################################################
-sh dock-helpers.sh
+sh dock-helpers-jenkins.sh
 ##############################################################
 #load the variables!! -->
 if [ -d "public_html/wp/wp-content" ];then
