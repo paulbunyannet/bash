@@ -172,6 +172,10 @@ if [ -f "gulpfile.js" ]; then
     echo "Running Gulp"
     docker-compose exec -T code gulp
 fi;
+
+if ["$RUN_SCHEDULE"] && [ "$RUN_SCHEDULE" == "true" ] ; then
+    docker-compose exec -T code php artisan schedule:run >> /dev/null 2>&1
+fi
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
 touch c3_error.log
