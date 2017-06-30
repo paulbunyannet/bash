@@ -65,7 +65,7 @@ function loadenv {
             done
             source $file
     else
-            echo No file $env
+        echo No file $env
     fi
     echo Loaded $env
 }
