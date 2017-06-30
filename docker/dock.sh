@@ -126,10 +126,12 @@ if [ ! -f ".env" ]; then
     printf ".env was created from example file${NL}"
 fi
 source dock-helpers.sh;
-if [ "$(uname)" == "Linux" ]; then
-    export XDEBUG_CONFIG="$(hostname -I | cut -d ' ' -f 1)";
-else
-    export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)";
+if [ !"$XDEBUG_CONFIG" ]; then
+    if [ "$(uname)" == "Linux" ]; then
+            export XDEBUG_CONFIG="$(hostname -I | cut -d ' ' -f 1)";
+    else
+        export XDEBUG_CONFIG="remote_host=$(ipconfig getifaddr en0)";
+    fi
 fi
 
 # cleanup wordpress install
