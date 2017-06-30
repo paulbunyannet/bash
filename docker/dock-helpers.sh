@@ -9,7 +9,7 @@
 
 function divider {
     reset='\033[00m';
-    if [ ${2} ] && [ ${1} ]; then
+    if [ ${2} ] && [ ${2} != '' ] && [ ${1} ] && [ ${1} != '' ]; then
         div=$(for ((i=0; i<$(tput cols); i++));do printf "${2}${1}${reset}"; done; echo);
     else
         div=$(for ((i=0; i<$(tput cols); i++));do printf "\033[01;31m # ${reset}"; done; echo);
