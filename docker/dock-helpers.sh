@@ -6,6 +6,7 @@
 # Usage: divider [delimiter] [color]
 # http://stackoverflow.com/questions/24367088/print-a-character-till-end-of-line
 ################################################################################
+
 function divider {
     reset='\033[00m';
     if [ ${2} ] && [ ${1} ]; then
@@ -15,6 +16,7 @@ function divider {
     fi
     echo ${div};
 }
+divider
 ################################################################################
 ################################################################################
 #load variables of env file
