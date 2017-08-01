@@ -70,6 +70,7 @@ function loadenv {
     echo Loaded $env
 }
 loadenv
+
 ##############################################################
 #load the variables!! -->
 if [ -d "public_html/wp/wp-content" ];then
@@ -160,6 +161,13 @@ docker-compose exec -T code yarn install
 if grep -Fxq "postinstall" package.json; then
     docker-compose exec -T code yarn run postinstall
 fi;
+if [ -f Gemfile ];
+    then
+        docker-compose exec -T code apt-get install ruby-full -y;
+        docker-compose exec -T code gem install bundler;
+        docker-compose exec -T code bundler install;
+fi;
+
 if [ -f "bower.json" ]; then
     echo "------------------------------------------------------------------------------------"
     echo "------------------------------------------------------------------------------------"
