@@ -157,9 +157,14 @@ echo "Latest commit hash: $(head -n 1 git_log.txt)"
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
 echo "Running Yarn"
-docker-compose exec -T code yarn install
-if grep -Fxq "postinstall" package.json; then
-    docker-compose exec -T code yarn run postinstall
+if [ -f "yarn.lock" ]; then
+    docker-compose exec -T code yarn install
+    if grep -Fxq "postinstall" package.json; then
+        docker-compose exec -T code yarn run postinstall
+    fi;
+    if [ -f "gulpfile.js" ]; then
+        docker-compose exec -T code yarn run gulp
+    fi;
 fi;
 if [ -f Gemfile ];
     then
@@ -174,6 +179,7 @@ if [ -f "bower.json" ]; then
     echo "Running Bower"
     docker-compose exec -T code bower install --allow-root --force
 fi;
+
 if [ -f "gulpfile.js" ]; then
     echo "------------------------------------------------------------------------------------"
     echo "------------------------------------------------------------------------------------"
