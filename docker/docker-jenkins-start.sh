@@ -6,7 +6,9 @@
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 #//// Docker start doesnt need any other file now //////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
-caches=('storage' 'cache');
+
+caches=('storage' 'cache')
+
 for ((i=0; i<${#caches[@]}; i++))
 do
     if [ ! -d "${caches[i]}" ]; then
@@ -24,7 +26,7 @@ if [ -f "c3_error.log" ]; then
 fi;
 
 USER_ID=$(id -u)
-
+RUN_SCHEDULE="false"
 # make .env if not already created
 latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | awk '{ print $1}');
 curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/docker/update_docker_assets_file.sh > update_docker_assets_file.sh;
@@ -166,8 +168,7 @@ if [ -f "yarn.lock" ]; then
         docker-compose exec -T code yarn run gulp
     fi;
 fi;
-if [ -f Gemfile ];
-    then
+if [ -f "Gemfile" ]; then
         docker-compose exec -T code apt-get install ruby-full -y;
         docker-compose exec -T code gem install bundler;
         docker-compose exec -T code bundler install;
