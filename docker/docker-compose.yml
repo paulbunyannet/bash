@@ -35,6 +35,8 @@ services:
 
   code:
     restart: always
+    cap_add:
+    - SYS_PTRACE
     env_file:
     - ./.env
     image: jenkins.paulbunyan.net:5000/php:7
