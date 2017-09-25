@@ -18,7 +18,7 @@ services:
     restart: always
     image: jenkins.paulbunyan.net:5000/httpd:latest
     volumes:
-    - ${PWD}:/var/www/html:cached
+    - ${PWD}:/var/www/html
     env_file:
     - ./.env
     expose:
@@ -45,7 +45,7 @@ services:
       DOCKER_HOST: "web"
       USER_ID: ${USER_ID}
     volumes:
-      - ${PWD}:/var/www/html/:Z,cached
+      - ${PWD}:/var/www/html/:Z
     expose:
       - "9000"
     networks:
