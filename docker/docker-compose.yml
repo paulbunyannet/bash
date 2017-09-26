@@ -60,6 +60,7 @@ services:
     - ./.env
     volumes:
       - db:/var/lib/mysql/
+      - db2:/etc/mysql/
       - ${PWD}/database/dump/:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -67,6 +68,7 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       explicit_defaults_for_timestamp: 1
+      max_connections: 400
       TIMESTAMP: NOT NULL
     ports:
       - "3306"
