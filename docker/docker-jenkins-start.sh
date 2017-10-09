@@ -154,7 +154,7 @@ fi
 docker-compose exec -T code bash git_log.sh;
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
-
+GULPEXEC='true'
 echo "Latest commit hash: $(head -n 1 git_log.txt)"
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
@@ -170,7 +170,8 @@ if [ -f "yarn.lock" ]; then
     echo "------------------------------------------------------------------------------------"
     echo "Running Yarn run gulp"
     if [ -f "gulpfile.js" ]; then
-        docker-compose exec -T code yarn run gulp
+        docker-compose exec -T code yarn run gulp production
+        GULPEXEC='false'
     fi;
 fi;
 if [ -f "Gemfile" ]; then
@@ -190,10 +191,12 @@ if [ -f "bower.json" ]; then
 fi;
 
 if [ -f "gulpfile.js" ]; then
-    echo "------------------------------------------------------------------------------------"
-    echo "------------------------------------------------------------------------------------"
-    echo "Running Gulp"
-    docker-compose exec -T code gulp
+    if [ "$GULPEXEC" == "true" ]; then
+        echo "------------------------------------------------------------------------------------"
+        echo "------------------------------------------------------------------------------------"
+        echo "Running Gulp"
+        docker-compose exec -T code gulp
+    fi;
 fi;
 
 if ["$RUN_SCHEDULE"] && [ "$RUN_SCHEDULE" == "true" ] ; then
