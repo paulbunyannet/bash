@@ -569,7 +569,7 @@ if [[ ${doc_composer} == "true" && ${postDocker} > 0 ]]; then
     POSTDOCKEREND=$(date +%s);
 fi;
 
-if ["$RUN_SCHEDULE"] && [ "$RUN_SCHEDULE" == "true" ] ; then
+if [ "$RUN_SCHEDULE" ] && [ "$RUN_SCHEDULE" == "true" ] ; then
     docker-compose exec -T code php artisan schedule:run >> /dev/null 2>&1
 fi
 
