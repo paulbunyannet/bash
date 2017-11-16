@@ -127,9 +127,8 @@ docker-compose up -d
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
 echo "Running Composer"
-docker-compose exec -T code rm -rf vendor
 docker-compose exec -T code composer install
-docker-compose exec -T code composer dump-autoload -o
+docker-compose exec -T code composer dump-autoload  --optimize
 
 if grep -Fxq "post-docker" composer.json; then
     docker-compose exec -T code composer post-docker
