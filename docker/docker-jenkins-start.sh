@@ -215,6 +215,7 @@ echo "--------------------------------------------------------------------------
 echo "------------------------------------------------------------------------------------"
 touch c3_error.log
 chmod -fR 777 storage
+chmod -fR 777 tests
 chmod -f 777 c3_error.log
 #echo "Running Tests"
 #docker-compose exec -T code codecept run -vvv;
