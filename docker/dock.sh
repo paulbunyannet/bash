@@ -128,7 +128,7 @@ if [ ! -f ".env" ]; then
     cp .env.example .env
     printf ".env was created from example file${NL}"
 fi
-function loadenv {
+function load_env {
     env=${1:-.env}
     echo Loading $env
     file=`mktemp`
@@ -148,6 +148,7 @@ function loadenv {
     fi
     echo Loaded $env
 }
+load_env;
 if [ !"$XDEBUG_CONFIG" ]; then
     if [ "$(uname)" == "Linux" ]; then
             export XDEBUG_CONFIG="$(hostname -I | cut -d ' ' -f 1)";
