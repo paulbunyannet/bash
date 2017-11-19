@@ -75,7 +75,7 @@ services:
       - backend
 
   hub:
-    image: selenium/hub:3.3.1
+    image: selenium/hub:3.7.1
     privileged: true
     environment:
       - GRID_TIMEOUT=120000
@@ -126,7 +126,7 @@ services:
 #      - testend
 
   firefox:
-    image: selenium/node-firefox:3.3.1
+    image: selenium/node-firefox:3.7.1
 #    image: selenium/standalone-firefox-debug
     environment:
       - no_proxy=localhost
@@ -144,6 +144,14 @@ services:
       - hub
     networks:
       - testend
+
+  codecept:
+    image: codeception/codeception:2.3
+    depends_on:
+      - firefox
+      - web
+    volumes:
+      - ${PWD}:/var/www/html
 
   redis:
     image: redis:3

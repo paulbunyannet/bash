@@ -152,4 +152,12 @@ services:
       - backend
     #TODO: redis conf file for security
 
+  codecept:
+    image: codeception/codeception:2.3
+    depends_on:
+      - firefox
+      - web
+    volumes:
+      - ${PWD}:/var/www/html
+
 
