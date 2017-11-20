@@ -73,7 +73,7 @@ services:
       - backend
 
   hub:
-    image: selenium/hub:3.5.1
+    image: selenium/hub:3.7.1
     privileged: true
     environment:
       - GRID_TIMEOUT=120000
@@ -84,48 +84,8 @@ services:
     depends_on:
       - code
 
-#  chrome:
-#    image: selenium/node-chrome
-##    image: selenium/standalone-chrome-debug
-#    environment:
-#      - no_proxy=localhost
-#      - TZ=America/Chicago
-#      - HUB_PORT_4444_TCP_ADDR=hub
-#      - HUB_PORT_4444_TCP_PORT=4444
-#    volumes:
-#      - /dev/shm:/dev/shm
-#    expose:
-#      - '4444'
-#      - '5900'
-#    depends_on:
-#      - hub
-#    links:
-#      - hub
-#    networks:
-#      - testend
-#
-#  phantomjs:
-#    image: selenium/node-phantomjs
-#    environment:
-#      - no_proxy=localhost
-#      - TZ=America/Chicago
-#      - HUB_PORT_4444_TCP_ADDR=hub
-#      - HUB_PORT_4444_TCP_PORT=4444
-#    volumes:
-#      - /dev/shm:/dev/shm
-#    expose:
-#      - '4444'
-#      - '5900'
-#    depends_on:
-#      - hub
-#    links:
-#      - hub
-#    networks:
-#      - testend
-
-  firefox:
-    image: selenium/node-firefox:3.5.1
-#    image: selenium/standalone-firefox-debug
+  chrome:
+    image: selenium/node-chrome:3.7.1
     environment:
       - no_proxy=localhost
       - TZ=America/Chicago
