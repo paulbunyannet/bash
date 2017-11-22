@@ -497,9 +497,9 @@ if [ "$doc_bower" == "true" ]; then
 
     printf "bower update --force ${NL}"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T code bower install --force  --allow-root --silent  >/dev/null 2>&1;
+        docker-compose exec -T code yarn run bower >/dev/null 2>&1;
     else
-        docker-compose exec -T code bower install --force  --allow-root --quiet
+        docker-compose exec -T code yarn run bower
     fi
     BOWEREND=$(date +%s);
 fi
@@ -530,9 +530,9 @@ if [ "$doc_gulp" == "true" ]; then
 
     printf "gulp ${NL}"
     if [ "$VERBOSE" == "false" ]; then
-        docker-compose exec -T code gulp >/dev/null 2>&1;
+        docker-compose exec -T code yarn run gulp production >/dev/null 2>&1;
     else
-        docker-compose exec -T code gulp
+        docker-compose exec -T code yarn run gulp production
     fi
 
     GULPEND=$(date +%s);
