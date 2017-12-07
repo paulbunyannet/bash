@@ -103,6 +103,25 @@ services:
     networks:
       - testend
 
+  firefox:
+    image: selenium/firefox-chrome:3.7.1
+    environment:
+      - no_proxy=localhost
+      - TZ=America/Chicago
+      - HUB_PORT_4444_TCP_ADDR=hub
+      - HUB_PORT_4444_TCP_PORT=4444
+    volumes:
+      - /dev/shm:/dev/shm
+    expose:
+      - '4444'
+      - '5900'
+    depends_on:
+      - hub
+    links:
+      - hub
+    networks:
+      - testend
+
   redis:
     image: redis:3
     restart: always
