@@ -106,7 +106,7 @@ services:
       - testend
 
   firefox:
-    image: selenium/firefox-chrome:3.7.1
+    image: selenium/node-firefox:3.7.1
     environment:
       - no_proxy=localhost
       - TZ=America/Chicago
