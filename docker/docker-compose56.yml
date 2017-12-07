@@ -105,6 +105,7 @@ services:
 
   firefox:
     image: selenium/node-firefox:3.7.1
+    shm_size: 2G
     environment:
       - no_proxy=localhost
       - TZ=America/Chicago
