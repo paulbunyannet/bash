@@ -39,7 +39,7 @@ services:
     - SYS_PTRACE
     env_file:
     - ./.env
-    image: jenkins.paulbunyan.net:5000/php:7
+    image: jenkins.paulbunyan.net:5000/php:7.1
     environment:
       ServerName: ${SERVER_NAME}
       XDEBUG_CONFIG: ${XDEBUG_CONFIG}
