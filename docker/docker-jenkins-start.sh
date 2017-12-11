@@ -164,6 +164,7 @@ docker-compose exec -T code bash git_log.sh;
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
 GULPEXEC='true'
+GRUNTEXEC='true'
 echo "Latest commit hash: $(head -n 1 git_log.txt)"
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
@@ -176,12 +177,21 @@ if [ -f "yarn.lock" ]; then
     if grep -Fxq "postinstall" package.json; then
         docker-compose exec -T code yarn run postinstall
     fi;
-    echo "------------------------------------------------------------------------------------"
-    echo "------------------------------------------------------------------------------------"
-    echo "Running Yarn run gulp"
+
     if [ -f "gulpfile.js" ]; then
+        echo "------------------------------------------------------------------------------------"
+        echo "------------------------------------------------------------------------------------"
+        echo "Running Yarn run gulp production"
         docker-compose exec -T code yarn run gulp production
         GULPEXEC='false'
+    fi;
+
+    if [ -f "Gruntfile.js" ]; then
+        echo "------------------------------------------------------------------------------------"
+        echo "------------------------------------------------------------------------------------"
+        echo "Running Yarn run grunt production"
+        docker-compose exec -T code yarn run grunt production
+        GRUNTEXEC='false'
     fi;
 fi;
 if [ -f "Gemfile" ]; then
@@ -205,11 +215,20 @@ if [ -f "gulpfile.js" ]; then
         echo "------------------------------------------------------------------------------------"
         echo "------------------------------------------------------------------------------------"
         echo "Running Gulp"
-        docker-compose exec -T code gulp
+        docker-compose exec -T code gulp production
     fi;
 fi;
 
-if ["$RUN_SCHEDULE"] && [ "$RUN_SCHEDULE" == "true" ] ; then
+if [ -f "Gruntfile.js" ]; then
+    if [ "$GRUNTEXEC" == "true" ]; then
+        echo "------------------------------------------------------------------------------------"
+        echo "------------------------------------------------------------------------------------"
+        echo "Running Grunt"
+        docker-compose exec -T code grunt production
+    fi;
+fi;
+
+if [ -f "artisan" ] && ["$RUN_SCHEDULE"] && [ "$RUN_SCHEDULE" == "true" ] ; then
     docker-compose exec -T code php artisan schedule:run >> /dev/null 2>&1
 fi
 echo "------------------------------------------------------------------------------------"
