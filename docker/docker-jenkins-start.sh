@@ -134,9 +134,10 @@ fi;
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
 echo "Running Composer"
+docker-compose exec -T code chmod -fR 777 /var/www/.composer/cache/
 docker-compose exec -T code rm -rf vendor
 docker-compose exec -T code composer clearcache
-docker-compose exec -T code composer install
+docker-compose exec -T code composer install --no-progress --no-suggest -o
 docker-compose exec -T code composer dump-autoload  --optimize
 
 if grep -Fxq "post-docker" composer.json; then
