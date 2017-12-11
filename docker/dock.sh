@@ -541,22 +541,19 @@ fi
 # - set $doc_grunt exists
 # - $doc_grunt is set to "true"
 # - that there's a Gruntfile.js in the code container
-gruntFile="grunt_exists_file"
+gruntFileExists="grunt_exists_file"
 grFile="Gruntfile.js"
-if [ -e "$grFile" ]; then printf 1 > ${gruntFile}; else printf 0 > ${gruntFile}; fi;
+if [ -e "$grFile" ]; then printf 1 > ${gruntFileExists}; else printf 0 > ${gruntFileExists}; fi;
 gruntExists=$(cat grunt_exists_file);
 if [ -n ${doc_grunt} ] && [ "${doc_grunt}" = "true" ] && [ ${gruntExists} -eq 1 ]; then
-    GRUNTSTART=$(date +%s);
-
-
-    printf "Opening code container --> container ID: $ImageName ${NONE} ${NL}"
-
-    printf "grunt ${NL}"
-    # Install grunt-cli globally then run grunt
-    docker-compose exec -T code yarn global add grunt-cli && yarn add grunt --dev && grunt
-    GRUNTEND=$(date +%s);
+  GRUNTSTART=$(date +%s);
+  printf "Opening code container --> container ID: $ImageName ${NONE} ${NL}"
+  printf "grunt ${NL}"
+  # Run grunt already installed in the code container https://gitlab.paulbunyan.net/docker/code
+  docker-compose exec -T code grunt
+  GRUNTEND=$(date +%s);
 fi;
-rm -f ${gruntFile} || true
+rm -f ${gruntFileExists} || true
 
 # Run post docker script from composer if there is one
 postDocker=$(grep -c "post-docker" composer.json)
