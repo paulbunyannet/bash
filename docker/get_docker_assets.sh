@@ -14,6 +14,17 @@ do
     fi;
 done
 
+# get getUid.php and run to update the .env.
+# This file should be ignored so add a line the the
+# .gitignore if it's not already ignored
+echo "Downloading https://gitlab.paulbunyan.net/snippets/1/raw, Get the current user's ID and update environment file"
+getUidFile="getUid.php"
+curl --silent https://gitlab.paulbunyan.net/snippets/1/raw > ${getUidFile};
+if ! grep -q "${getUidFile}" .gitignore; then
+    echo -e "\n${getUidFile}" >> .gitignore
+fi
+php ${getUidFile}
+
 chmod a+x dock-helpers.sh
 chmod a+x dock.sh
 chmod a+x update_docker_assets_file.sh
