@@ -25,13 +25,15 @@ if ! grep -q "${getUidFile}" .gitignore; then
 fi
 php ${getUidFile}
 
+# if jenkins is not set/is null then set to false otherwise set to true?
+if [ -z ${jenkins+x} ]; then jenkins=false; else jenkins=true; fi;
+# if jenkins is true and there's no line for XDEBUG_CONFIG in the .env
+if [[ "${jenkins}" == "true" || "${jenkins}" = true ]] && ! grep -q XDEBUG_CONFIG ./.env; then
+    echo "\nXDEBUG_CONFIG=\"remote_host=172.17.0.1\"" >> ./.env
+fi
+
 chmod a+x dock-helpers.sh
 chmod a+x dock.sh
 chmod a+x update_docker_assets_file.sh
 chmod a+x docker-jenkins-start.sh
 sh dock-helpers.sh
-
-if [ -z ${jenkins+x} ]; then jenkins=false; else jenkins=true; fi;
-if [ ${jenkins} == "true" ] && [ ${jenkins} == "true" ]; then
-    echo $'\nXDEBUG_CONFIG="remote_host=172.17.0.1"\n' >> .env
-fi
