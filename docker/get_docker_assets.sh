@@ -17,14 +17,13 @@ done
 # get getUid.php and run to update the .env.
 # This file should be ignored so add a line the the
 # .gitignore if it's not already ignored
-# @todo this is using the wrong user
-#echo "Downloading https://gitlab.paulbunyan.net/snippets/1/raw, Get the current user's ID and update environment file"
-#getUidFile="getUid.php"
-#curl --silent https://gitlab.paulbunyan.net/snippets/1/raw > ${getUidFile};
-#if ! grep -q "${getUidFile}" .gitignore; then
-#    echo -e "\n${getUidFile}" >> .gitignore
-#fi
-#php ${getUidFile}
+echo "Downloading https://gitlab.paulbunyan.net/snippets/1/raw, Get the current user's ID and update environment file"
+getUidFile="getUid.php"
+curl --silent https://gitlab.paulbunyan.net/snippets/1/raw > ${getUidFile};
+if ! grep -q "${getUidFile}" .gitignore; then
+    echo -e "\n${getUidFile}" >> .gitignore
+fi
+php ${getUidFile}
 
 # if jenkins is not set/is null then set to false otherwise set to true?
 if [ -z ${jenkins+x} ]; then jenkins=false; else jenkins=true; fi;
