@@ -121,8 +121,8 @@ echo "Running docker-compose build "
 docker-compose build
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
-echo "Running docker-compose up -d "
-docker-compose up -d
+echo "Running docker-compose --verbose up -d "
+docker-compose --verbose up -d
 
 if [ -f "codeception_jenkins.yml" ]; then
     if [ -f "codeception.yml" ]; then
