@@ -164,6 +164,7 @@ fi
 docker-compose exec -T code bash git_log.sh;
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
+BOWEREXEC='true'
 GULPEXEC='true'
 GRUNTEXEC='true'
 echo "Latest commit hash: $(head -n 1 git_log.txt)"
@@ -177,6 +178,14 @@ if [ -f "yarn.lock" ]; then
     docker-compose exec -T code yarn install
     if grep -Fxq "postinstall" package.json; then
         docker-compose exec -T code yarn run postinstall
+    fi;
+
+    if [ -f "bower.json" ]; then
+        echo "------------------------------------------------------------------------------------"
+        echo "------------------------------------------------------------------------------------"
+        echo "Running Yarn run bower"
+        docker-compose exec -T code yarn run bower
+        BOWEREXEC='false'
     fi;
 
     if [ -f "gulpfile.js" ]; then
@@ -205,10 +214,12 @@ if [ -f "Gemfile" ]; then
 fi;
 
 if [ -f "bower.json" ]; then
-    echo "------------------------------------------------------------------------------------"
-    echo "------------------------------------------------------------------------------------"
-    echo "Running Bower"
-    docker-compose exec -T code bower install --allow-root --force
+    if [ "$BOWEREXEC" == "true" ]; then
+        echo "------------------------------------------------------------------------------------"
+        echo "------------------------------------------------------------------------------------"
+        echo "Running Bower"
+        docker-compose exec -T code bower install --allow-root --force
+    fi;
 fi;
 
 if [ -f "gulpfile.js" ]; then
