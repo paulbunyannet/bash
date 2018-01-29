@@ -187,7 +187,7 @@ eval "docker-compose${DOCKER_VERBOSE}exec -T code composer clearcache"
 
 COMPOSER_QUIET=" "
 if [ "$VERBOSE" = false ]; then
-    COMPOSER_QUIET=" --no-progress --no-suggest"
+    COMPOSER_QUIET=" --no-progress --no-suggest "
 fi;
 eval "docker-compose${DOCKER_VERBOSE}exec -T code composer install${COMPOSER_QUIET}-o"
 
