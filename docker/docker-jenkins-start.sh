@@ -1,7 +1,48 @@
 #!/bin/sh
 
-#version 1
-#2017/03/06
+
+# Verbosity check
+VERBOSE=false
+# help CHECK
+HELP=false
+
+# new line
+NL="\n"
+
+#colors
+NONE='\033[00m';
+CYAN='\033[01;36m';
+RED='\033[01;31m';
+GREEN='\033[01;32m';
+YELLOW='\033[01;33m';
+
+# Get the command options
+# http://stackoverflow.com/a/14203146/405758
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -v|--verbose)
+    VERBOSE=true
+    shift # past argument
+    #shift # past value
+    ;;
+    -h|--help)
+    HELP=true
+    shift # past argument
+    #shift # past value
+    ;;
+esac
+done
+
+if [ "$HELP" = true ]; then
+  printf "${NONE} ${RED} parameters available${NONE}${NL}"
+  printf "${GREEN}   *${NONE} ${YELLOW}-h or --help${NONE}${NL}      ${RED} ->${NONE} to show this menu..... ${NL}"
+  printf "${GREEN}   *${NONE} ${YELLOW}-v or --verbose ${NONE}${NL}      ${RED} ->${NONE} run scripts in verbose mode${NL}"
+  exit
+fi;
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////
 #//// Docker start doesnt need any other file now //////////////////////////////////////////////////////////
@@ -117,12 +158,17 @@ fi
 
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
-echo "Running docker-compose build "
-docker-compose build
+DOCKER_VERBOSE=" "
+if [ "$VERBOSE" = true ]; then
+    DOCKER_VERBOSE=" --verbose "
+fi;
+echo "Running docker-compose${DOCKER_VERBOSE}build"
+eval "docker-compose${DOCKER_VERBOSE}build"
+
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
-echo "Running docker-compose --verbose up -d "
-docker-compose --verbose up -d
+echo "Running docker-compose${DOCKER_VERBOSE}up -d "
+eval "docker-compose${DOCKER_VERBOSE}up -d"
 
 if [ -f "codeception_jenkins.yml" ]; then
     if [ -f "codeception.yml" ]; then
@@ -134,24 +180,31 @@ fi;
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
 echo "Running Composer"
-docker-compose exec -T code chmod -fR 777 /var/www/.composer/cache/
-docker-compose exec -T code rm -rf vendor
-docker-compose exec -T code composer clearcache
-docker-compose exec -T code composer install --no-progress --no-suggest -o
-docker-compose exec -T code composer dump-autoload  --optimize
+
+eval "docker-compose${DOCKER_VERBOSE}exec -T code chmod -fR 777 /var/www/.composer/cache/"
+eval "docker-compose${DOCKER_VERBOSE}exec -T code rm -rf vendor"
+eval "docker-compose${DOCKER_VERBOSE}exec -T code composer clearcache"
+
+COMPOSER_QUIET=" "
+if [ "$VERBOSE" = false ]; then
+    COMPOSER_QUIET=" --no-progress --no-suggest "
+fi;
+eval "docker-compose${DOCKER_VERBOSE}exec -T code composer install${COMPOSER_QUIET}-o"
+
+eval "docker-compose${DOCKER_VERBOSE}exec -T code composer dump-autoload --optimize"
 
 if grep -Fxq "post-docker" composer.json; then
-    docker-compose exec -T code composer post-docker
+    eval "docker-compose${DOCKER_VERBOSE}exec -T code composer post-docker"
 fi;
 if [ -f "artisan" ]; then
     echo "------------------------------------------------------------------------------------"
     echo "------------------------------------------------------------------------------------"
   echo "Generating Laravel auth key"
-  docker-compose exec -T code php artisan key:generate
+  eval "docker-compose${DOCKER_VERBOSE}exec -T code php artisan key:generate"
     echo "------------------------------------------------------------------------------------"
     echo "------------------------------------------------------------------------------------"
   echo "Running Eloquent Migrations"
-  docker-compose exec -T code php artisan migrate
+  eval "docker-compose${DOCKER_VERBOSE}exec -T code php artisan migrate"
 fi
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
@@ -161,7 +214,7 @@ if [ ! -f "git_log.sh" ]; then
     curl --silent https://raw.githubusercontent.com/paulbunyannet/bash/${latest}/git/git_log.sh > git_log.sh;
     echo "git_log.sh" >> .gitignore
 fi
-docker-compose exec -T code bash git_log.sh;
+eval "docker-compose${DOCKER_VERBOSE}exec -T code bash git_log.sh"
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
 BOWEREXEC='true'
@@ -175,16 +228,16 @@ if [ -f "yarn.lock" ]; then
     echo "------------------------------------------------------------------------------------"
     echo "------------------------------------------------------------------------------------"
     echo "Running Yarn"
-    docker-compose exec -T code yarn install
+    eval "docker-compose${DOCKER_VERBOSE}exec -T code yarn install"
     if grep -Fxq "postinstall" package.json; then
-        docker-compose exec -T code yarn run postinstall
+        eval "docker-compose${DOCKER_VERBOSE}exec -T code yarn run postinstall"
     fi;
 
     if [ -f "bower.json" ]; then
         echo "------------------------------------------------------------------------------------"
         echo "------------------------------------------------------------------------------------"
         echo "Running Yarn run bower"
-        docker-compose exec -T code yarn run bower
+        eval "docker-compose${DOCKER_VERBOSE}exec -T code yarn run bower"
         BOWEREXEC='false'
     fi;
 
@@ -192,7 +245,7 @@ if [ -f "yarn.lock" ]; then
         echo "------------------------------------------------------------------------------------"
         echo "------------------------------------------------------------------------------------"
         echo "Running Yarn run gulp production"
-        docker-compose exec -T code yarn run gulp production
+        eval "docker-compose${DOCKER_VERBOSE}exec -T code yarn run gulp production"
         GULPEXEC='false'
     fi;
 
@@ -200,7 +253,7 @@ if [ -f "yarn.lock" ]; then
         echo "------------------------------------------------------------------------------------"
         echo "------------------------------------------------------------------------------------"
         echo "Running Yarn run grunt production"
-        docker-compose exec -T code yarn run grunt production
+        eval "docker-compose${DOCKER_VERBOSE}exec -T code yarn run grunt production"
         GRUNTEXEC='false'
     fi;
 fi;
@@ -208,9 +261,9 @@ if [ -f "Gemfile" ]; then
         echo "------------------------------------------------------------------------------------"
         echo "------------------------------------------------------------------------------------"
         echo "Running Gems"
-        docker-compose exec -T code apt-get install ruby-full -y;
-        docker-compose exec -T code gem install bundler;
-        docker-compose exec -T code bundler install;
+        eval "docker-compose${DOCKER_VERBOSE}exec -T code apt-get install ruby-full -y"
+        eval "docker-compose${DOCKER_VERBOSE}exec -T code gem install bundler"
+        eval "docker-compose${DOCKER_VERBOSE}exec -T code bundler install"
 fi;
 
 if [ -f "bower.json" ]; then
@@ -218,7 +271,7 @@ if [ -f "bower.json" ]; then
         echo "------------------------------------------------------------------------------------"
         echo "------------------------------------------------------------------------------------"
         echo "Running Bower"
-        docker-compose exec -T code bower install --allow-root --force
+        eval "docker-compose${DOCKER_VERBOSE}exec -T code bower install --allow-root --force"
     fi;
 fi;
 
@@ -227,7 +280,7 @@ if [ -f "gulpfile.js" ]; then
         echo "------------------------------------------------------------------------------------"
         echo "------------------------------------------------------------------------------------"
         echo "Running Gulp"
-        docker-compose exec -T code gulp production
+        eval "docker-compose${DOCKER_VERBOSE}exec -T code gulp production"
     fi;
 fi;
 
@@ -236,12 +289,12 @@ if [ -f "Gruntfile.js" ]; then
         echo "------------------------------------------------------------------------------------"
         echo "------------------------------------------------------------------------------------"
         echo "Running Grunt"
-        docker-compose exec -T code grunt production
+        eval "docker-compose${DOCKER_VERBOSE}exec -T code grunt production"
     fi;
 fi;
 
 if [ -f "artisan" ] && ["$RUN_SCHEDULE"] && [ "$RUN_SCHEDULE" == "true" ] ; then
-    docker-compose exec -T code php artisan schedule:run >> /dev/null 2>&1
+    eval "docker-compose${DOCKER_VERBOSE}exec -T code php artisan schedule:run >> /dev/null 2>&1"
 fi
 echo "------------------------------------------------------------------------------------"
 echo "------------------------------------------------------------------------------------"
