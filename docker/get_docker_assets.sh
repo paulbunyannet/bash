@@ -1,4 +1,20 @@
 #!/usr/bin/env bash
+
+# Start duplicate run check
+toProjectRoot=$(pwd);
+NL="\n"
+me=`basename "$0"`
+logFile="${me}.log"
+touch ${logFile}
+if ( [ $(grep -c "${toProjectRoot}" ${logFile}) -ge 1 ])
+then
+    printf "The ${me} already ran in this location \`${toProjectRoot}\`!${NL}"
+    printf "Clear the line \`${toProjectRoot}\` in ${me}.log to run it again.${NL}"
+    exit 0
+fi;
+echo ${toProjectRoot} >> ${logFile}
+# End duplicate run check
+
 latest=$(git ls-remote https://github.com/paulbunyannet/bash.git | grep HEAD | awk '{ print $1}');
 
 # for each of the customizable local files get them from the repo if they are not ignored and don't exist
