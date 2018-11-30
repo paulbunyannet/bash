@@ -276,6 +276,13 @@ if [ -f "Gruntfile.js" ]; then
     fi;
 fi;
 
+if [ -f "webpack.config.js" ]; then
+    echo "------------------------------------------------------------------------------------"
+    echo "------------------------------------------------------------------------------------"
+    echo "Running webpack"
+    eval "docker-compose${DOCKER_VERBOSE}exec -T code yarn run webpack"
+fi;
+
 if [ -f "artisan" ] && ["$RUN_SCHEDULE"] && [ "$RUN_SCHEDULE" == "true" ] ; then
     eval "docker-compose${DOCKER_VERBOSE}exec -T code php artisan schedule:run >> /dev/null 2>&1"
 fi
