@@ -105,26 +105,6 @@ services:
     networks:
       - testend
 
-  firefox:
-    image: selenium/node-firefox:3.4
-    shm_size: 2G
-    environment:
-      - no_proxy=localhost
-      - TZ=America/Chicago
-      - HUB_PORT_4444_TCP_ADDR=hub
-      - HUB_PORT_4444_TCP_PORT=4444
-    volumes:
-      - /dev/shm:/dev/shm
-    expose:
-      - '4444'
-      - '5900'
-    depends_on:
-      - hub
-    links:
-      - hub
-    networks:
-      - testend
-
   redis:
     image: redis:3
     restart: always
@@ -133,5 +113,3 @@ services:
     networks:
       - backend
     #TODO: redis conf file for security
-
-
