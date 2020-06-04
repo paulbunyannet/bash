@@ -28,6 +28,7 @@ services:
     - "traefik.docker.network=frontend"
     - "traefik.port=443"
     - "traefik.protocol=https"
+    - "traefik.enable=true"
     networks:
     - frontend
     - backend
