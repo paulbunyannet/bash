@@ -16,7 +16,7 @@ networks:
 services:
   web:
     restart: always
-    image: jenkins.paulbunyan.net:5000/httpd:latest
+    image: jenkins.paulbunyan.net:3443/library/httpd:latest
     volumes:
     - ${PWD}:/var/www/html
     env_file:
@@ -40,7 +40,7 @@ services:
     - SYS_PTRACE
     env_file:
     - ./.env
-    image: jenkins.paulbunyan.net:5000/php:7.1
+    image: jenkins.paulbunyan.net:3443/library/php:8.1
     environment:
       ServerName: ${SERVER_NAME}
       XDEBUG_CONFIG: ${XDEBUG_CONFIG}
