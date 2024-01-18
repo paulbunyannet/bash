@@ -282,6 +282,12 @@ if [ -f "webpack.config.js" ]; then
     echo "Running webpack"
     eval "docker-compose${DOCKER_VERBOSE}exec -T code yarn run webpack"
 fi;
+if [ -f "vite.config.js" ] || [ -f "vite.config.mts" ]; then
+    echo "------------------------------------------------------------------------------------"
+    echo "------------------------------------------------------------------------------------"
+    echo "Running vite"
+    eval "docker-compose${DOCKER_VERBOSE}exec -T code yarn build"
+fi;
 
 if [ -f "artisan" ] && ["$RUN_SCHEDULE"] && [ "$RUN_SCHEDULE" == "true" ] ; then
     eval "docker-compose${DOCKER_VERBOSE}exec -T code php artisan schedule:run >> /dev/null 2>&1"
